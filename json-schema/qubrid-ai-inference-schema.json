@@ -1,0 +1,229 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://platform.qubrid.com/schemas/qubrid-ai/inference.json",
+  "title": "Qubrid AI Inference Entities",
+  "description": "Schema definitions for Qubrid AI Inference API request and response payloads, including chat completions, model listings, and embeddings.",
+  "type": "object",
+  "$defs": {
+    "ChatCompletionRequest": {
+      "type": "object",
+      "title": "Chat Completion Request",
+      "description": "A request to generate a chat completion using an open-source model on the Qubrid AI platform.",
+      "required": ["model", "messages"],
+      "properties": {
+        "model": {
+          "type": "string",
+          "description": "The identifier of the model to use for generating the chat completion, such as deepseek-ai/DeepSeek-R1-Distill-Llama-70B or Qwen/Qwen3.5-27B."
+        },
+        "messages": {
+          "type": "array",
+          "description": "A list of messages comprising the conversation so far.",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/ChatMessage"
+          }
+        },
+        "temperature": {
+          "type": "number",
+          "description": "Sampling temperature between 0 and 2 controlling output randomness.",
+          "minimum": 0,
+          "maximum": 2,
+          "default": 1.0
+        },
+        "top_p": {
+          "type": "number",
+          "description": "Nucleus sampling parameter controlling token probability mass considered.",
+          "minimum": 0,
+          "maximum": 1,
+          "default": 1.0
+        },
+        "n": {
+          "type": "integer",
+          "description": "Number of chat completion choices to generate.",
+          "minimum": 1,
+          "default": 1
+        },
+        "max_tokens": {
+          "type": "integer",
+          "description": "Maximum number of tokens to generate in the completion.",
+          "minimum": 1
+        },
+        "stream": {
+          "type": "boolean",
+          "description": "Whether to stream partial message deltas as server-sent events.",
+          "default": false
+        },
+        "stop": {
+          "oneOf": [
+            { "type": "string" },
+            {
+              "type": "array",
+              "items": { "type": "string" },
+              "maxItems": 4
+            }
+          ],
+          "description": "Up to 4 sequences where the API will stop generating further tokens."
+        },
+        "presence_penalty": {
+          "type": "number",
+          "description": "Penalty for new tokens based on presence in text so far.",
+          "minimum": -2,
+          "maximum": 2,
+          "default": 0
+        },
+        "frequency_penalty": {
+          "type": "number",
+          "description": "Penalty for new tokens based on frequency in text so far.",
+          "minimum": -2,
+          "maximum": 2,
+          "default": 0
+        }
+      }
+    },
+    "ChatMessage": {
+      "type": "object",
+      "title": "Chat Message",
+      "description": "A single message in a chat conversation with a role and content.",
+      "required": ["role", "content"],
+      "properties": {
+        "role": {
+          "type": "string",
+          "enum": ["system", "user", "assistant"],
+          "description": "The role of the message author."
+        },
+        "content": {
+          "oneOf": [
+            { "type": "string" },
+            {
+              "type": "array",
+              "items": { "$ref": "#/$defs/ContentPart" }
+            }
+          ],
+          "description": "The content of the message, either a text string or an array of multimodal content parts."
+        }
+      }
+    },
+    "ContentPart": {
+      "type": "object",
+      "title": "Content Part",
+      "description": "A content part for multimodal messages supporting text and image inputs.",
+      "required": ["type"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["text", "image_url"],
+          "description": "The type of content part."
+        },
+        "text": {
+          "type": "string",
+          "description": "The text content when type is text."
+        },
+        "image_url": {
+          "type": "object",
+          "description": "The image URL object when type is image_url.",
+          "properties": {
+            "url": {
+              "type": "string",
+              "format": "uri",
+              "description": "The URL of the image."
+            }
+          }
+        }
+      }
+    },
+    "ChatCompletionResponse": {
+      "type": "object",
+      "title": "Chat Completion Response",
+      "description": "The response from a chat completion request containing generated message choices and usage statistics.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "A unique identifier for the chat completion."
+        },
+        "object": {
+          "type": "string",
+          "const": "chat.completion",
+          "description": "The object type, always chat.completion."
+        },
+        "created": {
+          "type": "integer",
+          "description": "Unix timestamp in seconds of when the completion was created."
+        },
+        "model": {
+          "type": "string",
+          "description": "The model used for the chat completion."
+        },
+        "choices": {
+          "type": "array",
+          "description": "A list of chat completion choices.",
+          "items": { "$ref": "#/$defs/ChatCompletionChoice" }
+        },
+        "usage": {
+          "$ref": "#/$defs/Usage"
+        }
+      }
+    },
+    "ChatCompletionChoice": {
+      "type": "object",
+      "title": "Chat Completion Choice",
+      "description": "A single generated completion choice with message content and finish reason.",
+      "properties": {
+        "index": {
+          "type": "integer",
+          "description": "The index of the choice in the list."
+        },
+        "message": {
+          "$ref": "#/$defs/ChatMessage"
+        },
+        "finish_reason": {
+          "type": "string",
+          "enum": ["stop", "length", "content_filter"],
+          "description": "The reason the model stopped generating tokens."
+        }
+      }
+    },
+    "Usage": {
+      "type": "object",
+      "title": "Token Usage",
+      "description": "Token usage statistics for an API request.",
+      "properties": {
+        "prompt_tokens": {
+          "type": "integer",
+          "description": "Number of tokens in the prompt."
+        },
+        "completion_tokens": {
+          "type": "integer",
+          "description": "Number of tokens in the generated completion."
+        },
+        "total_tokens": {
+          "type": "integer",
+          "description": "Total tokens used in the request."
+        }
+      }
+    },
+    "Model": {
+      "type": "object",
+      "title": "Model",
+      "description": "An AI model available for inference on the Qubrid AI platform.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique identifier of the model."
+        },
+        "object": {
+          "type": "string",
+          "const": "model",
+          "description": "The object type, always model."
+        },
+        "created": {
+          "type": "integer",
+          "description": "Unix timestamp of when the model was registered."
+        },
+        "owned_by": {
+          "type": "string",
+          "description": "The organization that owns or published the model."
+        }
+      }
+    }
+  }
+}

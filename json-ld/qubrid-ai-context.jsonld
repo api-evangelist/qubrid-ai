@@ -1,0 +1,162 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "qubrid": "https://platform.qubrid.com/ns/",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+
+    "Model": {
+      "@id": "qubrid:Model",
+      "@context": {
+        "id": "schema:identifier",
+        "name": "schema:name",
+        "description": "schema:description",
+        "ownedBy": "schema:creator",
+        "created": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "ChatCompletion": {
+      "@id": "qubrid:ChatCompletion",
+      "@context": {
+        "id": "schema:identifier",
+        "model": "qubrid:usesModel",
+        "created": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        },
+        "choices": {
+          "@id": "qubrid:choices",
+          "@container": "@set"
+        },
+        "promptTokens": "qubrid:promptTokens",
+        "completionTokens": "qubrid:completionTokens",
+        "totalTokens": "qubrid:totalTokens"
+      }
+    },
+
+    "ComputeInstance": {
+      "@id": "qubrid:ComputeInstance",
+      "@context": {
+        "id": "schema:identifier",
+        "name": "schema:name",
+        "status": "qubrid:instanceStatus",
+        "gpuType": "qubrid:gpuType",
+        "gpuCount": "qubrid:gpuCount",
+        "region": "schema:locationCreated",
+        "template": "qubrid:template",
+        "sshHost": "qubrid:sshHost",
+        "jupyterUrl": {
+          "@id": "qubrid:jupyterUrl",
+          "@type": "@id"
+        },
+        "costPerHour": {
+          "@id": "schema:price",
+          "@type": "xsd:decimal"
+        },
+        "createdAt": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "GpuType": {
+      "@id": "qubrid:GpuType",
+      "@context": {
+        "id": "schema:identifier",
+        "name": "schema:name",
+        "manufacturer": "schema:manufacturer",
+        "memoryGb": "qubrid:memoryGb",
+        "pricePerHour": {
+          "@id": "schema:price",
+          "@type": "xsd:decimal"
+        },
+        "available": "schema:availability",
+        "regions": {
+          "@id": "qubrid:availableRegions",
+          "@container": "@set"
+        }
+      }
+    },
+
+    "FineTuningJob": {
+      "@id": "qubrid:FineTuningJob",
+      "@context": {
+        "id": "schema:identifier",
+        "status": "qubrid:jobStatus",
+        "baseModel": "qubrid:baseModel",
+        "datasetId": "qubrid:usesDataset",
+        "taskType": "qubrid:taskType",
+        "fineTunedModel": "qubrid:producesModel",
+        "createdAt": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        },
+        "completedAt": {
+          "@id": "qubrid:completedAt",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "Dataset": {
+      "@id": "qubrid:Dataset",
+      "@context": {
+        "id": "schema:identifier",
+        "name": "schema:name",
+        "sizeBytes": "schema:contentSize",
+        "rowCount": "qubrid:rowCount",
+        "columns": {
+          "@id": "qubrid:columns",
+          "@container": "@set"
+        },
+        "createdAt": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "KnowledgeBase": {
+      "@id": "qubrid:KnowledgeBase",
+      "@context": {
+        "id": "schema:identifier",
+        "name": "schema:name",
+        "description": "schema:description",
+        "embeddingModel": "qubrid:embeddingModel",
+        "documentCount": "qubrid:documentCount",
+        "chunkCount": "qubrid:chunkCount",
+        "status": "qubrid:status",
+        "createdAt": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        },
+        "updatedAt": {
+          "@id": "dcterms:modified",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "Document": {
+      "@id": "qubrid:Document",
+      "@context": {
+        "id": "schema:identifier",
+        "name": "schema:name",
+        "sizeBytes": "schema:contentSize",
+        "format": "schema:encodingFormat",
+        "chunkCount": "qubrid:chunkCount",
+        "status": "qubrid:status",
+        "createdAt": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        }
+      }
+    }
+  }
+}

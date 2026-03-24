@@ -1,0 +1,173 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://platform.qubrid.com/schemas/qubrid-ai/fine-tuning.json",
+  "title": "Qubrid AI Fine-Tuning Entities",
+  "description": "Schema definitions for Qubrid AI Fine-Tuning API entities including fine-tuning jobs, training datasets, hyperparameters, and fine-tuned model artifacts.",
+  "type": "object",
+  "$defs": {
+    "FineTuningJob": {
+      "type": "object",
+      "title": "Fine-Tuning Job",
+      "description": "A fine-tuning job that customizes a base model using a training dataset on GPU infrastructure.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique identifier of the fine-tuning job."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["queued", "running", "completed", "failed", "cancelled"],
+          "description": "The current status of the fine-tuning job."
+        },
+        "base_model": {
+          "type": "string",
+          "description": "The identifier of the base model being fine-tuned."
+        },
+        "dataset_id": {
+          "type": "string",
+          "description": "The identifier of the training dataset used."
+        },
+        "task_type": {
+          "type": "string",
+          "enum": ["qa", "not_qa"],
+          "description": "The task type for fine-tuning: qa for question answering, not_qa for general text generation."
+        },
+        "hyperparameters": {
+          "$ref": "#/$defs/Hyperparameters"
+        },
+        "fine_tuned_model": {
+          "type": "string",
+          "description": "The identifier of the resulting fine-tuned model, available after successful completion."
+        },
+        "training_metrics": {
+          "$ref": "#/$defs/TrainingMetrics"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp when the job was created."
+        },
+        "completed_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp when the job completed."
+        }
+      }
+    },
+    "Hyperparameters": {
+      "type": "object",
+      "title": "Hyperparameters",
+      "description": "Configurable hyperparameters for a fine-tuning job controlling training behavior.",
+      "properties": {
+        "epochs": {
+          "type": "integer",
+          "description": "The number of full passes the model makes over the training dataset. More epochs let the model learn more but too many can cause overfitting.",
+          "minimum": 1
+        },
+        "max_steps": {
+          "type": "integer",
+          "description": "The maximum number of training iterations where each step equals one batch of data processed.",
+          "minimum": 1
+        },
+        "learning_rate": {
+          "type": "number",
+          "description": "The learning rate for the optimizer controlling how much model weights are adjusted during each training step.",
+          "exclusiveMinimum": 0
+        },
+        "validation_split": {
+          "type": "number",
+          "description": "The percentage of the dataset reserved for validation, expressed as a decimal between 0 and 1.",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "TrainingMetrics": {
+      "type": "object",
+      "title": "Training Metrics",
+      "description": "Metrics captured during fine-tuning training including loss values and progress.",
+      "properties": {
+        "training_loss": {
+          "type": "number",
+          "description": "The final training loss value after the last training step."
+        },
+        "validation_loss": {
+          "type": "number",
+          "description": "The final validation loss value if a validation split was configured."
+        },
+        "steps_completed": {
+          "type": "integer",
+          "description": "The number of training steps completed."
+        },
+        "epochs_completed": {
+          "type": "integer",
+          "description": "The number of training epochs completed."
+        }
+      }
+    },
+    "Dataset": {
+      "type": "object",
+      "title": "Training Dataset",
+      "description": "A CSV training dataset uploaded for use in fine-tuning jobs.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique identifier of the dataset."
+        },
+        "name": {
+          "type": "string",
+          "description": "The original filename of the uploaded dataset."
+        },
+        "size_bytes": {
+          "type": "integer",
+          "description": "The size of the dataset file in bytes.",
+          "minimum": 0
+        },
+        "row_count": {
+          "type": "integer",
+          "description": "The number of rows in the CSV dataset.",
+          "minimum": 0
+        },
+        "columns": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "The column names found in the CSV dataset."
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp when the dataset was uploaded."
+        }
+      }
+    },
+    "FineTunedModel": {
+      "type": "object",
+      "title": "Fine-Tuned Model",
+      "description": "A fine-tuned model artifact produced by a completed fine-tuning job.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique identifier of the fine-tuned model."
+        },
+        "base_model": {
+          "type": "string",
+          "description": "The identifier of the base model that was fine-tuned."
+        },
+        "job_id": {
+          "type": "string",
+          "description": "The identifier of the fine-tuning job that produced this model."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["available", "deploying", "deleted"],
+          "description": "The current availability status of the fine-tuned model."
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp when the fine-tuned model was created."
+        }
+      }
+    }
+  }
+}

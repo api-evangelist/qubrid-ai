@@ -1,0 +1,172 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://platform.qubrid.com/schemas/qubrid-ai/compute.json",
+  "title": "Qubrid AI Compute Entities",
+  "description": "Schema definitions for Qubrid AI Compute API entities including GPU instances, GPU types, templates, and SSH keys.",
+  "type": "object",
+  "$defs": {
+    "Instance": {
+      "type": "object",
+      "title": "Compute Instance",
+      "description": "A GPU compute instance on the Qubrid AI platform with NVIDIA accelerators for AI and ML workloads.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique identifier of the compute instance."
+        },
+        "name": {
+          "type": "string",
+          "description": "The user-assigned name of the compute instance.",
+          "maxLength": 128
+        },
+        "status": {
+          "type": "string",
+          "enum": ["running", "stopped", "provisioning", "terminating", "error"],
+          "description": "The current status of the compute instance."
+        },
+        "gpu_type": {
+          "type": "string",
+          "description": "The type of GPU assigned, such as H100, H200, or B200."
+        },
+        "gpu_count": {
+          "type": "integer",
+          "description": "The number of GPUs assigned to the instance.",
+          "minimum": 1
+        },
+        "region": {
+          "type": "string",
+          "description": "The data center region where the instance is deployed."
+        },
+        "template": {
+          "type": "string",
+          "description": "The template used to configure the instance environment."
+        },
+        "ssh_host": {
+          "type": "string",
+          "description": "The SSH hostname or IP address for connecting to the instance."
+        },
+        "ssh_port": {
+          "type": "integer",
+          "description": "The SSH port for connecting to the instance."
+        },
+        "jupyter_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "The URL for accessing the Jupyter notebook interface."
+        },
+        "rental_plan": {
+          "type": "string",
+          "enum": ["on_demand", "weekly", "monthly", "quarterly", "annual"],
+          "description": "The rental plan for the instance."
+        },
+        "cost_per_hour": {
+          "type": "number",
+          "description": "The hourly cost of running this instance in USD.",
+          "minimum": 0
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp when the instance was created."
+        }
+      }
+    },
+    "GpuType": {
+      "type": "object",
+      "title": "GPU Type",
+      "description": "A GPU type available on the Qubrid AI platform with specifications and pricing.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique identifier for the GPU type."
+        },
+        "name": {
+          "type": "string",
+          "description": "The display name of the GPU, such as NVIDIA H100 80GB."
+        },
+        "manufacturer": {
+          "type": "string",
+          "enum": ["NVIDIA", "AMD", "Intel"],
+          "description": "The GPU manufacturer."
+        },
+        "memory_gb": {
+          "type": "integer",
+          "description": "The GPU memory in gigabytes.",
+          "minimum": 1
+        },
+        "price_per_hour": {
+          "type": "number",
+          "description": "The on-demand price per hour in USD.",
+          "minimum": 0
+        },
+        "available": {
+          "type": "boolean",
+          "description": "Whether this GPU type is currently available for provisioning."
+        },
+        "regions": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "The data center regions where this GPU type is available."
+        }
+      }
+    },
+    "Template": {
+      "type": "object",
+      "title": "Instance Template",
+      "description": "A pre-configured AI and ML environment template for GPU compute instances.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique identifier of the template."
+        },
+        "name": {
+          "type": "string",
+          "description": "The display name of the template."
+        },
+        "description": {
+          "type": "string",
+          "description": "A description of the template and its pre-installed software."
+        },
+        "framework": {
+          "type": "string",
+          "description": "The primary AI or ML framework included in the template."
+        },
+        "gpu_compatible": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "A list of GPU types compatible with this template."
+        }
+      }
+    },
+    "SshKey": {
+      "type": "object",
+      "title": "SSH Key",
+      "description": "An SSH public key registered for secure access to GPU compute instances.",
+      "required": ["name", "public_key"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique identifier of the SSH key."
+        },
+        "name": {
+          "type": "string",
+          "description": "The user-assigned name for the SSH key.",
+          "maxLength": 128
+        },
+        "public_key": {
+          "type": "string",
+          "description": "The SSH public key string in OpenSSH format."
+        },
+        "fingerprint": {
+          "type": "string",
+          "description": "The fingerprint of the SSH public key."
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp when the SSH key was registered."
+        }
+      }
+    }
+  }
+}
