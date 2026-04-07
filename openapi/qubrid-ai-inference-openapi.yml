@@ -28,16 +28,16 @@ tags:
       Generate chat-based completions using open-source large language models
       hosted on NVIDIA GPU infrastructure. Compatible with the OpenAI chat
       completions request and response format.
-  - name: Models
-    description: >-
-      List and retrieve details about the open-source AI models available for
-      inference on the Qubrid AI platform, including text generation, code
-      generation, vision-language, and image generation models.
   - name: Embeddings
     description: >-
       Generate vector embeddings from text input using embedding models hosted
       on the Qubrid AI platform, suitable for semantic search, clustering,
       and retrieval-augmented generation workflows.
+  - name: Models
+    description: >-
+      List and retrieve details about the open-source AI models available for
+      inference on the Qubrid AI platform, including text generation, code
+      generation, vision-language, and image generation models.
 security:
   - bearerAuth: []
 paths:

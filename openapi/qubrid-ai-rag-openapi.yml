@@ -23,18 +23,18 @@ servers:
   - url: https://platform.qubrid.com/api/v1
     description: Qubrid AI RAG Production Server
 tags:
-  - name: Knowledge Bases
-    description: >-
-      Create and manage knowledge bases that store enterprise and
-      departmental data for retrieval-augmented generation. Each knowledge
-      base contains ingested documents that are chunked, embedded, and
-      stored in a vector database for semantic search during inference.
   - name: Documents
     description: >-
       Upload, list, and manage documents within a knowledge base. Supported
       formats include PDF, text, CSV, and other common document types.
       Documents are automatically processed, chunked, and embedded upon
       upload.
+  - name: Knowledge Bases
+    description: >-
+      Create and manage knowledge bases that store enterprise and
+      departmental data for retrieval-augmented generation. Each knowledge
+      base contains ingested documents that are chunked, embedded, and
+      stored in a vector database for semantic search during inference.
   - name: RAG Queries
     description: >-
       Query a knowledge base using natural language with retrieval-augmented

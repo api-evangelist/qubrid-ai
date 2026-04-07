@@ -23,11 +23,6 @@ servers:
   - url: https://platform.qubrid.com/api/v1
     description: Qubrid AI Fine-Tuning Production Server
 tags:
-  - name: Fine-Tuning Jobs
-    description: >-
-      Create, monitor, and manage fine-tuning jobs that customize
-      pre-deployed text generation and code generation models using
-      uploaded training datasets on GPU infrastructure.
   - name: Datasets
     description: >-
       Upload and manage CSV training datasets used for fine-tuning
@@ -38,6 +33,11 @@ tags:
       List and manage fine-tuned model artifacts produced by completed
       fine-tuning jobs. Fine-tuned models can be deployed for inference
       on the Qubrid AI platform.
+  - name: Fine-Tuning Jobs
+    description: >-
+      Create, monitor, and manage fine-tuning jobs that customize
+      pre-deployed text generation and code generation models using
+      uploaded training datasets on GPU infrastructure.
 security:
   - bearerAuth: []
 paths:

@@ -23,26 +23,26 @@ servers:
   - url: https://platform.qubrid.com/api/v1
     description: Qubrid AI Compute Production Server
 tags:
-  - name: Instances
-    description: >-
-      Provision, manage, start, stop, and terminate GPU compute instances
-      on the Qubrid AI platform. Instances include NVIDIA H100, H200, and
-      B200 accelerators with configurable memory, storage, and networking.
   - name: GPU Catalog
     description: >-
       Browse available GPU types, configurations, and pricing tiers
       including on-demand, weekly, monthly, and reserved options for
       NVIDIA, AMD, and Intel accelerators.
-  - name: Templates
+  - name: Instances
     description: >-
-      List and deploy pre-configured AI and ML environment templates
-      including PyTorch, TensorFlow, ComfyUI, n8n, and Langflow, all
-      optimized to run on Qubrid GPU instances.
+      Provision, manage, start, stop, and terminate GPU compute instances
+      on the Qubrid AI platform. Instances include NVIDIA H100, H200, and
+      B200 accelerators with configurable memory, storage, and networking.
   - name: SSH Keys
     description: >-
       Manage SSH keys for secure access to GPU compute instances. Users
       get full root access to their instances for installing custom
       libraries, running scripts, and managing workloads.
+  - name: Templates
+    description: >-
+      List and deploy pre-configured AI and ML environment templates
+      including PyTorch, TensorFlow, ComfyUI, n8n, and Langflow, all
+      optimized to run on Qubrid GPU instances.
 security:
   - bearerAuth: []
 paths:
