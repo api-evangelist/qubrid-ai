@@ -1,0 +1,373 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qubrid AI Compute API
+  description: The Qubrid AI Compute API provides programmatic access to GPU cloud infrastructure including NVIDIA H100, H200,
+    and B200 accelerators. Developers can provision and manage GPU instances for AI and machine learning workloads through
+    API calls. The service supports on-demand compute for training, fine-tuning, and batch inference jobs, with usage-based
+    billing and enterprise features such as team collaboration and usage tracking. Instances can be accessed via SSH, Jupyter
+    notebooks, or Visual Studio Code, and support quick-deploy templates for popular frameworks including PyTorch, TensorFlow,
+    Comf
+  tags:
+  - Qubrid
+  - Ai
+  - API
+  created: '2026-05-06'
+  modified: '2026-05-06'
+capability:
+  consumes:
+  - type: http
+    namespace: qubrid-ai
+    baseUri: https://platform.qubrid.com/api/v1
+    description: Qubrid AI Compute API HTTP API.
+    authentication:
+      type: bearer
+      token: '{{QUBRID_AI_TOKEN}}'
+    resources:
+    - name: instances
+      path: /instances
+      operations:
+      - name: listinstances
+        method: GET
+        description: List compute instances
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createinstance
+        method: POST
+        description: Create a compute instance
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: instances-instance-id
+      path: /instances/{instance_id}
+      operations:
+      - name: getinstance
+        method: GET
+        description: Retrieve a compute instance
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: deleteinstance
+        method: DELETE
+        description: Terminate a compute instance
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: instances-instance-id-start
+      path: /instances/{instance_id}/start
+      operations:
+      - name: startinstance
+        method: POST
+        description: Start a compute instance
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: instances-instance-id-stop
+      path: /instances/{instance_id}/stop
+      operations:
+      - name: stopinstance
+        method: POST
+        description: Stop a compute instance
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: gpus
+      path: /gpus
+      operations:
+      - name: listgputypes
+        method: GET
+        description: List available GPU types
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: templates
+      path: /templates
+      operations:
+      - name: listtemplates
+        method: GET
+        description: List available templates
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: ssh-keys
+      path: /ssh-keys
+      operations:
+      - name: listsshkeys
+        method: GET
+        description: List SSH keys
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createsshkey
+        method: POST
+        description: Add an SSH key
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: ssh-keys-key-id
+      path: /ssh-keys/{key_id}
+      operations:
+      - name: deletesshkey
+        method: DELETE
+        description: Remove an SSH key
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  exposes:
+  - type: rest
+    port: 8080
+    namespace: qubrid-ai-rest
+    description: REST adapter for Qubrid AI Compute API.
+    resources:
+    - path: /instances
+      name: listinstances
+      operations:
+      - method: GET
+        name: listinstances
+        description: List compute instances
+        call: qubrid-ai.listinstances
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /instances
+      name: createinstance
+      operations:
+      - method: POST
+        name: createinstance
+        description: Create a compute instance
+        call: qubrid-ai.createinstance
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /instances/{instance_id}
+      name: getinstance
+      operations:
+      - method: GET
+        name: getinstance
+        description: Retrieve a compute instance
+        call: qubrid-ai.getinstance
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /instances/{instance_id}
+      name: deleteinstance
+      operations:
+      - method: DELETE
+        name: deleteinstance
+        description: Terminate a compute instance
+        call: qubrid-ai.deleteinstance
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /instances/{instance_id}/start
+      name: startinstance
+      operations:
+      - method: POST
+        name: startinstance
+        description: Start a compute instance
+        call: qubrid-ai.startinstance
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /instances/{instance_id}/stop
+      name: stopinstance
+      operations:
+      - method: POST
+        name: stopinstance
+        description: Stop a compute instance
+        call: qubrid-ai.stopinstance
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /gpus
+      name: listgputypes
+      operations:
+      - method: GET
+        name: listgputypes
+        description: List available GPU types
+        call: qubrid-ai.listgputypes
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /templates
+      name: listtemplates
+      operations:
+      - method: GET
+        name: listtemplates
+        description: List available templates
+        call: qubrid-ai.listtemplates
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /ssh-keys
+      name: listsshkeys
+      operations:
+      - method: GET
+        name: listsshkeys
+        description: List SSH keys
+        call: qubrid-ai.listsshkeys
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /ssh-keys
+      name: createsshkey
+      operations:
+      - method: POST
+        name: createsshkey
+        description: Add an SSH key
+        call: qubrid-ai.createsshkey
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /ssh-keys/{key_id}
+      name: deletesshkey
+      operations:
+      - method: DELETE
+        name: deletesshkey
+        description: Remove an SSH key
+        call: qubrid-ai.deletesshkey
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    port: 9090
+    namespace: qubrid-ai-mcp
+    transport: http
+    description: MCP adapter for Qubrid AI Compute API for AI agent use.
+    tools:
+    - name: listinstances
+      description: List compute instances
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qubrid-ai.listinstances
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: createinstance
+      description: Create a compute instance
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qubrid-ai.createinstance
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getinstance
+      description: Retrieve a compute instance
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qubrid-ai.getinstance
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: deleteinstance
+      description: Terminate a compute instance
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: qubrid-ai.deleteinstance
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: startinstance
+      description: Start a compute instance
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qubrid-ai.startinstance
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: stopinstance
+      description: Stop a compute instance
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qubrid-ai.stopinstance
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: listgputypes
+      description: List available GPU types
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qubrid-ai.listgputypes
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: listtemplates
+      description: List available templates
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qubrid-ai.listtemplates
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: listsshkeys
+      description: List SSH keys
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qubrid-ai.listsshkeys
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: createsshkey
+      description: Add an SSH key
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qubrid-ai.createsshkey
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: deletesshkey
+      description: Remove an SSH key
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: qubrid-ai.deletesshkey
+      outputParameters:
+      - type: object
+        mapping: $.
+binds:
+- namespace: env
+  keys:
+    QUBRID_AI_TOKEN: QUBRID_AI_TOKEN
