@@ -4,157 +4,152 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Qubrid AI
 providerId: qubrid-ai
 created: '2026-05-04'
-modified: '2026-05-04'
+modified: '2026-05-05'
+reconciled: true
 tags:
   - Artificial Intelligence
   - Cloud Computing
   - GPU
   - Inference
   - Large Language Models
-  - Machine Learning
-  - NVIDIA
-  - Serverless
-description: Machine-readable plans and pricing scaffold for this API provider. Conforms to the API Commons
-  Plans schema. Tier limits and prices are scaffold defaults; replace with provider-published values.
+description: Qubrid AI sells GPU-accelerated AI infrastructure on a pay-as-you-go basis with three product
+  surfaces - serverless OpenAI-compatible inference billed per token, GPU virtual machines rented on
+  on-demand or 1-week / 1-month / 3-month / 1-year terms, and bare-metal NVIDIA HGX servers sold on
+  annual contracts. New users receive a $1.00 free API credit on their first $5 deposit. Per-model token
+  rates and per-GPU hourly VM rates are exposed inside the platform console; bare-metal annual prices
+  are public.
+sources:
+  - https://www.qubrid.com/pricing
+  - https://www.qubrid.com/serverless-inferencing
 plans:
-  - id: qubrid-ai-free
-    name: Free
-    type: freemium
-    description: Free entry tier for the Qubrid AI API surface. Intended for evaluation, prototyping,
-      and low-volume integrations. Real limits and pricing must be reconciled with the provider's published
-      plan documentation.
+  - id: qubrid-ai-payg
+    name: Pay-As-You-Go
+    type: pay-as-you-go
+    description: OpenAI-compatible serverless inference billed per token. New accounts receive $1.00
+      free credit on their first $5 deposit. Per-model rates are listed inside the platform console.
     entries:
-      - label: API Requests
-        description: Monthly API request quota across all included endpoints
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: 1000
-        timeFrame: month
-        geo: global
-        domains:
-          - https://platform.qubrid.com/api/v1
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the free tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 10
-        timeFrame: minute
-        geo: global
-        domains:
-          - https://platform.qubrid.com/api/v1
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-    elements:
-      - name: Public Documentation
-      - name: Community Support
-      - name: Sandbox Access
-      - name: Qubrid AI Inference API
-      - name: Qubrid AI Compute API
-      - name: Qubrid AI Fine-Tuning API
-      - name: Qubrid AI RAG API
-  - id: qubrid-ai-pro
-    name: Professional
-    type: paid
-    description: Production tier for Qubrid AI. Provides higher quotas, priority support, and access to
-      the broader API portfolio. Pricing placeholder; align with the provider's pricing page.
-    entries:
-      - label: API Requests
-        description: Monthly API request quota
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: 100000
-        timeFrame: month
-        geo: global
-        domains:
-          - https://platform.qubrid.com/api/v1
-        unit: 1
-        price: TBD
-        userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the professional tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 100
-        timeFrame: minute
-        geo: global
-        domains:
-          - https://platform.qubrid.com/api/v1
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-      - label: Overage
-        description: Per-request price after monthly quota is exceeded
-        name: overage
+      - label: Token Inference
+        name: token_inference
         type: metered
-        metric: requests
+        metric: token
         limit: -1
-        timeFrame: month
-        geo: global
-        domains:
-          - https://platform.qubrid.com/api/v1
-        unit: 1000
-        price: TBD
+        timeFrame: usage
+        unit: 1
+        price: see https://platform.qubrid.com/playground
+        userMultiplied: false
+      - label: First-Deposit Credit
+        name: first_deposit_credit
+        type: flat
+        metric: credit
+        limit: 1
+        timeFrame: usage
+        unit: 1
+        price: '$1.00 free on first $5 deposit'
         userMultiplied: false
     elements:
-      - name: All Production Endpoints
-      - name: Email Support
-      - name: SLA Targets
-      - name: Webhook Subscriptions
-      - name: Qubrid AI Inference API
-      - name: Qubrid AI Compute API
-      - name: Qubrid AI Fine-Tuning API
-      - name: Qubrid AI RAG API
+      - name: OpenAI-Compatible Inference Endpoint
+      - name: Chat Models
+      - name: Code Models
+      - name: Vision Models
+      - name: OCR Models
+      - name: Embedding Models
+  - id: qubrid-ai-gpu-vm
+    name: GPU Virtual Machines
+    type: usage-based
+    description: NVIDIA GPU virtual machines available on On-Demand, 1 Week, 1 Month, 3 Month, and 1
+      Year rental terms. Per-GPU hourly rates are listed in the Qubrid platform; longer commitments
+      receive volume discounts.
+    entries:
+      - label: GPU VM Rental
+        name: gpu_vm_rental
+        type: metered
+        metric: gpu-hour
+        limit: -1
+        timeFrame: usage
+        unit: 1
+        price: see https://www.qubrid.com/pricing
+        userMultiplied: false
+    elements:
+      - name: On-Demand Rentals
+      - name: 1 Week Reserved
+      - name: 1 Month Reserved
+      - name: 3 Month Reserved
+      - name: 1 Year Reserved
+      - name: NVIDIA GPU Inventory
+  - id: qubrid-ai-bare-metal
+    name: Bare Metal Servers
+    type: subscription
+    description: Dedicated NVIDIA HGX 8-GPU bare-metal servers sold on annual contracts.
+    entries:
+      - label: NVIDIA B300 8-GPU (Annual)
+        name: bare_metal_b300_8gpu
+        type: subscription
+        metric: server
+        limit: 1
+        timeFrame: year
+        unit: 1
+        price: '$380,000'
+        userMultiplied: false
+      - label: NVIDIA B200 8-GPU (Annual)
+        name: bare_metal_b200_8gpu
+        type: subscription
+        metric: server
+        limit: 1
+        timeFrame: year
+        unit: 1
+        price: '$297,840'
+        userMultiplied: false
+      - label: NVIDIA H200 8-GPU (Annual)
+        name: bare_metal_h200_8gpu
+        type: subscription
+        metric: server
+        limit: 1
+        timeFrame: year
+        unit: 1
+        price: '$210,240'
+        userMultiplied: false
+      - label: NVIDIA H100 8-GPU (Annual)
+        name: bare_metal_h100_8gpu
+        type: subscription
+        metric: server
+        limit: 1
+        timeFrame: year
+        unit: 1
+        price: '$133,414.80'
+        userMultiplied: false
+      - label: NVIDIA A100 8-GPU (Annual)
+        name: bare_metal_a100_8gpu
+        type: subscription
+        metric: server
+        limit: 1
+        timeFrame: year
+        unit: 1
+        price: '$89,500'
+        userMultiplied: false
+    elements:
+      - name: Dedicated NVIDIA HGX Infrastructure
+      - name: 8-GPU Configuration
+      - name: Annual Contract
   - id: qubrid-ai-enterprise
     name: Enterprise
     type: enterprise
-    description: Custom-negotiated tier for Qubrid AI. Includes dedicated capacity, contractual SLAs,
-      security review, data residency options, and named technical account management.
+    description: Custom-quoted engagements for larger deployments, custom fine-tuning, and enterprise
+      solutions; arranged via the Qubrid sales team.
     entries:
-      - label: API Requests
-        description: Negotiated request volume; -1 indicates uncapped subject to fair use
-        name: api_requests
-        type: quota
-        metric: requests
+      - label: Custom Deployment
+        name: custom_deployment
+        type: flat
+        metric: varies
         limit: -1
-        timeFrame: month
-        geo: configurable
-        domains:
-          - https://platform.qubrid.com/api/v1
+        timeFrame: usage
         unit: 1
-        price: custom
-        userMultiplied: false
-      - label: Rate Limit
-        description: Negotiated burst and steady-state rate
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 1000
-        timeFrame: minute
-        geo: configurable
-        domains:
-          - https://platform.qubrid.com/api/v1
-        unit: 1
-        price: custom
+        price: contact sales
         userMultiplied: false
     elements:
-      - name: Unlimited / Negotiated Volume
-      - name: 24/7 Dedicated Support
-      - name: Contractual SLA
-      - name: Security & Compliance Review
-      - name: Dedicated Account Manager
-      - name: Custom Data Residency
-      - name: Qubrid AI Inference API
-      - name: Qubrid AI Compute API
-      - name: Qubrid AI Fine-Tuning API
-      - name: Qubrid AI RAG API
+      - name: Custom Fine-Tuning
+      - name: Larger Deployments
+      - name: Enterprise Support
+      - name: Dedicated Account Management
 maintainers:
-  - FN: API Evangelist
-    email: info@apievangelist.com
+  - FN: Kin Lane
+    email: kin@apievangelist.com
