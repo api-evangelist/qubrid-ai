@@ -127,6 +127,28 @@ common:
     url: https://platform.qubrid.com/login
   - type: JSONLD
     url: https://raw.githubusercontent.com/api-evangelist/qubrid-ai/refs/heads/main/json-ld/qubrid-ai-context.jsonld
+  - type: Integrations
+    url: https://qubrid.com/partners
+integrations:
+  - name: Qubrid AI
+  - name: Scribble
+  - name: NVIDIA
+  - name: SuperMCR
+  - name: Hewlett Packard Enterprise
+  - name: Dell
+  - name: Lenovo
+  - name: AWS
+  - name: Oracle
+  - name: GCP
+  - name: Alibaba
+  - name: Intel
+  - name: AMD
+  - name: Cisco
+  - name: LinkedIn
+  - name: Reddit
+  - name: GitHub
+  - name: Discord
+  - name: YouTube
 maintainers:
   - FN: API Evangelist
     email: info@apievangelist.com
