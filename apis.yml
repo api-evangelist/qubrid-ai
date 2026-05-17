@@ -6,7 +6,7 @@ description: >-
   OpenAI-compatible inference endpoints, GPU compute provisioning, model
   fine-tuning, and retrieval-augmented generation capabilities, all running on
   NVIDIA GPU infrastructure.
-type: Contract
+kind: contract
 position: Consuming
 access: 3rd-Party
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
