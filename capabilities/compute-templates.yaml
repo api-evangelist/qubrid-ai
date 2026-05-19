@@ -1,0 +1,70 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qubrid AI Compute API — Templates
+  description: 'Qubrid AI Compute API — Templates. 1 operations. Lead operation: List available templates. Self-contained
+    Naftiko capability covering one Qubrid Ai business surface.'
+  tags:
+  - Qubrid Ai
+  - Templates
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QUBRID_AI_API_KEY: QUBRID_AI_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: compute-templates
+    baseUri: https://platform.qubrid.com/api/v1
+    description: Qubrid AI Compute API — Templates business capability. Self-contained, no shared references.
+    resources:
+    - name: templates
+      path: /templates
+      operations:
+      - name: listtemplates
+        method: GET
+        description: List available templates
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.QUBRID_AI_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: compute-templates-rest
+    port: 8080
+    description: REST adapter for Qubrid AI Compute API — Templates. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/templates
+      name: templates
+      description: REST surface for templates.
+      operations:
+      - method: GET
+        name: listtemplates
+        description: List available templates
+        call: compute-templates.listtemplates
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: compute-templates-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qubrid AI Compute API — Templates. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: list-available-templates
+      description: List available templates
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: compute-templates.listtemplates
+      outputParameters:
+      - type: object
+        mapping: $.

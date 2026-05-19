@@ -1,0 +1,102 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qubrid AI Inference API — Models
+  description: 'Qubrid AI Inference API — Models. 2 operations. Lead operation: List available models. Self-contained Naftiko
+    capability covering one Qubrid Ai business surface.'
+  tags:
+  - Qubrid Ai
+  - Models
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QUBRID_AI_API_KEY: QUBRID_AI_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: inference-models
+    baseUri: https://platform.qubrid.com/v1
+    description: Qubrid AI Inference API — Models business capability. Self-contained, no shared references.
+    resources:
+    - name: models
+      path: /models
+      operations:
+      - name: listmodels
+        method: GET
+        description: List available models
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: models-model_id
+      path: /models/{model_id}
+      operations:
+      - name: getmodel
+        method: GET
+        description: Retrieve a model
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.QUBRID_AI_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: inference-models-rest
+    port: 8080
+    description: REST adapter for Qubrid AI Inference API — Models. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/models
+      name: models
+      description: REST surface for models.
+      operations:
+      - method: GET
+        name: listmodels
+        description: List available models
+        call: inference-models.listmodels
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/models/{model-id}
+      name: models-model-id
+      description: REST surface for models-model_id.
+      operations:
+      - method: GET
+        name: getmodel
+        description: Retrieve a model
+        call: inference-models.getmodel
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: inference-models-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qubrid AI Inference API — Models. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: list-available-models
+      description: List available models
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: inference-models.listmodels
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: retrieve-model
+      description: Retrieve a model
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: inference-models.getmodel
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,70 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qubrid AI Compute API — GPU Catalog
+  description: 'Qubrid AI Compute API — GPU Catalog. 1 operations. Lead operation: List available GPU types. Self-contained
+    Naftiko capability covering one Qubrid Ai business surface.'
+  tags:
+  - Qubrid Ai
+  - GPU Catalog
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QUBRID_AI_API_KEY: QUBRID_AI_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: compute-gpu-catalog
+    baseUri: https://platform.qubrid.com/api/v1
+    description: Qubrid AI Compute API — GPU Catalog business capability. Self-contained, no shared references.
+    resources:
+    - name: gpus
+      path: /gpus
+      operations:
+      - name: listgputypes
+        method: GET
+        description: List available GPU types
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.QUBRID_AI_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: compute-gpu-catalog-rest
+    port: 8080
+    description: REST adapter for Qubrid AI Compute API — GPU Catalog. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/gpus
+      name: gpus
+      description: REST surface for gpus.
+      operations:
+      - method: GET
+        name: listgputypes
+        description: List available GPU types
+        call: compute-gpu-catalog.listgputypes
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: compute-gpu-catalog-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qubrid AI Compute API — GPU Catalog. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: list-available-gpu-types
+      description: List available GPU types
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: compute-gpu-catalog.listgputypes
+      outputParameters:
+      - type: object
+        mapping: $.

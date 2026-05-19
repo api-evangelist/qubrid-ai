@@ -1,0 +1,137 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qubrid AI Compute API — SSH Keys
+  description: 'Qubrid AI Compute API — SSH Keys. 3 operations. Lead operation: List SSH keys. Self-contained Naftiko capability
+    covering one Qubrid Ai business surface.'
+  tags:
+  - Qubrid Ai
+  - SSH Keys
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QUBRID_AI_API_KEY: QUBRID_AI_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: compute-ssh-keys
+    baseUri: https://platform.qubrid.com/api/v1
+    description: Qubrid AI Compute API — SSH Keys business capability. Self-contained, no shared references.
+    resources:
+    - name: ssh-keys
+      path: /ssh-keys
+      operations:
+      - name: listsshkeys
+        method: GET
+        description: List SSH keys
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createsshkey
+        method: POST
+        description: Add an SSH key
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: ssh-keys-key_id
+      path: /ssh-keys/{key_id}
+      operations:
+      - name: deletesshkey
+        method: DELETE
+        description: Remove an SSH key
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.QUBRID_AI_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: compute-ssh-keys-rest
+    port: 8080
+    description: REST adapter for Qubrid AI Compute API — SSH Keys. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/ssh-keys
+      name: ssh-keys
+      description: REST surface for ssh-keys.
+      operations:
+      - method: GET
+        name: listsshkeys
+        description: List SSH keys
+        call: compute-ssh-keys.listsshkeys
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createsshkey
+        description: Add an SSH key
+        call: compute-ssh-keys.createsshkey
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/ssh-keys/{key-id}
+      name: ssh-keys-key-id
+      description: REST surface for ssh-keys-key_id.
+      operations:
+      - method: DELETE
+        name: deletesshkey
+        description: Remove an SSH key
+        call: compute-ssh-keys.deletesshkey
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: compute-ssh-keys-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qubrid AI Compute API — SSH Keys. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: list-ssh-keys
+      description: List SSH keys
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: compute-ssh-keys.listsshkeys
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: add-ssh-key
+      description: Add an SSH key
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: compute-ssh-keys.createsshkey
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: remove-ssh-key
+      description: Remove an SSH key
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: compute-ssh-keys.deletesshkey
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,102 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qubrid AI Fine-Tuning API — Fine-Tuned Models
+  description: 'Qubrid AI Fine-Tuning API — Fine-Tuned Models. 2 operations. Lead operation: List fine-tuned models. Self-contained
+    Naftiko capability covering one Qubrid Ai business surface.'
+  tags:
+  - Qubrid Ai
+  - Fine-Tuned Models
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QUBRID_AI_API_KEY: QUBRID_AI_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: fine-tuning-fine-tuned-models
+    baseUri: https://platform.qubrid.com/api/v1
+    description: Qubrid AI Fine-Tuning API — Fine-Tuned Models business capability. Self-contained, no shared references.
+    resources:
+    - name: fine-tuning-models
+      path: /fine-tuning/models
+      operations:
+      - name: listfinetunedmodels
+        method: GET
+        description: List fine-tuned models
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: fine-tuning-models-model_id
+      path: /fine-tuning/models/{model_id}
+      operations:
+      - name: deletefinetunedmodel
+        method: DELETE
+        description: Delete a fine-tuned model
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.QUBRID_AI_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: fine-tuning-fine-tuned-models-rest
+    port: 8080
+    description: REST adapter for Qubrid AI Fine-Tuning API — Fine-Tuned Models. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/fine-tuning/models
+      name: fine-tuning-models
+      description: REST surface for fine-tuning-models.
+      operations:
+      - method: GET
+        name: listfinetunedmodels
+        description: List fine-tuned models
+        call: fine-tuning-fine-tuned-models.listfinetunedmodels
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/fine-tuning/models/{model-id}
+      name: fine-tuning-models-model-id
+      description: REST surface for fine-tuning-models-model_id.
+      operations:
+      - method: DELETE
+        name: deletefinetunedmodel
+        description: Delete a fine-tuned model
+        call: fine-tuning-fine-tuned-models.deletefinetunedmodel
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: fine-tuning-fine-tuned-models-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qubrid AI Fine-Tuning API — Fine-Tuned Models. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: list-fine-tuned-models
+      description: List fine-tuned models
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: fine-tuning-fine-tuned-models.listfinetunedmodels
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-fine-tuned-model
+      description: Delete a fine-tuned model
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: fine-tuning-fine-tuned-models.deletefinetunedmodel
+      outputParameters:
+      - type: object
+        mapping: $.

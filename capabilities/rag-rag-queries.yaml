@@ -1,0 +1,80 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qubrid AI RAG API — RAG Queries
+  description: 'Qubrid AI RAG API — RAG Queries. 1 operations. Lead operation: Query with RAG. Self-contained Naftiko capability
+    covering one Qubrid Ai business surface.'
+  tags:
+  - Qubrid Ai
+  - RAG Queries
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QUBRID_AI_API_KEY: QUBRID_AI_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: rag-rag-queries
+    baseUri: https://platform.qubrid.com/api/v1
+    description: Qubrid AI RAG API — RAG Queries business capability. Self-contained, no shared references.
+    resources:
+    - name: rag-query
+      path: /rag/query
+      operations:
+      - name: queryrag
+        method: POST
+        description: Query with RAG
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.QUBRID_AI_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: rag-rag-queries-rest
+    port: 8080
+    description: REST adapter for Qubrid AI RAG API — RAG Queries. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/rag/query
+      name: rag-query
+      description: REST surface for rag-query.
+      operations:
+      - method: POST
+        name: queryrag
+        description: Query with RAG
+        call: rag-rag-queries.queryrag
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: rag-rag-queries-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qubrid AI RAG API — RAG Queries. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: query-rag
+      description: Query with RAG
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: rag-rag-queries.queryrag
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
