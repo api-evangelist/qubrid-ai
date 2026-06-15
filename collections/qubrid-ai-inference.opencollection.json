@@ -1,0 +1,100 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qubrid AI Inference API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Chat Completions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a chat completion",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://platform.qubrid.com/v1/chat/completions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Generates a model response for the given chat conversation. This endpoint is compatible with the OpenAI chat completions format, accepting an array of messages and returning a generated assistant reply. Supports text generation, code generation, and vision-language models available on the Qubrid AI platform."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Models",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List available models",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform.qubrid.com/v1/models"
+          },
+          "docs": "Returns a list of all models currently available for inference on the Qubrid AI platform, including text generation, code generation, vision-language, and image generation models running on NVIDIA GPU infrastructure."
+        },
+        {
+          "info": {
+            "name": "Retrieve a model",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform.qubrid.com/v1/models/:model_id",
+            "params": [
+              {
+                "name": "model_id",
+                "value": "deepseek-ai/DeepSeek-R1-Distill-Llama-70B",
+                "type": "path",
+                "description": "The unique identifier of the model to retrieve, such as deepseek-ai/DeepSeek-R1-Distill-Llama-70B or Qwen/Qwen3.5-27B."
+              }
+            ]
+          },
+          "docs": "Returns details about a specific model available on the Qubrid AI platform, including its identifier, ownership, and creation timestamp."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Embeddings",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create embeddings",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://platform.qubrid.com/v1/embeddings",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Generates vector embeddings for the provided input text using a specified embedding model on the Qubrid AI platform. Embeddings can be used for semantic search, clustering, recommendations, and retrieval-augmented generation workflows."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

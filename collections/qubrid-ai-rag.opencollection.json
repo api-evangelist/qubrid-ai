@@ -1,0 +1,186 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qubrid AI RAG API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Knowledge Bases",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List knowledge bases",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform.qubrid.com/api/v1/rag/knowledge-bases"
+          },
+          "docs": "Returns a list of all knowledge bases associated with the authenticated user's account, including their name, document count, and processing status."
+        },
+        {
+          "info": {
+            "name": "Create a knowledge base",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://platform.qubrid.com/api/v1/rag/knowledge-bases",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new knowledge base for storing and retrieving enterprise documents. The knowledge base serves as a container for documents that will be chunked, embedded, and indexed for retrieval-augmented generation queries."
+        },
+        {
+          "info": {
+            "name": "Retrieve a knowledge base",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform.qubrid.com/api/v1/rag/knowledge-bases/:knowledge_base_id",
+            "params": [
+              {
+                "name": "knowledge_base_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the knowledge base."
+              }
+            ]
+          },
+          "docs": "Returns details about a specific knowledge base including its configuration, document count, total chunk count, and embedding model used."
+        },
+        {
+          "info": {
+            "name": "Delete a knowledge base",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://platform.qubrid.com/api/v1/rag/knowledge-bases/:knowledge_base_id",
+            "params": [
+              {
+                "name": "knowledge_base_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the knowledge base."
+              }
+            ]
+          },
+          "docs": "Permanently deletes a knowledge base and all of its associated documents, embeddings, and vector index data. This action cannot be undone."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Documents",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List documents in a knowledge base",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform.qubrid.com/api/v1/rag/knowledge-bases/:knowledge_base_id/documents",
+            "params": [
+              {
+                "name": "knowledge_base_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the knowledge base."
+              }
+            ]
+          },
+          "docs": "Returns a list of all documents uploaded to the specified knowledge base, including their name, size, processing status, and chunk count."
+        },
+        {
+          "info": {
+            "name": "Upload a document",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://platform.qubrid.com/api/v1/rag/knowledge-bases/:knowledge_base_id/documents",
+            "params": [
+              {
+                "name": "knowledge_base_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the knowledge base."
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Uploads a new document to the specified knowledge base. The document will be automatically processed, chunked into segments, and embedded using the knowledge base's configured embedding model. Supported formats include PDF, TXT, CSV, DOCX, and other common document types."
+        },
+        {
+          "info": {
+            "name": "Delete a document",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://platform.qubrid.com/api/v1/rag/knowledge-bases/:knowledge_base_id/documents/:document_id",
+            "params": [
+              {
+                "name": "knowledge_base_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the knowledge base."
+              },
+              {
+                "name": "document_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the document."
+              }
+            ]
+          },
+          "docs": "Deletes a document from the knowledge base and removes all associated chunks and embeddings from the vector index."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "RAG Queries",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Query with RAG",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://platform.qubrid.com/api/v1/rag/query",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Performs a retrieval-augmented generation query against a specified knowledge base. The API retrieves the most relevant document chunks based on semantic similarity to the query, then uses them as context for a large language model to generate an accurate, grounded response. The response includes both the generated answer and the source document references used."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
