@@ -133,7 +133,7 @@ common:
     url: https://raw.githubusercontent.com/api-evangelist/qubrid-ai/refs/heads/main/json-ld/qubrid-ai-context.jsonld
   - type: Integrations
     url: https://qubrid.com/partners
-  - type: LLMsTxt
+  - type: LlmsText
     url: https://docs.platform.qubrid.com/llms.txt
 integrations:
   - name: Qubrid AI
