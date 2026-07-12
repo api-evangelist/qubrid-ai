@@ -1,0 +1,19 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/qubrid-ai-compute-openapi.yml, openapi/qubrid-ai-fine-tuning-openapi.yml, openapi/qubrid-ai-inference-openapi.yml,
+  openapi/qubrid-ai-rag-openapi.yml
+summary:
+  types:
+  - http
+schemes:
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  bearerFormat: QUBRID_API_KEY
+  description: Qubrid AI API key passed as a bearer token in the Authorization header. Obtain
+    your API key from the Qubrid AI platform dashboard at https://platform.qubrid.com.
+  sources:
+  - openapi/qubrid-ai-compute-openapi.yml
+  - openapi/qubrid-ai-fine-tuning-openapi.yml
+  - openapi/qubrid-ai-inference-openapi.yml
+  - openapi/qubrid-ai-rag-openapi.yml
