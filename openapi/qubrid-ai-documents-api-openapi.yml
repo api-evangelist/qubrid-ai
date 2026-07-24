@@ -1,0 +1,197 @@
+openapi: 3.1.0
+info:
+  title: Qubrid AI Compute Chat Completions Documents API
+  description: The Qubrid AI Compute API provides programmatic access to GPU cloud infrastructure including NVIDIA H100, H200, and B200 accelerators. Developers can provision and manage GPU instances for AI and machine learning workloads through API calls. The service supports on-demand compute for training, fine-tuning, and batch inference jobs, with usage-based billing and enterprise features such as team collaboration and usage tracking. Instances can be accessed via SSH, Jupyter notebooks, or Visual Studio Code, and support quick-deploy templates for popular frameworks including PyTorch, TensorFlow, ComfyUI, n8n, and Langflow.
+  version: 1.0.0
+  contact:
+    name: Qubrid AI Support
+    url: https://www.qubrid.com/contact
+  termsOfService: https://www.qubrid.com/terms-of-service
+servers:
+- url: https://platform.qubrid.com/api/v1
+  description: Qubrid AI Compute Production Server
+security:
+- bearerAuth: []
+tags:
+- name: Documents
+  description: Upload, list, and manage documents within a knowledge base. Supported formats include PDF, text, CSV, and other common document types. Documents are automatically processed, chunked, and embedded upon upload.
+paths:
+  /rag/knowledge-bases/{knowledge_base_id}/documents:
+    get:
+      operationId: listDocuments
+      summary: List documents in a knowledge base
+      description: Returns a list of all documents uploaded to the specified knowledge base, including their name, size, processing status, and chunk count.
+      tags:
+      - Documents
+      parameters:
+      - $ref: '#/components/parameters/KnowledgeBaseId'
+      responses:
+        '200':
+          description: Successfully retrieved the list of documents.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentList'
+        '401':
+          description: Authentication failed due to a missing or invalid bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The specified knowledge base was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      operationId: uploadDocument
+      summary: Upload a document
+      description: Uploads a new document to the specified knowledge base. The document will be automatically processed, chunked into segments, and embedded using the knowledge base's configured embedding model. Supported formats include PDF, TXT, CSV, DOCX, and other common document types.
+      tags:
+      - Documents
+      parameters:
+      - $ref: '#/components/parameters/KnowledgeBaseId'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UploadDocumentRequest'
+      responses:
+        '201':
+          description: Successfully uploaded the document. Processing will begin automatically.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Document'
+        '400':
+          description: The uploaded file format is not supported or the file was malformed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication failed due to a missing or invalid bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The specified knowledge base was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /rag/knowledge-bases/{knowledge_base_id}/documents/{document_id}:
+    delete:
+      operationId: deleteDocument
+      summary: Delete a document
+      description: Deletes a document from the knowledge base and removes all associated chunks and embeddings from the vector index.
+      tags:
+      - Documents
+      parameters:
+      - $ref: '#/components/parameters/KnowledgeBaseId'
+      - $ref: '#/components/parameters/DocumentId'
+      responses:
+        '204':
+          description: Successfully deleted the document and its embeddings.
+        '401':
+          description: Authentication failed due to a missing or invalid bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The specified knowledge base or document was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  parameters:
+    KnowledgeBaseId:
+      name: knowledge_base_id
+      in: path
+      required: true
+      description: The unique identifier of the knowledge base.
+      schema:
+        type: string
+    DocumentId:
+      name: document_id
+      in: path
+      required: true
+      description: The unique identifier of the document.
+      schema:
+        type: string
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              description: A human-readable error message describing what went wrong.
+            type:
+              type: string
+              description: The type of error that occurred.
+            code:
+              type: string
+              description: A machine-readable error code.
+    Document:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the document.
+        name:
+          type: string
+          description: The original filename of the uploaded document.
+        size_bytes:
+          type: integer
+          description: The size of the document file in bytes.
+        format:
+          type: string
+          description: The file format of the document, such as pdf, txt, csv, or docx.
+        chunk_count:
+          type: integer
+          description: The number of chunks the document was split into after processing.
+        status:
+          type: string
+          enum:
+          - processing
+          - ready
+          - error
+          description: The processing status of the document. Processing means the document is being chunked and embedded, ready means it is available for retrieval, and error means processing failed.
+        created_at:
+          type: string
+          format: date-time
+          description: The timestamp when the document was uploaded.
+    UploadDocumentRequest:
+      type: object
+      required:
+      - file
+      properties:
+        file:
+          type: string
+          format: binary
+          description: The document file to upload. Supported formats include PDF, TXT, CSV, DOCX, and other common document types.
+    DocumentList:
+      type: object
+      properties:
+        data:
+          type: array
+          description: A list of document objects.
+          items:
+            $ref: '#/components/schemas/Document'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: QUBRID_API_KEY
+      description: Qubrid AI API key passed as a bearer token in the Authorization header. Obtain your API key from the Qubrid AI platform dashboard at https://platform.qubrid.com.
+externalDocs:
+  description: Qubrid AI Documentation
+  url: https://docs.platform.qubrid.com

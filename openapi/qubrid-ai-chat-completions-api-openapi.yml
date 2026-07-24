@@ -1,0 +1,248 @@
+openapi: 3.1.0
+info:
+  title: Qubrid AI Compute Chat Completions API
+  description: The Qubrid AI Compute API provides programmatic access to GPU cloud infrastructure including NVIDIA H100, H200, and B200 accelerators. Developers can provision and manage GPU instances for AI and machine learning workloads through API calls. The service supports on-demand compute for training, fine-tuning, and batch inference jobs, with usage-based billing and enterprise features such as team collaboration and usage tracking. Instances can be accessed via SSH, Jupyter notebooks, or Visual Studio Code, and support quick-deploy templates for popular frameworks including PyTorch, TensorFlow, ComfyUI, n8n, and Langflow.
+  version: 1.0.0
+  contact:
+    name: Qubrid AI Support
+    url: https://www.qubrid.com/contact
+  termsOfService: https://www.qubrid.com/terms-of-service
+servers:
+- url: https://platform.qubrid.com/api/v1
+  description: Qubrid AI Compute Production Server
+security:
+- bearerAuth: []
+tags:
+- name: Chat Completions
+  description: Generate chat-based completions using open-source large language models hosted on NVIDIA GPU infrastructure. Compatible with the OpenAI chat completions request and response format.
+paths:
+  /chat/completions:
+    post:
+      operationId: createChatCompletion
+      summary: Create a chat completion
+      description: Generates a model response for the given chat conversation. This endpoint is compatible with the OpenAI chat completions format, accepting an array of messages and returning a generated assistant reply. Supports text generation, code generation, and vision-language models available on the Qubrid AI platform.
+      tags:
+      - Chat Completions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatCompletionRequest'
+      responses:
+        '200':
+          description: Successfully generated a chat completion response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatCompletionResponse'
+        '400':
+          description: The request was malformed or contained invalid parameters.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication failed due to a missing or invalid bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The specified model was not found or is not available.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit exceeded. Too many requests were sent in a given time period.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: An internal server error occurred during inference.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    ChatCompletionResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          description: A unique identifier for the chat completion.
+        object:
+          type: string
+          enum:
+          - chat.completion
+          description: The object type, always chat.completion.
+        created:
+          type: integer
+          description: The Unix timestamp in seconds of when the chat completion was created.
+        model:
+          type: string
+          description: The model used for the chat completion.
+        choices:
+          type: array
+          description: A list of chat completion choices. Can be more than one if n is greater than 1.
+          items:
+            $ref: '#/components/schemas/ChatCompletionChoice'
+        usage:
+          $ref: '#/components/schemas/Usage'
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              description: A human-readable error message describing what went wrong.
+            type:
+              type: string
+              description: The type of error that occurred.
+            code:
+              type: string
+              description: A machine-readable error code.
+    Usage:
+      type: object
+      properties:
+        prompt_tokens:
+          type: integer
+          description: The number of tokens in the prompt.
+        completion_tokens:
+          type: integer
+          description: The number of tokens in the generated completion.
+        total_tokens:
+          type: integer
+          description: The total number of tokens used in the request (prompt plus completion).
+    ChatCompletionRequest:
+      type: object
+      required:
+      - model
+      - messages
+      properties:
+        model:
+          type: string
+          description: The identifier of the model to use for generating the chat completion. Must be one of the models available on the Qubrid AI platform.
+          example: deepseek-ai/DeepSeek-R1-Distill-Llama-70B
+        messages:
+          type: array
+          description: A list of messages comprising the conversation so far. Each message has a role (system, user, or assistant) and content.
+          items:
+            $ref: '#/components/schemas/ChatMessage'
+          minItems: 1
+        temperature:
+          type: number
+          description: Sampling temperature between 0 and 2. Higher values like 0.8 make the output more random, while lower values like 0.2 make it more focused and deterministic.
+          minimum: 0
+          maximum: 2
+          default: 1.0
+        top_p:
+          type: number
+          description: Nucleus sampling parameter. The model considers the results of the tokens with top_p probability mass. A value of 0.1 means only the tokens comprising the top 10% probability mass are considered.
+          minimum: 0
+          maximum: 1
+          default: 1.0
+        n:
+          type: integer
+          description: How many chat completion choices to generate for each input message.
+          minimum: 1
+          default: 1
+        max_tokens:
+          type: integer
+          description: The maximum number of tokens to generate in the chat completion. The total length of input tokens and generated tokens is limited by the model's context length.
+          minimum: 1
+        stream:
+          type: boolean
+          description: 'If true, partial message deltas will be sent as server-sent events as they become available, with the stream terminated by a data: [DONE] message.'
+          default: false
+        stop:
+          oneOf:
+          - type: string
+          - type: array
+            items:
+              type: string
+            maxItems: 4
+          description: Up to 4 sequences where the API will stop generating further tokens.
+        presence_penalty:
+          type: number
+          description: Penalizes new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.
+          minimum: -2
+          maximum: 2
+          default: 0
+        frequency_penalty:
+          type: number
+          description: Penalizes new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.
+          minimum: -2
+          maximum: 2
+          default: 0
+    ChatCompletionChoice:
+      type: object
+      properties:
+        index:
+          type: integer
+          description: The index of the choice in the list of choices.
+        message:
+          $ref: '#/components/schemas/ChatMessage'
+        finish_reason:
+          type: string
+          enum:
+          - stop
+          - length
+          - content_filter
+          description: The reason the model stopped generating tokens. stop means the model hit a natural stop point or a provided stop sequence, length means the maximum number of tokens was reached, and content_filter means content was omitted due to a filter.
+    ChatMessage:
+      type: object
+      required:
+      - role
+      - content
+      properties:
+        role:
+          type: string
+          enum:
+          - system
+          - user
+          - assistant
+          description: The role of the message author. Use system for setting the assistant's behavior, user for the human's input, and assistant for previously generated responses.
+        content:
+          oneOf:
+          - type: string
+          - type: array
+            items:
+              $ref: '#/components/schemas/ContentPart'
+          description: The content of the message. Can be a string for text-only messages, or an array of content parts for multimodal messages that include images.
+    ContentPart:
+      type: object
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          enum:
+          - text
+          - image_url
+          description: The type of content part. Use text for text content and image_url for image content in vision-language model requests.
+        text:
+          type: string
+          description: The text content, used when the type is text.
+        image_url:
+          type: object
+          description: The image URL object, used when the type is image_url.
+          properties:
+            url:
+              type: string
+              format: uri
+              description: The URL of the image to include in the message.
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: QUBRID_API_KEY
+      description: Qubrid AI API key passed as a bearer token in the Authorization header. Obtain your API key from the Qubrid AI platform dashboard at https://platform.qubrid.com.
+externalDocs:
+  description: Qubrid AI Documentation
+  url: https://docs.platform.qubrid.com

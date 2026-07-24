@@ -1,0 +1,167 @@
+openapi: 3.1.0
+info:
+  title: Qubrid AI Compute Chat Completions SSH Keys API
+  description: The Qubrid AI Compute API provides programmatic access to GPU cloud infrastructure including NVIDIA H100, H200, and B200 accelerators. Developers can provision and manage GPU instances for AI and machine learning workloads through API calls. The service supports on-demand compute for training, fine-tuning, and batch inference jobs, with usage-based billing and enterprise features such as team collaboration and usage tracking. Instances can be accessed via SSH, Jupyter notebooks, or Visual Studio Code, and support quick-deploy templates for popular frameworks including PyTorch, TensorFlow, ComfyUI, n8n, and Langflow.
+  version: 1.0.0
+  contact:
+    name: Qubrid AI Support
+    url: https://www.qubrid.com/contact
+  termsOfService: https://www.qubrid.com/terms-of-service
+servers:
+- url: https://platform.qubrid.com/api/v1
+  description: Qubrid AI Compute Production Server
+security:
+- bearerAuth: []
+tags:
+- name: SSH Keys
+  description: Manage SSH keys for secure access to GPU compute instances. Users get full root access to their instances for installing custom libraries, running scripts, and managing workloads.
+paths:
+  /ssh-keys:
+    get:
+      operationId: listSshKeys
+      summary: List SSH keys
+      description: Returns a list of SSH public keys registered with the authenticated user's account for accessing GPU compute instances.
+      tags:
+      - SSH Keys
+      responses:
+        '200':
+          description: Successfully retrieved the list of SSH keys.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SshKeyList'
+        '401':
+          description: Authentication failed due to a missing or invalid bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      operationId: createSshKey
+      summary: Add an SSH key
+      description: Registers a new SSH public key with the authenticated user's account. The key can then be assigned to GPU compute instances for secure access.
+      tags:
+      - SSH Keys
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSshKeyRequest'
+      responses:
+        '201':
+          description: Successfully added the SSH key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SshKey'
+        '400':
+          description: The SSH key was malformed or already exists.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication failed due to a missing or invalid bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /ssh-keys/{key_id}:
+    delete:
+      operationId: deleteSshKey
+      summary: Remove an SSH key
+      description: Removes an SSH public key from the authenticated user's account. The key will no longer be available for assignment to new instances.
+      tags:
+      - SSH Keys
+      parameters:
+      - $ref: '#/components/parameters/SshKeyId'
+      responses:
+        '204':
+          description: Successfully removed the SSH key.
+        '401':
+          description: Authentication failed due to a missing or invalid bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The specified SSH key was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              description: A human-readable error message describing what went wrong.
+            type:
+              type: string
+              description: The type of error that occurred.
+            code:
+              type: string
+              description: A machine-readable error code.
+    SshKeyList:
+      type: object
+      properties:
+        data:
+          type: array
+          description: A list of SSH key objects.
+          items:
+            $ref: '#/components/schemas/SshKey'
+    CreateSshKeyRequest:
+      type: object
+      required:
+      - name
+      - public_key
+      properties:
+        name:
+          type: string
+          description: A user-assigned name for the SSH key.
+          maxLength: 128
+        public_key:
+          type: string
+          description: The SSH public key string in OpenSSH format.
+    SshKey:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the SSH key.
+        name:
+          type: string
+          description: The user-assigned name for the SSH key.
+        public_key:
+          type: string
+          description: The SSH public key string.
+        fingerprint:
+          type: string
+          description: The fingerprint of the SSH public key.
+        created_at:
+          type: string
+          format: date-time
+          description: The timestamp when the SSH key was registered.
+  parameters:
+    SshKeyId:
+      name: key_id
+      in: path
+      required: true
+      description: The unique identifier of the SSH key.
+      schema:
+        type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: QUBRID_API_KEY
+      description: Qubrid AI API key passed as a bearer token in the Authorization header. Obtain your API key from the Qubrid AI platform dashboard at https://platform.qubrid.com.
+externalDocs:
+  description: Qubrid AI Documentation
+  url: https://docs.platform.qubrid.com

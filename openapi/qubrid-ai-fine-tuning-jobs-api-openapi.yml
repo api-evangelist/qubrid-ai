@@ -1,0 +1,301 @@
+openapi: 3.1.0
+info:
+  title: Qubrid AI Compute Chat Completions Fine-Tuning Jobs API
+  description: The Qubrid AI Compute API provides programmatic access to GPU cloud infrastructure including NVIDIA H100, H200, and B200 accelerators. Developers can provision and manage GPU instances for AI and machine learning workloads through API calls. The service supports on-demand compute for training, fine-tuning, and batch inference jobs, with usage-based billing and enterprise features such as team collaboration and usage tracking. Instances can be accessed via SSH, Jupyter notebooks, or Visual Studio Code, and support quick-deploy templates for popular frameworks including PyTorch, TensorFlow, ComfyUI, n8n, and Langflow.
+  version: 1.0.0
+  contact:
+    name: Qubrid AI Support
+    url: https://www.qubrid.com/contact
+  termsOfService: https://www.qubrid.com/terms-of-service
+servers:
+- url: https://platform.qubrid.com/api/v1
+  description: Qubrid AI Compute Production Server
+security:
+- bearerAuth: []
+tags:
+- name: Fine-Tuning Jobs
+  description: Create, monitor, and manage fine-tuning jobs that customize pre-deployed text generation and code generation models using uploaded training datasets on GPU infrastructure.
+paths:
+  /fine-tuning/jobs:
+    get:
+      operationId: listFineTuningJobs
+      summary: List fine-tuning jobs
+      description: Returns a list of all fine-tuning jobs associated with the authenticated user's account, including their status, base model, hyperparameters, and training progress.
+      tags:
+      - Fine-Tuning Jobs
+      parameters:
+      - $ref: '#/components/parameters/PageLimit'
+      - $ref: '#/components/parameters/PageOffset'
+      responses:
+        '200':
+          description: Successfully retrieved the list of fine-tuning jobs.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FineTuningJobList'
+        '401':
+          description: Authentication failed due to a missing or invalid bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      operationId: createFineTuningJob
+      summary: Create a fine-tuning job
+      description: Creates and starts a new fine-tuning job that customizes a base model using the specified training dataset and hyperparameters. The job runs on GPU infrastructure and produces a fine-tuned model artifact upon completion. Supported task types include Question Answering (QA) and non-QA text generation.
+      tags:
+      - Fine-Tuning Jobs
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFineTuningJobRequest'
+      responses:
+        '201':
+          description: Successfully created the fine-tuning job.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FineTuningJob'
+        '400':
+          description: The request was malformed, the dataset format was invalid, or an unsupported base model was specified.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication failed due to a missing or invalid bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '402':
+          description: Insufficient credits or billing issue preventing job creation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /fine-tuning/jobs/{job_id}:
+    get:
+      operationId: getFineTuningJob
+      summary: Retrieve a fine-tuning job
+      description: Returns details about a specific fine-tuning job including its current status, base model, hyperparameters, training metrics, and the resulting fine-tuned model identifier upon completion.
+      tags:
+      - Fine-Tuning Jobs
+      parameters:
+      - $ref: '#/components/parameters/JobId'
+      responses:
+        '200':
+          description: Successfully retrieved the fine-tuning job details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FineTuningJob'
+        '401':
+          description: Authentication failed due to a missing or invalid bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The specified fine-tuning job was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /fine-tuning/jobs/{job_id}/cancel:
+    post:
+      operationId: cancelFineTuningJob
+      summary: Cancel a fine-tuning job
+      description: Cancels a running fine-tuning job. The job will be stopped and any partial training progress will be discarded. Credits for unused compute time may be refunded.
+      tags:
+      - Fine-Tuning Jobs
+      parameters:
+      - $ref: '#/components/parameters/JobId'
+      responses:
+        '200':
+          description: Successfully cancelled the fine-tuning job.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FineTuningJob'
+        '401':
+          description: Authentication failed due to a missing or invalid bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The specified fine-tuning job was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    Hyperparameters:
+      type: object
+      properties:
+        epochs:
+          type: integer
+          description: The number of full passes the model makes over the training dataset. More epochs let the model learn more but too many can cause overfitting.
+          minimum: 1
+        max_steps:
+          type: integer
+          description: The maximum number of training iterations, where each step equals one batch of data processed.
+          minimum: 1
+        learning_rate:
+          type: number
+          description: The learning rate for the optimizer, controlling how much the model weights are adjusted during each training step.
+          minimum: 0
+          exclusiveMinimum: true
+        validation_split:
+          type: number
+          description: The percentage of the dataset reserved for validation, expressed as a decimal between 0 and 1.
+          minimum: 0
+          maximum: 1
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              description: A human-readable error message describing what went wrong.
+            type:
+              type: string
+              description: The type of error that occurred.
+            code:
+              type: string
+              description: A machine-readable error code.
+    FineTuningJob:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the fine-tuning job.
+        status:
+          type: string
+          enum:
+          - queued
+          - running
+          - completed
+          - failed
+          - cancelled
+          description: The current status of the fine-tuning job.
+        base_model:
+          type: string
+          description: The identifier of the base model being fine-tuned.
+        dataset_id:
+          type: string
+          description: The identifier of the training dataset used.
+        task_type:
+          type: string
+          enum:
+          - qa
+          - not_qa
+          description: The task type for fine-tuning. QA indicates question answering tasks, while not_qa covers general text generation and other task types.
+        hyperparameters:
+          $ref: '#/components/schemas/Hyperparameters'
+        fine_tuned_model:
+          type: string
+          description: The identifier of the resulting fine-tuned model, available once the job has completed successfully.
+        training_metrics:
+          $ref: '#/components/schemas/TrainingMetrics'
+        created_at:
+          type: string
+          format: date-time
+          description: The timestamp when the fine-tuning job was created.
+        completed_at:
+          type: string
+          format: date-time
+          description: The timestamp when the fine-tuning job completed, if applicable.
+    TrainingMetrics:
+      type: object
+      properties:
+        training_loss:
+          type: number
+          description: The final training loss value after the last training step.
+        validation_loss:
+          type: number
+          description: The final validation loss value, if a validation split was configured.
+        steps_completed:
+          type: integer
+          description: The number of training steps completed.
+        epochs_completed:
+          type: integer
+          description: The number of training epochs completed.
+    CreateFineTuningJobRequest:
+      type: object
+      required:
+      - base_model
+      - dataset_id
+      - task_type
+      properties:
+        base_model:
+          type: string
+          description: The identifier of the base model to fine-tune. Must be a pre-deployed text generation or code generation model on the Qubrid AI platform.
+        dataset_id:
+          type: string
+          description: The identifier of the previously uploaded CSV training dataset.
+        task_type:
+          type: string
+          enum:
+          - qa
+          - not_qa
+          description: The task type for fine-tuning. Choose qa for question answering tasks or not_qa for general text generation, summarization, classification, and other tasks.
+        hyperparameters:
+          $ref: '#/components/schemas/Hyperparameters'
+        suffix:
+          type: string
+          description: An optional suffix to append to the fine-tuned model name for identification purposes.
+          maxLength: 64
+    FineTuningJobList:
+      type: object
+      properties:
+        data:
+          type: array
+          description: A list of fine-tuning job objects.
+          items:
+            $ref: '#/components/schemas/FineTuningJob'
+        total:
+          type: integer
+          description: The total number of fine-tuning jobs.
+  parameters:
+    PageLimit:
+      name: limit
+      in: query
+      required: false
+      description: Maximum number of results to return per page.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+    JobId:
+      name: job_id
+      in: path
+      required: true
+      description: The unique identifier of the fine-tuning job.
+      schema:
+        type: string
+    PageOffset:
+      name: offset
+      in: query
+      required: false
+      description: Number of results to skip for pagination.
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: QUBRID_API_KEY
+      description: Qubrid AI API key passed as a bearer token in the Authorization header. Obtain your API key from the Qubrid AI platform dashboard at https://platform.qubrid.com.
+externalDocs:
+  description: Qubrid AI Documentation
+  url: https://docs.platform.qubrid.com

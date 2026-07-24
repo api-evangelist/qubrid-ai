@@ -1,0 +1,205 @@
+openapi: 3.1.0
+info:
+  title: Qubrid AI Compute Chat Completions Datasets API
+  description: The Qubrid AI Compute API provides programmatic access to GPU cloud infrastructure including NVIDIA H100, H200, and B200 accelerators. Developers can provision and manage GPU instances for AI and machine learning workloads through API calls. The service supports on-demand compute for training, fine-tuning, and batch inference jobs, with usage-based billing and enterprise features such as team collaboration and usage tracking. Instances can be accessed via SSH, Jupyter notebooks, or Visual Studio Code, and support quick-deploy templates for popular frameworks including PyTorch, TensorFlow, ComfyUI, n8n, and Langflow.
+  version: 1.0.0
+  contact:
+    name: Qubrid AI Support
+    url: https://www.qubrid.com/contact
+  termsOfService: https://www.qubrid.com/terms-of-service
+servers:
+- url: https://platform.qubrid.com/api/v1
+  description: Qubrid AI Compute Production Server
+security:
+- bearerAuth: []
+tags:
+- name: Datasets
+  description: Upload and manage CSV training datasets used for fine-tuning models. Datasets must be in CSV format with columns appropriate for the selected task type (QA or non-QA).
+paths:
+  /fine-tuning/datasets:
+    get:
+      operationId: listDatasets
+      summary: List training datasets
+      description: Returns a list of training datasets uploaded by the authenticated user. Datasets are in CSV format and can be used for fine-tuning jobs.
+      tags:
+      - Datasets
+      responses:
+        '200':
+          description: Successfully retrieved the list of datasets.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatasetList'
+        '401':
+          description: Authentication failed due to a missing or invalid bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      operationId: uploadDataset
+      summary: Upload a training dataset
+      description: Uploads a new CSV training dataset for use in fine-tuning jobs. The dataset must be in CSV format; other file extensions are not supported and will return an error. The CSV should contain columns appropriate for the intended task type.
+      tags:
+      - Datasets
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UploadDatasetRequest'
+      responses:
+        '201':
+          description: Successfully uploaded the training dataset.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dataset'
+        '400':
+          description: The uploaded file was not in CSV format or was malformed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication failed due to a missing or invalid bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /fine-tuning/datasets/{dataset_id}:
+    get:
+      operationId: getDataset
+      summary: Retrieve a dataset
+      description: Returns details about a specific training dataset including its name, size, row count, and upload timestamp.
+      tags:
+      - Datasets
+      parameters:
+      - $ref: '#/components/parameters/DatasetId'
+      responses:
+        '200':
+          description: Successfully retrieved the dataset details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dataset'
+        '401':
+          description: Authentication failed due to a missing or invalid bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The specified dataset was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      operationId: deleteDataset
+      summary: Delete a dataset
+      description: Deletes a training dataset. Datasets that are currently in use by a running fine-tuning job cannot be deleted.
+      tags:
+      - Datasets
+      parameters:
+      - $ref: '#/components/parameters/DatasetId'
+      responses:
+        '204':
+          description: Successfully deleted the dataset.
+        '401':
+          description: Authentication failed due to a missing or invalid bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The specified dataset was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: The dataset is currently in use by a running fine-tuning job and cannot be deleted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    UploadDatasetRequest:
+      type: object
+      required:
+      - file
+      properties:
+        file:
+          type: string
+          format: binary
+          description: The CSV training dataset file. Only CSV format is accepted; other file extensions will return an error.
+        name:
+          type: string
+          description: An optional display name for the dataset.
+          maxLength: 256
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              description: A human-readable error message describing what went wrong.
+            type:
+              type: string
+              description: The type of error that occurred.
+            code:
+              type: string
+              description: A machine-readable error code.
+    Dataset:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the dataset.
+        name:
+          type: string
+          description: The original filename of the uploaded dataset.
+        size_bytes:
+          type: integer
+          description: The size of the dataset file in bytes.
+        row_count:
+          type: integer
+          description: The number of rows in the CSV dataset.
+        columns:
+          type: array
+          items:
+            type: string
+          description: The column names found in the CSV dataset.
+        created_at:
+          type: string
+          format: date-time
+          description: The timestamp when the dataset was uploaded.
+    DatasetList:
+      type: object
+      properties:
+        data:
+          type: array
+          description: A list of dataset objects.
+          items:
+            $ref: '#/components/schemas/Dataset'
+  parameters:
+    DatasetId:
+      name: dataset_id
+      in: path
+      required: true
+      description: The unique identifier of the training dataset.
+      schema:
+        type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: QUBRID_API_KEY
+      description: Qubrid AI API key passed as a bearer token in the Authorization header. Obtain your API key from the Qubrid AI platform dashboard at https://platform.qubrid.com.
+externalDocs:
+  description: Qubrid AI Documentation
+  url: https://docs.platform.qubrid.com

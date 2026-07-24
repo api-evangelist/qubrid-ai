@@ -1,0 +1,98 @@
+openapi: 3.1.0
+info:
+  title: Qubrid AI Compute Chat Completions GPU Catalog API
+  description: The Qubrid AI Compute API provides programmatic access to GPU cloud infrastructure including NVIDIA H100, H200, and B200 accelerators. Developers can provision and manage GPU instances for AI and machine learning workloads through API calls. The service supports on-demand compute for training, fine-tuning, and batch inference jobs, with usage-based billing and enterprise features such as team collaboration and usage tracking. Instances can be accessed via SSH, Jupyter notebooks, or Visual Studio Code, and support quick-deploy templates for popular frameworks including PyTorch, TensorFlow, ComfyUI, n8n, and Langflow.
+  version: 1.0.0
+  contact:
+    name: Qubrid AI Support
+    url: https://www.qubrid.com/contact
+  termsOfService: https://www.qubrid.com/terms-of-service
+servers:
+- url: https://platform.qubrid.com/api/v1
+  description: Qubrid AI Compute Production Server
+security:
+- bearerAuth: []
+tags:
+- name: GPU Catalog
+  description: Browse available GPU types, configurations, and pricing tiers including on-demand, weekly, monthly, and reserved options for NVIDIA, AMD, and Intel accelerators.
+paths:
+  /gpus:
+    get:
+      operationId: listGpuTypes
+      summary: List available GPU types
+      description: Returns a catalog of available GPU types and configurations on the Qubrid AI platform, including NVIDIA H100, H200, B200, and other accelerators with their pricing, memory specifications, and availability by region.
+      tags:
+      - GPU Catalog
+      responses:
+        '200':
+          description: Successfully retrieved the GPU catalog.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GpuTypeList'
+        '401':
+          description: Authentication failed due to a missing or invalid bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              description: A human-readable error message describing what went wrong.
+            type:
+              type: string
+              description: The type of error that occurred.
+            code:
+              type: string
+              description: A machine-readable error code.
+    GpuType:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier for the GPU type.
+        name:
+          type: string
+          description: The display name of the GPU, such as NVIDIA H100 80GB.
+        manufacturer:
+          type: string
+          description: The GPU manufacturer, such as NVIDIA, AMD, or Intel.
+        memory_gb:
+          type: integer
+          description: The GPU memory in gigabytes.
+        price_per_hour:
+          type: number
+          description: The on-demand price per hour in USD.
+        available:
+          type: boolean
+          description: Whether this GPU type is currently available for provisioning.
+        regions:
+          type: array
+          items:
+            type: string
+          description: The data center regions where this GPU type is available.
+    GpuTypeList:
+      type: object
+      properties:
+        data:
+          type: array
+          description: A list of available GPU type objects.
+          items:
+            $ref: '#/components/schemas/GpuType'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: QUBRID_API_KEY
+      description: Qubrid AI API key passed as a bearer token in the Authorization header. Obtain your API key from the Qubrid AI platform dashboard at https://platform.qubrid.com.
+externalDocs:
+  description: Qubrid AI Documentation
+  url: https://docs.platform.qubrid.com

@@ -1,0 +1,348 @@
+openapi: 3.1.0
+info:
+  title: Qubrid AI Compute Chat Completions Instances API
+  description: The Qubrid AI Compute API provides programmatic access to GPU cloud infrastructure including NVIDIA H100, H200, and B200 accelerators. Developers can provision and manage GPU instances for AI and machine learning workloads through API calls. The service supports on-demand compute for training, fine-tuning, and batch inference jobs, with usage-based billing and enterprise features such as team collaboration and usage tracking. Instances can be accessed via SSH, Jupyter notebooks, or Visual Studio Code, and support quick-deploy templates for popular frameworks including PyTorch, TensorFlow, ComfyUI, n8n, and Langflow.
+  version: 1.0.0
+  contact:
+    name: Qubrid AI Support
+    url: https://www.qubrid.com/contact
+  termsOfService: https://www.qubrid.com/terms-of-service
+servers:
+- url: https://platform.qubrid.com/api/v1
+  description: Qubrid AI Compute Production Server
+security:
+- bearerAuth: []
+tags:
+- name: Instances
+  description: Provision, manage, start, stop, and terminate GPU compute instances on the Qubrid AI platform. Instances include NVIDIA H100, H200, and B200 accelerators with configurable memory, storage, and networking.
+paths:
+  /instances:
+    get:
+      operationId: listInstances
+      summary: List compute instances
+      description: Returns a list of all GPU compute instances associated with the authenticated user's account, including their current status, GPU type, and connection details.
+      tags:
+      - Instances
+      parameters:
+      - $ref: '#/components/parameters/StatusFilter'
+      - $ref: '#/components/parameters/PageLimit'
+      - $ref: '#/components/parameters/PageOffset'
+      responses:
+        '200':
+          description: Successfully retrieved the list of compute instances.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstanceList'
+        '401':
+          description: Authentication failed due to a missing or invalid bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      operationId: createInstance
+      summary: Create a compute instance
+      description: Provisions a new GPU compute instance with the specified GPU type, region, template, and configuration. The instance will be created and started, with SSH access details returned once the instance is running.
+      tags:
+      - Instances
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateInstanceRequest'
+      responses:
+        '201':
+          description: Successfully created and provisioned the compute instance.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Instance'
+        '400':
+          description: The request was malformed or contained invalid parameters such as an unsupported GPU type or region.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication failed due to a missing or invalid bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '402':
+          description: Insufficient credits or billing issue preventing instance creation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /instances/{instance_id}:
+    get:
+      operationId: getInstance
+      summary: Retrieve a compute instance
+      description: Returns details about a specific GPU compute instance including its current status, GPU configuration, connection details, and usage metrics.
+      tags:
+      - Instances
+      parameters:
+      - $ref: '#/components/parameters/InstanceId'
+      responses:
+        '200':
+          description: Successfully retrieved the instance details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Instance'
+        '401':
+          description: Authentication failed due to a missing or invalid bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The specified instance was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      operationId: deleteInstance
+      summary: Terminate a compute instance
+      description: Permanently terminates a GPU compute instance and releases all associated resources. This action cannot be undone. Any data stored on the instance's ephemeral storage will be lost.
+      tags:
+      - Instances
+      parameters:
+      - $ref: '#/components/parameters/InstanceId'
+      responses:
+        '204':
+          description: Successfully terminated the compute instance.
+        '401':
+          description: Authentication failed due to a missing or invalid bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The specified instance was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /instances/{instance_id}/start:
+    post:
+      operationId: startInstance
+      summary: Start a compute instance
+      description: Starts a previously stopped GPU compute instance. The instance will resume with its previous configuration and any persistent storage will be reattached.
+      tags:
+      - Instances
+      parameters:
+      - $ref: '#/components/parameters/InstanceId'
+      responses:
+        '200':
+          description: Successfully initiated start of the compute instance.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Instance'
+        '401':
+          description: Authentication failed due to a missing or invalid bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The specified instance was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /instances/{instance_id}/stop:
+    post:
+      operationId: stopInstance
+      summary: Stop a compute instance
+      description: Stops a running GPU compute instance. The instance retains its configuration and persistent storage but releases GPU resources. Billing for GPU compute stops while the instance is stopped.
+      tags:
+      - Instances
+      parameters:
+      - $ref: '#/components/parameters/InstanceId'
+      responses:
+        '200':
+          description: Successfully initiated stop of the compute instance.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Instance'
+        '401':
+          description: Authentication failed due to a missing or invalid bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The specified instance was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              description: A human-readable error message describing what went wrong.
+            type:
+              type: string
+              description: The type of error that occurred.
+            code:
+              type: string
+              description: A machine-readable error code.
+    CreateInstanceRequest:
+      type: object
+      required:
+      - gpu_type
+      properties:
+        name:
+          type: string
+          description: A user-assigned name for the compute instance.
+          maxLength: 128
+        gpu_type:
+          type: string
+          description: The type of GPU to provision, such as H100, H200, or B200.
+        gpu_count:
+          type: integer
+          description: The number of GPUs to assign to the instance.
+          minimum: 1
+          default: 1
+        region:
+          type: string
+          description: The preferred data center region for the instance.
+        template_id:
+          type: string
+          description: The identifier of a pre-configured template to deploy on the instance, such as PyTorch or TensorFlow.
+        ssh_key_ids:
+          type: array
+          items:
+            type: string
+          description: A list of SSH key identifiers to install on the instance for secure access.
+        rental_plan:
+          type: string
+          enum:
+          - on_demand
+          - weekly
+          - monthly
+          - quarterly
+          - annual
+          description: The rental plan for the instance, affecting pricing and commitment period.
+          default: on_demand
+    Instance:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the compute instance.
+        name:
+          type: string
+          description: The user-assigned name of the compute instance.
+        status:
+          type: string
+          enum:
+          - running
+          - stopped
+          - provisioning
+          - terminating
+          - error
+          description: The current status of the compute instance.
+        gpu_type:
+          type: string
+          description: The type of GPU assigned to the instance, such as H100 or H200.
+        gpu_count:
+          type: integer
+          description: The number of GPUs assigned to the instance.
+        region:
+          type: string
+          description: The data center region where the instance is deployed.
+        template:
+          type: string
+          description: The template used to configure the instance environment.
+        ssh_host:
+          type: string
+          description: The SSH hostname or IP address for connecting to the instance.
+        ssh_port:
+          type: integer
+          description: The SSH port for connecting to the instance.
+        jupyter_url:
+          type: string
+          format: uri
+          description: The URL for accessing the Jupyter notebook interface on the instance, if enabled.
+        created_at:
+          type: string
+          format: date-time
+          description: The timestamp when the instance was created.
+        cost_per_hour:
+          type: number
+          description: The hourly cost of running this instance in USD.
+    InstanceList:
+      type: object
+      properties:
+        data:
+          type: array
+          description: A list of compute instance objects.
+          items:
+            $ref: '#/components/schemas/Instance'
+        total:
+          type: integer
+          description: The total number of instances matching the query.
+  parameters:
+    PageLimit:
+      name: limit
+      in: query
+      required: false
+      description: Maximum number of results to return per page.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+    PageOffset:
+      name: offset
+      in: query
+      required: false
+      description: Number of results to skip for pagination.
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+    StatusFilter:
+      name: status
+      in: query
+      required: false
+      description: Filter instances by their current status.
+      schema:
+        type: string
+        enum:
+        - running
+        - stopped
+        - provisioning
+        - terminating
+        - error
+    InstanceId:
+      name: instance_id
+      in: path
+      required: true
+      description: The unique identifier of the compute instance.
+      schema:
+        type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: QUBRID_API_KEY
+      description: Qubrid AI API key passed as a bearer token in the Authorization header. Obtain your API key from the Qubrid AI platform dashboard at https://platform.qubrid.com.
+externalDocs:
+  description: Qubrid AI Documentation
+  url: https://docs.platform.qubrid.com

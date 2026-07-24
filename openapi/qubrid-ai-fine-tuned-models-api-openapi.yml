@@ -1,0 +1,127 @@
+openapi: 3.1.0
+info:
+  title: Qubrid AI Compute Chat Completions Fine-Tuned Models API
+  description: The Qubrid AI Compute API provides programmatic access to GPU cloud infrastructure including NVIDIA H100, H200, and B200 accelerators. Developers can provision and manage GPU instances for AI and machine learning workloads through API calls. The service supports on-demand compute for training, fine-tuning, and batch inference jobs, with usage-based billing and enterprise features such as team collaboration and usage tracking. Instances can be accessed via SSH, Jupyter notebooks, or Visual Studio Code, and support quick-deploy templates for popular frameworks including PyTorch, TensorFlow, ComfyUI, n8n, and Langflow.
+  version: 1.0.0
+  contact:
+    name: Qubrid AI Support
+    url: https://www.qubrid.com/contact
+  termsOfService: https://www.qubrid.com/terms-of-service
+servers:
+- url: https://platform.qubrid.com/api/v1
+  description: Qubrid AI Compute Production Server
+security:
+- bearerAuth: []
+tags:
+- name: Fine-Tuned Models
+  description: List and manage fine-tuned model artifacts produced by completed fine-tuning jobs. Fine-tuned models can be deployed for inference on the Qubrid AI platform.
+paths:
+  /fine-tuning/models:
+    get:
+      operationId: listFineTunedModels
+      summary: List fine-tuned models
+      description: Returns a list of fine-tuned models produced by completed fine-tuning jobs. These models can be used for inference on the Qubrid AI platform.
+      tags:
+      - Fine-Tuned Models
+      responses:
+        '200':
+          description: Successfully retrieved the list of fine-tuned models.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FineTunedModelList'
+        '401':
+          description: Authentication failed due to a missing or invalid bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /fine-tuning/models/{model_id}:
+    delete:
+      operationId: deleteFineTunedModel
+      summary: Delete a fine-tuned model
+      description: Deletes a fine-tuned model artifact. The model will no longer be available for inference.
+      tags:
+      - Fine-Tuned Models
+      parameters:
+      - $ref: '#/components/parameters/FineTunedModelId'
+      responses:
+        '204':
+          description: Successfully deleted the fine-tuned model.
+        '401':
+          description: Authentication failed due to a missing or invalid bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The specified fine-tuned model was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              description: A human-readable error message describing what went wrong.
+            type:
+              type: string
+              description: The type of error that occurred.
+            code:
+              type: string
+              description: A machine-readable error code.
+    FineTunedModel:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the fine-tuned model.
+        base_model:
+          type: string
+          description: The identifier of the base model that was fine-tuned.
+        job_id:
+          type: string
+          description: The identifier of the fine-tuning job that produced this model.
+        status:
+          type: string
+          enum:
+          - available
+          - deploying
+          - deleted
+          description: The current availability status of the fine-tuned model.
+        created_at:
+          type: string
+          format: date-time
+          description: The timestamp when the fine-tuned model was created.
+    FineTunedModelList:
+      type: object
+      properties:
+        data:
+          type: array
+          description: A list of fine-tuned model objects.
+          items:
+            $ref: '#/components/schemas/FineTunedModel'
+  parameters:
+    FineTunedModelId:
+      name: model_id
+      in: path
+      required: true
+      description: The unique identifier of the fine-tuned model.
+      schema:
+        type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: QUBRID_API_KEY
+      description: Qubrid AI API key passed as a bearer token in the Authorization header. Obtain your API key from the Qubrid AI platform dashboard at https://platform.qubrid.com.
+externalDocs:
+  description: Qubrid AI Documentation
+  url: https://docs.platform.qubrid.com
