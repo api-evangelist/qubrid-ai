@@ -1,0 +1,38 @@
+{
+  "provider": "qubrid-ai",
+  "sources": [
+    "qubrid-ai-chat-completions-api-openapi.yml",
+    "qubrid-ai-datasets-api-openapi.yml",
+    "qubrid-ai-documents-api-openapi.yml",
+    "qubrid-ai-embeddings-api-openapi.yml",
+    "qubrid-ai-fine-tuned-models-api-openapi.yml",
+    "qubrid-ai-fine-tuning-jobs-api-openapi.yml",
+    "qubrid-ai-gpu-catalog-api-openapi.yml",
+    "qubrid-ai-instances-api-openapi.yml",
+    "qubrid-ai-knowledge-bases-api-openapi.yml",
+    "qubrid-ai-models-api-openapi.yml",
+    "qubrid-ai-rag-queries-api-openapi.yml",
+    "qubrid-ai-ssh-keys-api-openapi.yml",
+    "qubrid-ai-templates-api-openapi.yml"
+  ],
+  "outputs": [
+    "qubrid-ai-chat-completions-api-openapi.yml",
+    "qubrid-ai-datasets-api-openapi.yml",
+    "qubrid-ai-documents-api-openapi.yml",
+    "qubrid-ai-embeddings-api-openapi.yml",
+    "qubrid-ai-fine-tuned-models-api-openapi.yml",
+    "qubrid-ai-fine-tuning-jobs-api-openapi.yml",
+    "qubrid-ai-gpu-catalog-api-openapi.yml",
+    "qubrid-ai-instances-api-openapi.yml",
+    "qubrid-ai-knowledge-bases-api-openapi.yml",
+    "qubrid-ai-models-api-openapi.yml",
+    "qubrid-ai-rag-queries-api-openapi.yml",
+    "qubrid-ai-ssh-keys-api-openapi.yml",
+    "qubrid-ai-templates-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

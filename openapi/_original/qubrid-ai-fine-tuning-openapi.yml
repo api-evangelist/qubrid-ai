@@ -1,0 +1,690 @@
+openapi: 3.1.0
+info:
+  title: Qubrid AI Fine-Tuning API
+  description: >-
+    The Qubrid AI Fine-Tuning API enables developers and enterprises to
+    customize open-source AI models using their own data. The API provides
+    endpoints for uploading training datasets in CSV format, configuring
+    fine-tuning parameters such as epochs, learning rate, max steps, and
+    validation split, launching training jobs on GPU infrastructure, and
+    retrieving fine-tuned model artifacts. Qubrid supports both no-code
+    and API-driven fine-tuning workflows for text generation and code
+    generation models, making it accessible to teams with varying levels
+    of ML expertise.
+  version: '1.0.0'
+  contact:
+    name: Qubrid AI Support
+    url: https://www.qubrid.com/contact
+  termsOfService: https://www.qubrid.com/terms-of-service
+externalDocs:
+  description: Qubrid AI Fine-Tuning Documentation
+  url: https://docs.platform.qubrid.com/Fine%20Tuning
+servers:
+  - url: https://platform.qubrid.com/api/v1
+    description: Qubrid AI Fine-Tuning Production Server
+tags:
+  - name: Datasets
+    description: >-
+      Upload and manage CSV training datasets used for fine-tuning
+      models. Datasets must be in CSV format with columns appropriate
+      for the selected task type (QA or non-QA).
+  - name: Fine-Tuned Models
+    description: >-
+      List and manage fine-tuned model artifacts produced by completed
+      fine-tuning jobs. Fine-tuned models can be deployed for inference
+      on the Qubrid AI platform.
+  - name: Fine-Tuning Jobs
+    description: >-
+      Create, monitor, and manage fine-tuning jobs that customize
+      pre-deployed text generation and code generation models using
+      uploaded training datasets on GPU infrastructure.
+security:
+  - bearerAuth: []
+paths:
+  /fine-tuning/jobs:
+    get:
+      operationId: listFineTuningJobs
+      summary: List fine-tuning jobs
+      description: >-
+        Returns a list of all fine-tuning jobs associated with the
+        authenticated user's account, including their status, base
+        model, hyperparameters, and training progress.
+      tags:
+        - Fine-Tuning Jobs
+      parameters:
+        - $ref: '#/components/parameters/PageLimit'
+        - $ref: '#/components/parameters/PageOffset'
+      responses:
+        '200':
+          description: >-
+            Successfully retrieved the list of fine-tuning jobs.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FineTuningJobList'
+        '401':
+          description: >-
+            Authentication failed due to a missing or invalid bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      operationId: createFineTuningJob
+      summary: Create a fine-tuning job
+      description: >-
+        Creates and starts a new fine-tuning job that customizes a base
+        model using the specified training dataset and hyperparameters.
+        The job runs on GPU infrastructure and produces a fine-tuned
+        model artifact upon completion. Supported task types include
+        Question Answering (QA) and non-QA text generation.
+      tags:
+        - Fine-Tuning Jobs
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFineTuningJobRequest'
+      responses:
+        '201':
+          description: >-
+            Successfully created the fine-tuning job.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FineTuningJob'
+        '400':
+          description: >-
+            The request was malformed, the dataset format was invalid,
+            or an unsupported base model was specified.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: >-
+            Authentication failed due to a missing or invalid bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '402':
+          description: >-
+            Insufficient credits or billing issue preventing job creation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /fine-tuning/jobs/{job_id}:
+    get:
+      operationId: getFineTuningJob
+      summary: Retrieve a fine-tuning job
+      description: >-
+        Returns details about a specific fine-tuning job including its
+        current status, base model, hyperparameters, training metrics,
+        and the resulting fine-tuned model identifier upon completion.
+      tags:
+        - Fine-Tuning Jobs
+      parameters:
+        - $ref: '#/components/parameters/JobId'
+      responses:
+        '200':
+          description: >-
+            Successfully retrieved the fine-tuning job details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FineTuningJob'
+        '401':
+          description: >-
+            Authentication failed due to a missing or invalid bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: >-
+            The specified fine-tuning job was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /fine-tuning/jobs/{job_id}/cancel:
+    post:
+      operationId: cancelFineTuningJob
+      summary: Cancel a fine-tuning job
+      description: >-
+        Cancels a running fine-tuning job. The job will be stopped and
+        any partial training progress will be discarded. Credits for
+        unused compute time may be refunded.
+      tags:
+        - Fine-Tuning Jobs
+      parameters:
+        - $ref: '#/components/parameters/JobId'
+      responses:
+        '200':
+          description: >-
+            Successfully cancelled the fine-tuning job.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FineTuningJob'
+        '401':
+          description: >-
+            Authentication failed due to a missing or invalid bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: >-
+            The specified fine-tuning job was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /fine-tuning/datasets:
+    get:
+      operationId: listDatasets
+      summary: List training datasets
+      description: >-
+        Returns a list of training datasets uploaded by the authenticated
+        user. Datasets are in CSV format and can be used for fine-tuning
+        jobs.
+      tags:
+        - Datasets
+      responses:
+        '200':
+          description: >-
+            Successfully retrieved the list of datasets.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatasetList'
+        '401':
+          description: >-
+            Authentication failed due to a missing or invalid bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      operationId: uploadDataset
+      summary: Upload a training dataset
+      description: >-
+        Uploads a new CSV training dataset for use in fine-tuning jobs.
+        The dataset must be in CSV format; other file extensions are not
+        supported and will return an error. The CSV should contain
+        columns appropriate for the intended task type.
+      tags:
+        - Datasets
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UploadDatasetRequest'
+      responses:
+        '201':
+          description: >-
+            Successfully uploaded the training dataset.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dataset'
+        '400':
+          description: >-
+            The uploaded file was not in CSV format or was malformed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: >-
+            Authentication failed due to a missing or invalid bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /fine-tuning/datasets/{dataset_id}:
+    get:
+      operationId: getDataset
+      summary: Retrieve a dataset
+      description: >-
+        Returns details about a specific training dataset including its
+        name, size, row count, and upload timestamp.
+      tags:
+        - Datasets
+      parameters:
+        - $ref: '#/components/parameters/DatasetId'
+      responses:
+        '200':
+          description: >-
+            Successfully retrieved the dataset details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dataset'
+        '401':
+          description: >-
+            Authentication failed due to a missing or invalid bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: >-
+            The specified dataset was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      operationId: deleteDataset
+      summary: Delete a dataset
+      description: >-
+        Deletes a training dataset. Datasets that are currently in use
+        by a running fine-tuning job cannot be deleted.
+      tags:
+        - Datasets
+      parameters:
+        - $ref: '#/components/parameters/DatasetId'
+      responses:
+        '204':
+          description: >-
+            Successfully deleted the dataset.
+        '401':
+          description: >-
+            Authentication failed due to a missing or invalid bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: >-
+            The specified dataset was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: >-
+            The dataset is currently in use by a running fine-tuning job
+            and cannot be deleted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /fine-tuning/models:
+    get:
+      operationId: listFineTunedModels
+      summary: List fine-tuned models
+      description: >-
+        Returns a list of fine-tuned models produced by completed
+        fine-tuning jobs. These models can be used for inference on
+        the Qubrid AI platform.
+      tags:
+        - Fine-Tuned Models
+      responses:
+        '200':
+          description: >-
+            Successfully retrieved the list of fine-tuned models.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FineTunedModelList'
+        '401':
+          description: >-
+            Authentication failed due to a missing or invalid bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /fine-tuning/models/{model_id}:
+    delete:
+      operationId: deleteFineTunedModel
+      summary: Delete a fine-tuned model
+      description: >-
+        Deletes a fine-tuned model artifact. The model will no longer
+        be available for inference.
+      tags:
+        - Fine-Tuned Models
+      parameters:
+        - $ref: '#/components/parameters/FineTunedModelId'
+      responses:
+        '204':
+          description: >-
+            Successfully deleted the fine-tuned model.
+        '401':
+          description: >-
+            Authentication failed due to a missing or invalid bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: >-
+            The specified fine-tuned model was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: QUBRID_API_KEY
+      description: >-
+        Qubrid AI API key passed as a bearer token in the Authorization
+        header. Obtain your API key from the Qubrid AI platform dashboard
+        at https://platform.qubrid.com.
+  parameters:
+    JobId:
+      name: job_id
+      in: path
+      required: true
+      description: >-
+        The unique identifier of the fine-tuning job.
+      schema:
+        type: string
+    DatasetId:
+      name: dataset_id
+      in: path
+      required: true
+      description: >-
+        The unique identifier of the training dataset.
+      schema:
+        type: string
+    FineTunedModelId:
+      name: model_id
+      in: path
+      required: true
+      description: >-
+        The unique identifier of the fine-tuned model.
+      schema:
+        type: string
+    PageLimit:
+      name: limit
+      in: query
+      required: false
+      description: >-
+        Maximum number of results to return per page.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+    PageOffset:
+      name: offset
+      in: query
+      required: false
+      description: >-
+        Number of results to skip for pagination.
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+  schemas:
+    FineTuningJobList:
+      type: object
+      properties:
+        data:
+          type: array
+          description: >-
+            A list of fine-tuning job objects.
+          items:
+            $ref: '#/components/schemas/FineTuningJob'
+        total:
+          type: integer
+          description: >-
+            The total number of fine-tuning jobs.
+    FineTuningJob:
+      type: object
+      properties:
+        id:
+          type: string
+          description: >-
+            The unique identifier of the fine-tuning job.
+        status:
+          type: string
+          enum:
+            - queued
+            - running
+            - completed
+            - failed
+            - cancelled
+          description: >-
+            The current status of the fine-tuning job.
+        base_model:
+          type: string
+          description: >-
+            The identifier of the base model being fine-tuned.
+        dataset_id:
+          type: string
+          description: >-
+            The identifier of the training dataset used.
+        task_type:
+          type: string
+          enum:
+            - qa
+            - not_qa
+          description: >-
+            The task type for fine-tuning. QA indicates question answering
+            tasks, while not_qa covers general text generation and other
+            task types.
+        hyperparameters:
+          $ref: '#/components/schemas/Hyperparameters'
+        fine_tuned_model:
+          type: string
+          description: >-
+            The identifier of the resulting fine-tuned model, available
+            once the job has completed successfully.
+        training_metrics:
+          $ref: '#/components/schemas/TrainingMetrics'
+        created_at:
+          type: string
+          format: date-time
+          description: >-
+            The timestamp when the fine-tuning job was created.
+        completed_at:
+          type: string
+          format: date-time
+          description: >-
+            The timestamp when the fine-tuning job completed, if
+            applicable.
+    Hyperparameters:
+      type: object
+      properties:
+        epochs:
+          type: integer
+          description: >-
+            The number of full passes the model makes over the training
+            dataset. More epochs let the model learn more but too many
+            can cause overfitting.
+          minimum: 1
+        max_steps:
+          type: integer
+          description: >-
+            The maximum number of training iterations, where each step
+            equals one batch of data processed.
+          minimum: 1
+        learning_rate:
+          type: number
+          description: >-
+            The learning rate for the optimizer, controlling how much
+            the model weights are adjusted during each training step.
+          minimum: 0
+          exclusiveMinimum: true
+        validation_split:
+          type: number
+          description: >-
+            The percentage of the dataset reserved for validation,
+            expressed as a decimal between 0 and 1.
+          minimum: 0
+          maximum: 1
+    TrainingMetrics:
+      type: object
+      properties:
+        training_loss:
+          type: number
+          description: >-
+            The final training loss value after the last training step.
+        validation_loss:
+          type: number
+          description: >-
+            The final validation loss value, if a validation split was
+            configured.
+        steps_completed:
+          type: integer
+          description: >-
+            The number of training steps completed.
+        epochs_completed:
+          type: integer
+          description: >-
+            The number of training epochs completed.
+    CreateFineTuningJobRequest:
+      type: object
+      required:
+        - base_model
+        - dataset_id
+        - task_type
+      properties:
+        base_model:
+          type: string
+          description: >-
+            The identifier of the base model to fine-tune. Must be a
+            pre-deployed text generation or code generation model on the
+            Qubrid AI platform.
+        dataset_id:
+          type: string
+          description: >-
+            The identifier of the previously uploaded CSV training dataset.
+        task_type:
+          type: string
+          enum:
+            - qa
+            - not_qa
+          description: >-
+            The task type for fine-tuning. Choose qa for question answering
+            tasks or not_qa for general text generation, summarization,
+            classification, and other tasks.
+        hyperparameters:
+          $ref: '#/components/schemas/Hyperparameters'
+        suffix:
+          type: string
+          description: >-
+            An optional suffix to append to the fine-tuned model name for
+            identification purposes.
+          maxLength: 64
+    DatasetList:
+      type: object
+      properties:
+        data:
+          type: array
+          description: >-
+            A list of dataset objects.
+          items:
+            $ref: '#/components/schemas/Dataset'
+    Dataset:
+      type: object
+      properties:
+        id:
+          type: string
+          description: >-
+            The unique identifier of the dataset.
+        name:
+          type: string
+          description: >-
+            The original filename of the uploaded dataset.
+        size_bytes:
+          type: integer
+          description: >-
+            The size of the dataset file in bytes.
+        row_count:
+          type: integer
+          description: >-
+            The number of rows in the CSV dataset.
+        columns:
+          type: array
+          items:
+            type: string
+          description: >-
+            The column names found in the CSV dataset.
+        created_at:
+          type: string
+          format: date-time
+          description: >-
+            The timestamp when the dataset was uploaded.
+    UploadDatasetRequest:
+      type: object
+      required:
+        - file
+      properties:
+        file:
+          type: string
+          format: binary
+          description: >-
+            The CSV training dataset file. Only CSV format is accepted;
+            other file extensions will return an error.
+        name:
+          type: string
+          description: >-
+            An optional display name for the dataset.
+          maxLength: 256
+    FineTunedModelList:
+      type: object
+      properties:
+        data:
+          type: array
+          description: >-
+            A list of fine-tuned model objects.
+          items:
+            $ref: '#/components/schemas/FineTunedModel'
+    FineTunedModel:
+      type: object
+      properties:
+        id:
+          type: string
+          description: >-
+            The unique identifier of the fine-tuned model.
+        base_model:
+          type: string
+          description: >-
+            The identifier of the base model that was fine-tuned.
+        job_id:
+          type: string
+          description: >-
+            The identifier of the fine-tuning job that produced this model.
+        status:
+          type: string
+          enum:
+            - available
+            - deploying
+            - deleted
+          description: >-
+            The current availability status of the fine-tuned model.
+        created_at:
+          type: string
+          format: date-time
+          description: >-
+            The timestamp when the fine-tuned model was created.
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              description: >-
+                A human-readable error message describing what went wrong.
+            type:
+              type: string
+              description: >-
+                The type of error that occurred.
+            code:
+              type: string
+              description: >-
+                A machine-readable error code.

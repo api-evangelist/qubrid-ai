@@ -1,0 +1,645 @@
+openapi: 3.1.0
+info:
+  title: Qubrid AI RAG API
+  description: >-
+    The Qubrid AI RAG API provides retrieval-augmented generation capabilities
+    that allow developers to upload departmental or enterprise data and query
+    it using large language models. The API handles document ingestion,
+    embedding generation, vector storage, and context-aware retrieval to
+    ground model responses in organizational knowledge. This enables
+    enterprises to build AI applications that answer questions based on
+    proprietary data with near real-time performance. The RAG workflows
+    integrate tightly with the Qubrid AI inference platform and can be
+    used through both the Playground UI and programmatic API calls.
+  version: '1.0.0'
+  contact:
+    name: Qubrid AI Support
+    url: https://www.qubrid.com/contact
+  termsOfService: https://www.qubrid.com/terms-of-service
+externalDocs:
+  description: Qubrid AI Documentation
+  url: https://docs.platform.qubrid.com
+servers:
+  - url: https://platform.qubrid.com/api/v1
+    description: Qubrid AI RAG Production Server
+tags:
+  - name: Documents
+    description: >-
+      Upload, list, and manage documents within a knowledge base. Supported
+      formats include PDF, text, CSV, and other common document types.
+      Documents are automatically processed, chunked, and embedded upon
+      upload.
+  - name: Knowledge Bases
+    description: >-
+      Create and manage knowledge bases that store enterprise and
+      departmental data for retrieval-augmented generation. Each knowledge
+      base contains ingested documents that are chunked, embedded, and
+      stored in a vector database for semantic search during inference.
+  - name: RAG Queries
+    description: >-
+      Query a knowledge base using natural language with retrieval-augmented
+      generation. The API retrieves relevant document chunks from the
+      knowledge base and uses them as context for generating accurate,
+      grounded responses through a large language model.
+security:
+  - bearerAuth: []
+paths:
+  /rag/knowledge-bases:
+    get:
+      operationId: listKnowledgeBases
+      summary: List knowledge bases
+      description: >-
+        Returns a list of all knowledge bases associated with the
+        authenticated user's account, including their name, document
+        count, and processing status.
+      tags:
+        - Knowledge Bases
+      responses:
+        '200':
+          description: >-
+            Successfully retrieved the list of knowledge bases.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KnowledgeBaseList'
+        '401':
+          description: >-
+            Authentication failed due to a missing or invalid bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      operationId: createKnowledgeBase
+      summary: Create a knowledge base
+      description: >-
+        Creates a new knowledge base for storing and retrieving enterprise
+        documents. The knowledge base serves as a container for documents
+        that will be chunked, embedded, and indexed for retrieval-augmented
+        generation queries.
+      tags:
+        - Knowledge Bases
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateKnowledgeBaseRequest'
+      responses:
+        '201':
+          description: >-
+            Successfully created the knowledge base.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KnowledgeBase'
+        '400':
+          description: >-
+            The request was malformed or contained invalid parameters.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: >-
+            Authentication failed due to a missing or invalid bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /rag/knowledge-bases/{knowledge_base_id}:
+    get:
+      operationId: getKnowledgeBase
+      summary: Retrieve a knowledge base
+      description: >-
+        Returns details about a specific knowledge base including its
+        configuration, document count, total chunk count, and embedding
+        model used.
+      tags:
+        - Knowledge Bases
+      parameters:
+        - $ref: '#/components/parameters/KnowledgeBaseId'
+      responses:
+        '200':
+          description: >-
+            Successfully retrieved the knowledge base details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KnowledgeBase'
+        '401':
+          description: >-
+            Authentication failed due to a missing or invalid bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: >-
+            The specified knowledge base was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      operationId: deleteKnowledgeBase
+      summary: Delete a knowledge base
+      description: >-
+        Permanently deletes a knowledge base and all of its associated
+        documents, embeddings, and vector index data. This action cannot
+        be undone.
+      tags:
+        - Knowledge Bases
+      parameters:
+        - $ref: '#/components/parameters/KnowledgeBaseId'
+      responses:
+        '204':
+          description: >-
+            Successfully deleted the knowledge base.
+        '401':
+          description: >-
+            Authentication failed due to a missing or invalid bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: >-
+            The specified knowledge base was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /rag/knowledge-bases/{knowledge_base_id}/documents:
+    get:
+      operationId: listDocuments
+      summary: List documents in a knowledge base
+      description: >-
+        Returns a list of all documents uploaded to the specified
+        knowledge base, including their name, size, processing status,
+        and chunk count.
+      tags:
+        - Documents
+      parameters:
+        - $ref: '#/components/parameters/KnowledgeBaseId'
+      responses:
+        '200':
+          description: >-
+            Successfully retrieved the list of documents.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentList'
+        '401':
+          description: >-
+            Authentication failed due to a missing or invalid bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: >-
+            The specified knowledge base was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      operationId: uploadDocument
+      summary: Upload a document
+      description: >-
+        Uploads a new document to the specified knowledge base. The
+        document will be automatically processed, chunked into segments,
+        and embedded using the knowledge base's configured embedding
+        model. Supported formats include PDF, TXT, CSV, DOCX, and
+        other common document types.
+      tags:
+        - Documents
+      parameters:
+        - $ref: '#/components/parameters/KnowledgeBaseId'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UploadDocumentRequest'
+      responses:
+        '201':
+          description: >-
+            Successfully uploaded the document. Processing will begin
+            automatically.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Document'
+        '400':
+          description: >-
+            The uploaded file format is not supported or the file was
+            malformed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: >-
+            Authentication failed due to a missing or invalid bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: >-
+            The specified knowledge base was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /rag/knowledge-bases/{knowledge_base_id}/documents/{document_id}:
+    delete:
+      operationId: deleteDocument
+      summary: Delete a document
+      description: >-
+        Deletes a document from the knowledge base and removes all
+        associated chunks and embeddings from the vector index.
+      tags:
+        - Documents
+      parameters:
+        - $ref: '#/components/parameters/KnowledgeBaseId'
+        - $ref: '#/components/parameters/DocumentId'
+      responses:
+        '204':
+          description: >-
+            Successfully deleted the document and its embeddings.
+        '401':
+          description: >-
+            Authentication failed due to a missing or invalid bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: >-
+            The specified knowledge base or document was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /rag/query:
+    post:
+      operationId: queryRag
+      summary: Query with RAG
+      description: >-
+        Performs a retrieval-augmented generation query against a
+        specified knowledge base. The API retrieves the most relevant
+        document chunks based on semantic similarity to the query,
+        then uses them as context for a large language model to generate
+        an accurate, grounded response. The response includes both the
+        generated answer and the source document references used.
+      tags:
+        - RAG Queries
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RagQueryRequest'
+      responses:
+        '200':
+          description: >-
+            Successfully generated a RAG response grounded in the
+            knowledge base documents.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RagQueryResponse'
+        '400':
+          description: >-
+            The request was malformed or contained invalid parameters.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: >-
+            Authentication failed due to a missing or invalid bearer token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: >-
+            The specified knowledge base was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: QUBRID_API_KEY
+      description: >-
+        Qubrid AI API key passed as a bearer token in the Authorization
+        header. Obtain your API key from the Qubrid AI platform dashboard
+        at https://platform.qubrid.com.
+  parameters:
+    KnowledgeBaseId:
+      name: knowledge_base_id
+      in: path
+      required: true
+      description: >-
+        The unique identifier of the knowledge base.
+      schema:
+        type: string
+    DocumentId:
+      name: document_id
+      in: path
+      required: true
+      description: >-
+        The unique identifier of the document.
+      schema:
+        type: string
+  schemas:
+    KnowledgeBaseList:
+      type: object
+      properties:
+        data:
+          type: array
+          description: >-
+            A list of knowledge base objects.
+          items:
+            $ref: '#/components/schemas/KnowledgeBase'
+    KnowledgeBase:
+      type: object
+      properties:
+        id:
+          type: string
+          description: >-
+            The unique identifier of the knowledge base.
+        name:
+          type: string
+          description: >-
+            The display name of the knowledge base.
+        description:
+          type: string
+          description: >-
+            A description of the knowledge base and the type of data
+            it contains.
+        embedding_model:
+          type: string
+          description: >-
+            The embedding model used to generate vector representations
+            of document chunks in this knowledge base.
+        document_count:
+          type: integer
+          description: >-
+            The total number of documents in the knowledge base.
+        chunk_count:
+          type: integer
+          description: >-
+            The total number of chunks across all documents in the
+            knowledge base.
+        status:
+          type: string
+          enum:
+            - ready
+            - processing
+            - error
+          description: >-
+            The current status of the knowledge base. Ready means all
+            documents have been processed, processing means documents
+            are being ingested, and error means an issue occurred.
+        created_at:
+          type: string
+          format: date-time
+          description: >-
+            The timestamp when the knowledge base was created.
+        updated_at:
+          type: string
+          format: date-time
+          description: >-
+            The timestamp when the knowledge base was last updated.
+    CreateKnowledgeBaseRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: >-
+            A display name for the knowledge base.
+          maxLength: 256
+        description:
+          type: string
+          description: >-
+            An optional description of the knowledge base and the type
+            of data it will contain.
+          maxLength: 1024
+        embedding_model:
+          type: string
+          description: >-
+            The embedding model to use for generating vector
+            representations of document chunks. If not specified, a
+            default embedding model will be used.
+        chunk_size:
+          type: integer
+          description: >-
+            The target size of each document chunk in tokens. Smaller
+            chunks provide more granular retrieval while larger chunks
+            provide more context.
+          minimum: 64
+          maximum: 4096
+          default: 512
+        chunk_overlap:
+          type: integer
+          description: >-
+            The number of tokens of overlap between consecutive document
+            chunks to preserve context at chunk boundaries.
+          minimum: 0
+          maximum: 1024
+          default: 64
+    DocumentList:
+      type: object
+      properties:
+        data:
+          type: array
+          description: >-
+            A list of document objects.
+          items:
+            $ref: '#/components/schemas/Document'
+    Document:
+      type: object
+      properties:
+        id:
+          type: string
+          description: >-
+            The unique identifier of the document.
+        name:
+          type: string
+          description: >-
+            The original filename of the uploaded document.
+        size_bytes:
+          type: integer
+          description: >-
+            The size of the document file in bytes.
+        format:
+          type: string
+          description: >-
+            The file format of the document, such as pdf, txt, csv,
+            or docx.
+        chunk_count:
+          type: integer
+          description: >-
+            The number of chunks the document was split into after
+            processing.
+        status:
+          type: string
+          enum:
+            - processing
+            - ready
+            - error
+          description: >-
+            The processing status of the document. Processing means
+            the document is being chunked and embedded, ready means
+            it is available for retrieval, and error means processing
+            failed.
+        created_at:
+          type: string
+          format: date-time
+          description: >-
+            The timestamp when the document was uploaded.
+    UploadDocumentRequest:
+      type: object
+      required:
+        - file
+      properties:
+        file:
+          type: string
+          format: binary
+          description: >-
+            The document file to upload. Supported formats include PDF,
+            TXT, CSV, DOCX, and other common document types.
+    RagQueryRequest:
+      type: object
+      required:
+        - knowledge_base_id
+        - query
+        - model
+      properties:
+        knowledge_base_id:
+          type: string
+          description: >-
+            The identifier of the knowledge base to query against.
+        query:
+          type: string
+          description: >-
+            The natural language question or query to answer using
+            retrieval-augmented generation.
+        model:
+          type: string
+          description: >-
+            The identifier of the large language model to use for
+            generating the response based on retrieved context.
+        top_k:
+          type: integer
+          description: >-
+            The number of most relevant document chunks to retrieve
+            and use as context for the response.
+          minimum: 1
+          maximum: 20
+          default: 5
+        temperature:
+          type: number
+          description: >-
+            Sampling temperature for the response generation. Lower
+            values produce more focused and deterministic responses.
+          minimum: 0
+          maximum: 2
+          default: 0.7
+        max_tokens:
+          type: integer
+          description: >-
+            The maximum number of tokens to generate in the response.
+          minimum: 1
+        include_sources:
+          type: boolean
+          description: >-
+            Whether to include source document references in the
+            response.
+          default: true
+    RagQueryResponse:
+      type: object
+      properties:
+        answer:
+          type: string
+          description: >-
+            The generated response grounded in the retrieved document
+            context.
+        model:
+          type: string
+          description: >-
+            The model used to generate the response.
+        sources:
+          type: array
+          description: >-
+            A list of source document references that were used as
+            context for generating the response.
+          items:
+            $ref: '#/components/schemas/SourceReference'
+        usage:
+          type: object
+          properties:
+            prompt_tokens:
+              type: integer
+              description: >-
+                The number of tokens in the prompt including retrieved
+                context.
+            completion_tokens:
+              type: integer
+              description: >-
+                The number of tokens in the generated response.
+            total_tokens:
+              type: integer
+              description: >-
+                The total number of tokens used.
+    SourceReference:
+      type: object
+      properties:
+        document_id:
+          type: string
+          description: >-
+            The identifier of the source document.
+        document_name:
+          type: string
+          description: >-
+            The name of the source document.
+        chunk_text:
+          type: string
+          description: >-
+            The text content of the retrieved chunk used as context.
+        relevance_score:
+          type: number
+          description: >-
+            The semantic similarity score between the query and this
+            chunk, expressed as a value between 0 and 1.
+          minimum: 0
+          maximum: 1
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              description: >-
+                A human-readable error message describing what went wrong.
+            type:
+              type: string
+              description: >-
+                The type of error that occurred.
+            code:
+              type: string
+              description: >-
+                A machine-readable error code.
