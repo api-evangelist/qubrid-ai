@@ -1,0 +1,91 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qubrid AI Compute Chat Completions Documents API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Documents",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List documents in a knowledge base",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform.qubrid.com/api/v1/rag/knowledge-bases/:knowledge_base_id/documents",
+            "params": [
+              {
+                "name": "knowledge_base_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the knowledge base."
+              }
+            ]
+          },
+          "docs": "Returns a list of all documents uploaded to the specified knowledge base, including their name, size, processing status, and chunk count."
+        },
+        {
+          "info": {
+            "name": "Upload a document",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://platform.qubrid.com/api/v1/rag/knowledge-bases/:knowledge_base_id/documents",
+            "params": [
+              {
+                "name": "knowledge_base_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the knowledge base."
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Uploads a new document to the specified knowledge base. The document will be automatically processed, chunked into segments, and embedded using the knowledge base's configured embedding model. Supported formats include PDF, TXT, CSV, DOCX, and other common document types."
+        },
+        {
+          "info": {
+            "name": "Delete a document",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://platform.qubrid.com/api/v1/rag/knowledge-bases/:knowledge_base_id/documents/:document_id",
+            "params": [
+              {
+                "name": "knowledge_base_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the knowledge base."
+              },
+              {
+                "name": "document_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the document."
+              }
+            ]
+          },
+          "docs": "Deletes a document from the knowledge base and removes all associated chunks and embeddings from the vector index."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

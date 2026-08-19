@@ -1,0 +1,35 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qubrid AI Compute Chat Completions Templates API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Templates",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List available templates",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform.qubrid.com/api/v1/templates"
+          },
+          "docs": "Returns a list of pre-configured AI and ML environment templates available for deployment on GPU compute instances, including PyTorch, TensorFlow, ComfyUI, n8n, and Langflow templates."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,813 @@
+{
+  "item": [
+    {
+      "id": "022daa24-bcdd-451c-9061-273ffd97ae1e",
+      "name": "Documents",
+      "description": {
+        "content": "Upload, list, and manage documents within a knowledge base. Supported formats include PDF, text, CSV, and other common document types. Documents are automatically processed, chunked, and embedded upon upload.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "440ef52d-970f-4cf0-be83-bb2d1ebe92ed",
+          "name": "List documents in a knowledge base",
+          "request": {
+            "name": "List documents in a knowledge base",
+            "description": {
+              "content": "Returns a list of all documents uploaded to the specified knowledge base, including their name, size, processing status, and chunk count.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "rag",
+                "knowledge-bases",
+                ":knowledge_base_id",
+                "documents"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "knowledge_base_id",
+                  "description": "(Required) The unique identifier of the knowledge base."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "25ca41a9-0c01-40e3-9830-f3e6304e97c1",
+              "name": "Successfully retrieved the list of documents.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rag",
+                    "knowledge-bases",
+                    ":knowledge_base_id",
+                    "documents"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "knowledge_base_id",
+                      "description": "(Required) The unique identifier of the knowledge base."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"size_bytes\": 8559,\n      \"format\": \"string\",\n      \"chunk_count\": 2132,\n      \"status\": \"error\",\n      \"created_at\": \"2025-11-17T11:01:39.571Z\"\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"size_bytes\": 5014,\n      \"format\": \"string\",\n      \"chunk_count\": 9396,\n      \"status\": \"ready\",\n      \"created_at\": \"1968-03-14T15:07:35.634Z\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "337961e6-5d2c-4e98-9eb4-5fe42ed9f4fe",
+              "name": "Authentication failed due to a missing or invalid bearer token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rag",
+                    "knowledge-bases",
+                    ":knowledge_base_id",
+                    "documents"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "knowledge_base_id",
+                      "description": "(Required) The unique identifier of the knowledge base."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"message\": \"string\",\n    \"type\": \"string\",\n    \"code\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6c486a46-cfce-4dab-b6fc-77cadc5d19d3",
+              "name": "The specified knowledge base was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rag",
+                    "knowledge-bases",
+                    ":knowledge_base_id",
+                    "documents"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "knowledge_base_id",
+                      "description": "(Required) The unique identifier of the knowledge base."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"message\": \"string\",\n    \"type\": \"string\",\n    \"code\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d0b19e55-7b79-4d8b-8d4d-daad690b4d44",
+          "name": "Upload a document",
+          "request": {
+            "name": "Upload a document",
+            "description": {
+              "content": "Uploads a new document to the specified knowledge base. The document will be automatically processed, chunked into segments, and embedded using the knowledge base's configured embedding model. Supported formats include PDF, TXT, CSV, DOCX, and other common document types.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "rag",
+                "knowledge-bases",
+                ":knowledge_base_id",
+                "documents"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "knowledge_base_id",
+                  "description": "(Required) The unique identifier of the knowledge base."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "description": "(Required) The document file to upload. Supported formats include PDF, TXT, CSV, DOCX, and other common document types."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "d4f36bf1-3bf0-466e-b5ce-253170c8cfa0",
+              "name": "Successfully uploaded the document. Processing will begin automatically.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rag",
+                    "knowledge-bases",
+                    ":knowledge_base_id",
+                    "documents"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "knowledge_base_id",
+                      "description": "(Required) The unique identifier of the knowledge base."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) The document file to upload. Supported formats include PDF, TXT, CSV, DOCX, and other common document types.",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"name\": \"string\",\n  \"size_bytes\": 7528,\n  \"format\": \"string\",\n  \"chunk_count\": 2393,\n  \"status\": \"error\",\n  \"created_at\": \"1951-08-14T10:40:30.471Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cb0c7b70-38c4-4bde-ba65-2cbb5da9d68b",
+              "name": "The uploaded file format is not supported or the file was malformed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rag",
+                    "knowledge-bases",
+                    ":knowledge_base_id",
+                    "documents"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "knowledge_base_id",
+                      "description": "(Required) The unique identifier of the knowledge base."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) The document file to upload. Supported formats include PDF, TXT, CSV, DOCX, and other common document types.",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"message\": \"string\",\n    \"type\": \"string\",\n    \"code\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d506be84-16fa-4a4b-a436-06fbf2e3d5b7",
+              "name": "Authentication failed due to a missing or invalid bearer token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rag",
+                    "knowledge-bases",
+                    ":knowledge_base_id",
+                    "documents"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "knowledge_base_id",
+                      "description": "(Required) The unique identifier of the knowledge base."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) The document file to upload. Supported formats include PDF, TXT, CSV, DOCX, and other common document types.",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"message\": \"string\",\n    \"type\": \"string\",\n    \"code\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "77532edf-9eed-41b7-89ce-a517b24a9df9",
+              "name": "The specified knowledge base was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rag",
+                    "knowledge-bases",
+                    ":knowledge_base_id",
+                    "documents"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "knowledge_base_id",
+                      "description": "(Required) The unique identifier of the knowledge base."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) The document file to upload. Supported formats include PDF, TXT, CSV, DOCX, and other common document types.",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"message\": \"string\",\n    \"type\": \"string\",\n    \"code\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3ac80f97-8ce0-47a7-b2f5-646e904ffa2b",
+          "name": "Delete a document",
+          "request": {
+            "name": "Delete a document",
+            "description": {
+              "content": "Deletes a document from the knowledge base and removes all associated chunks and embeddings from the vector index.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "rag",
+                "knowledge-bases",
+                ":knowledge_base_id",
+                "documents",
+                ":document_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "knowledge_base_id",
+                  "description": "(Required) The unique identifier of the knowledge base."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "document_id",
+                  "description": "(Required) The unique identifier of the document."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "cd662f77-64d4-428b-844a-e597dd6542c8",
+              "name": "Successfully deleted the document and its embeddings.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rag",
+                    "knowledge-bases",
+                    ":knowledge_base_id",
+                    "documents",
+                    ":document_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "knowledge_base_id",
+                      "description": "(Required) The unique identifier of the knowledge base."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "document_id",
+                      "description": "(Required) The unique identifier of the document."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "fba31f23-516b-49c3-8021-8743b9527d1c",
+              "name": "Authentication failed due to a missing or invalid bearer token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rag",
+                    "knowledge-bases",
+                    ":knowledge_base_id",
+                    "documents",
+                    ":document_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "knowledge_base_id",
+                      "description": "(Required) The unique identifier of the knowledge base."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "document_id",
+                      "description": "(Required) The unique identifier of the document."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"message\": \"string\",\n    \"type\": \"string\",\n    \"code\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c1362456-3069-44c2-8480-b08694ee8484",
+              "name": "The specified knowledge base or document was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rag",
+                    "knowledge-bases",
+                    ":knowledge_base_id",
+                    "documents",
+                    ":document_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "knowledge_base_id",
+                      "description": "(Required) The unique identifier of the knowledge base."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "document_id",
+                      "description": "(Required) The unique identifier of the document."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"message\": \"string\",\n    \"type\": \"string\",\n    \"code\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://platform.qubrid.com/api/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "701acc8f-8aaf-452f-9717-0b77bee1289b",
+    "name": "Qubrid AI Compute Chat Completions Documents API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Qubrid AI Compute API provides programmatic access to GPU cloud infrastructure including NVIDIA H100, H200, and B200 accelerators. Developers can provision and manage GPU instances for AI and machine learning workloads through API calls. The service supports on-demand compute for training, fine-tuning, and batch inference jobs, with usage-based billing and enterprise features such as team collaboration and usage tracking. Instances can be accessed via SSH, Jupyter notebooks, or Visual Studio Code, and support quick-deploy templates for popular frameworks including PyTorch, TensorFlow, ComfyUI, n8n, and Langflow.\n\nContact Support:\n Name: Qubrid AI Support",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,1263 @@
+{
+  "item": [
+    {
+      "id": "de9c3f65-289e-4bbb-80dd-c1deaaf3037e",
+      "name": "Instances",
+      "description": {
+        "content": "Provision, manage, start, stop, and terminate GPU compute instances on the Qubrid AI platform. Instances include NVIDIA H100, H200, and B200 accelerators with configurable memory, storage, and networking.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "cce6d7b7-828b-4d8b-b92f-2fdd3e0a7bca",
+          "name": "List compute instances",
+          "request": {
+            "name": "List compute instances",
+            "description": {
+              "content": "Returns a list of all GPU compute instances associated with the authenticated user's account, including their current status, GPU type, and connection details.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "instances"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>",
+                  "description": "Filter instances by their current status."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "20",
+                  "description": "Maximum number of results to return per page."
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "0",
+                  "description": "Number of results to skip for pagination."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "350c1297-d934-47fe-ba04-b4b73bc29c6e",
+              "name": "Successfully retrieved the list of compute instances.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "instances"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"status\": \"running\",\n      \"gpu_type\": \"string\",\n      \"gpu_count\": 9288,\n      \"region\": \"string\",\n      \"template\": \"string\",\n      \"ssh_host\": \"string\",\n      \"ssh_port\": 9845,\n      \"jupyter_url\": \"http://TiAxXwbkanB.rwwHT+EsckkrIGk9afjC8wfkv0PZF+M.eW\",\n      \"created_at\": \"1976-02-03T21:33:42.936Z\",\n      \"cost_per_hour\": 4140.47744454811\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"status\": \"terminating\",\n      \"gpu_type\": \"string\",\n      \"gpu_count\": 2540,\n      \"region\": \"string\",\n      \"template\": \"string\",\n      \"ssh_host\": \"string\",\n      \"ssh_port\": 4367,\n      \"jupyter_url\": \"http://EZLEnvujTzNYHkAxqLDusUWDTqIErZ.crwMT8DkLbTFN4kCizAY9xkBjjZk\",\n      \"created_at\": \"1962-05-12T23:03:32.085Z\",\n      \"cost_per_hour\": 2050.750898819658\n    }\n  ],\n  \"total\": 6670\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "85ee8a5e-d4a7-4d8e-a612-c2f61dca594d",
+              "name": "Authentication failed due to a missing or invalid bearer token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "instances"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"message\": \"string\",\n    \"type\": \"string\",\n    \"code\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a409498f-f53f-47d1-9115-096801b44c2c",
+          "name": "Create a compute instance",
+          "request": {
+            "name": "Create a compute instance",
+            "description": {
+              "content": "Provisions a new GPU compute instance with the specified GPU type, region, template, and configuration. The instance will be created and started, with SSH access details returned once the instance is running.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "instances"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"gpu_type\": \"<string>\",\n  \"name\": \"<string>\",\n  \"gpu_count\": 1,\n  \"region\": \"<string>\",\n  \"template_id\": \"<string>\",\n  \"ssh_key_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"rental_plan\": \"on_demand\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "2cf2b919-67bc-478c-a73c-a8d612b5f6d2",
+              "name": "Successfully created and provisioned the compute instance.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "instances"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"gpu_type\": \"<string>\",\n  \"name\": \"<string>\",\n  \"gpu_count\": 1,\n  \"region\": \"<string>\",\n  \"template_id\": \"<string>\",\n  \"ssh_key_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"rental_plan\": \"on_demand\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"name\": \"string\",\n  \"status\": \"error\",\n  \"gpu_type\": \"string\",\n  \"gpu_count\": 2365,\n  \"region\": \"string\",\n  \"template\": \"string\",\n  \"ssh_host\": \"string\",\n  \"ssh_port\": 3591,\n  \"jupyter_url\": \"https://kYYgHEXpNGsnZwXTLeRETyZgnTZdyRtJ.qubvCXHWfv-+ddannLNiszyeOK9ZOFxg3XPB758t2TCajHhcB0N0A\",\n  \"created_at\": \"1986-02-13T01:13:54.222Z\",\n  \"cost_per_hour\": 2633.859632681992\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "af57008b-9b59-4c10-ae74-81134f43c966",
+              "name": "The request was malformed or contained invalid parameters such as an unsupported GPU type or region.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "instances"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"gpu_type\": \"<string>\",\n  \"name\": \"<string>\",\n  \"gpu_count\": 1,\n  \"region\": \"<string>\",\n  \"template_id\": \"<string>\",\n  \"ssh_key_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"rental_plan\": \"on_demand\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"message\": \"string\",\n    \"type\": \"string\",\n    \"code\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "695b16e6-6afb-431b-9bcd-f488dc654af8",
+              "name": "Authentication failed due to a missing or invalid bearer token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "instances"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"gpu_type\": \"<string>\",\n  \"name\": \"<string>\",\n  \"gpu_count\": 1,\n  \"region\": \"<string>\",\n  \"template_id\": \"<string>\",\n  \"ssh_key_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"rental_plan\": \"on_demand\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"message\": \"string\",\n    \"type\": \"string\",\n    \"code\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7d530e95-2fc8-4de7-be21-d2c9dd825d67",
+              "name": "Insufficient credits or billing issue preventing instance creation.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "instances"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"gpu_type\": \"<string>\",\n  \"name\": \"<string>\",\n  \"gpu_count\": 1,\n  \"region\": \"<string>\",\n  \"template_id\": \"<string>\",\n  \"ssh_key_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"rental_plan\": \"on_demand\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Payment Required",
+              "code": 402,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"message\": \"string\",\n    \"type\": \"string\",\n    \"code\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a71dc20d-a563-4ad5-a83b-3cd448a760d4",
+          "name": "Retrieve a compute instance",
+          "request": {
+            "name": "Retrieve a compute instance",
+            "description": {
+              "content": "Returns details about a specific GPU compute instance including its current status, GPU configuration, connection details, and usage metrics.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "instances",
+                ":instance_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "instance_id",
+                  "description": "(Required) The unique identifier of the compute instance."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "895c085f-62a3-46d5-973f-10e2269faf0b",
+              "name": "Successfully retrieved the instance details.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "instances",
+                    ":instance_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "instance_id",
+                      "description": "(Required) The unique identifier of the compute instance."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"name\": \"string\",\n  \"status\": \"error\",\n  \"gpu_type\": \"string\",\n  \"gpu_count\": 2365,\n  \"region\": \"string\",\n  \"template\": \"string\",\n  \"ssh_host\": \"string\",\n  \"ssh_port\": 3591,\n  \"jupyter_url\": \"https://kYYgHEXpNGsnZwXTLeRETyZgnTZdyRtJ.qubvCXHWfv-+ddannLNiszyeOK9ZOFxg3XPB758t2TCajHhcB0N0A\",\n  \"created_at\": \"1986-02-13T01:13:54.222Z\",\n  \"cost_per_hour\": 2633.859632681992\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9b68ad80-4f12-400b-9c1c-a51a9b8ede65",
+              "name": "Authentication failed due to a missing or invalid bearer token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "instances",
+                    ":instance_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "instance_id",
+                      "description": "(Required) The unique identifier of the compute instance."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"message\": \"string\",\n    \"type\": \"string\",\n    \"code\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a21c8e4c-ec5c-456f-808d-bab5f1425e16",
+              "name": "The specified instance was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "instances",
+                    ":instance_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "instance_id",
+                      "description": "(Required) The unique identifier of the compute instance."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"message\": \"string\",\n    \"type\": \"string\",\n    \"code\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "07adf462-f4a5-4c44-aba1-5c9fc04ff02a",
+          "name": "Terminate a compute instance",
+          "request": {
+            "name": "Terminate a compute instance",
+            "description": {
+              "content": "Permanently terminates a GPU compute instance and releases all associated resources. This action cannot be undone. Any data stored on the instance's ephemeral storage will be lost.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "instances",
+                ":instance_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "instance_id",
+                  "description": "(Required) The unique identifier of the compute instance."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4f6f828b-1de7-4012-9d2c-f1a523bdacde",
+              "name": "Successfully terminated the compute instance.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "instances",
+                    ":instance_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "instance_id",
+                      "description": "(Required) The unique identifier of the compute instance."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "33914e7d-fbc1-4e0d-8787-7623a72341d7",
+              "name": "Authentication failed due to a missing or invalid bearer token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "instances",
+                    ":instance_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "instance_id",
+                      "description": "(Required) The unique identifier of the compute instance."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"message\": \"string\",\n    \"type\": \"string\",\n    \"code\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "48455d91-78f5-4a22-9600-9176444b48af",
+              "name": "The specified instance was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "instances",
+                    ":instance_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "instance_id",
+                      "description": "(Required) The unique identifier of the compute instance."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"message\": \"string\",\n    \"type\": \"string\",\n    \"code\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bcc59495-e4b8-4450-9b37-70dd622b0143",
+          "name": "Start a compute instance",
+          "request": {
+            "name": "Start a compute instance",
+            "description": {
+              "content": "Starts a previously stopped GPU compute instance. The instance will resume with its previous configuration and any persistent storage will be reattached.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "instances",
+                ":instance_id",
+                "start"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "instance_id",
+                  "description": "(Required) The unique identifier of the compute instance."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "44f5134a-ceaa-4eb6-88aa-a3613b0bb4d6",
+              "name": "Successfully initiated start of the compute instance.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "instances",
+                    ":instance_id",
+                    "start"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "instance_id",
+                      "description": "(Required) The unique identifier of the compute instance."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"name\": \"string\",\n  \"status\": \"error\",\n  \"gpu_type\": \"string\",\n  \"gpu_count\": 2365,\n  \"region\": \"string\",\n  \"template\": \"string\",\n  \"ssh_host\": \"string\",\n  \"ssh_port\": 3591,\n  \"jupyter_url\": \"https://kYYgHEXpNGsnZwXTLeRETyZgnTZdyRtJ.qubvCXHWfv-+ddannLNiszyeOK9ZOFxg3XPB758t2TCajHhcB0N0A\",\n  \"created_at\": \"1986-02-13T01:13:54.222Z\",\n  \"cost_per_hour\": 2633.859632681992\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "21f3fb74-1214-4cac-9163-900fa57e70f6",
+              "name": "Authentication failed due to a missing or invalid bearer token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "instances",
+                    ":instance_id",
+                    "start"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "instance_id",
+                      "description": "(Required) The unique identifier of the compute instance."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"message\": \"string\",\n    \"type\": \"string\",\n    \"code\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3b9244f2-46ec-4d74-bb2c-a0bce11ff035",
+              "name": "The specified instance was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "instances",
+                    ":instance_id",
+                    "start"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "instance_id",
+                      "description": "(Required) The unique identifier of the compute instance."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"message\": \"string\",\n    \"type\": \"string\",\n    \"code\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "84554e4b-44f5-4a9d-b9c8-7ab8e7cdcfec",
+          "name": "Stop a compute instance",
+          "request": {
+            "name": "Stop a compute instance",
+            "description": {
+              "content": "Stops a running GPU compute instance. The instance retains its configuration and persistent storage but releases GPU resources. Billing for GPU compute stops while the instance is stopped.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "instances",
+                ":instance_id",
+                "stop"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "instance_id",
+                  "description": "(Required) The unique identifier of the compute instance."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "bb496024-e1de-481e-9c4d-6e9a05d90e4e",
+              "name": "Successfully initiated stop of the compute instance.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "instances",
+                    ":instance_id",
+                    "stop"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "instance_id",
+                      "description": "(Required) The unique identifier of the compute instance."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"name\": \"string\",\n  \"status\": \"error\",\n  \"gpu_type\": \"string\",\n  \"gpu_count\": 2365,\n  \"region\": \"string\",\n  \"template\": \"string\",\n  \"ssh_host\": \"string\",\n  \"ssh_port\": 3591,\n  \"jupyter_url\": \"https://kYYgHEXpNGsnZwXTLeRETyZgnTZdyRtJ.qubvCXHWfv-+ddannLNiszyeOK9ZOFxg3XPB758t2TCajHhcB0N0A\",\n  \"created_at\": \"1986-02-13T01:13:54.222Z\",\n  \"cost_per_hour\": 2633.859632681992\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e1933197-ccce-4e62-8f05-801c580ea758",
+              "name": "Authentication failed due to a missing or invalid bearer token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "instances",
+                    ":instance_id",
+                    "stop"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "instance_id",
+                      "description": "(Required) The unique identifier of the compute instance."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"message\": \"string\",\n    \"type\": \"string\",\n    \"code\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "169e27d8-4736-4676-8417-81efc466771a",
+              "name": "The specified instance was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "instances",
+                    ":instance_id",
+                    "stop"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "instance_id",
+                      "description": "(Required) The unique identifier of the compute instance."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"message\": \"string\",\n    \"type\": \"string\",\n    \"code\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://platform.qubrid.com/api/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "6f12e8c0-8dcf-432d-bdcc-ac2a96c0a4b3",
+    "name": "Qubrid AI Compute Chat Completions Instances API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Qubrid AI Compute API provides programmatic access to GPU cloud infrastructure including NVIDIA H100, H200, and B200 accelerators. Developers can provision and manage GPU instances for AI and machine learning workloads through API calls. The service supports on-demand compute for training, fine-tuning, and batch inference jobs, with usage-based billing and enterprise features such as team collaboration and usage tracking. Instances can be accessed via SSH, Jupyter notebooks, or Visual Studio Code, and support quick-deploy templates for popular frameworks including PyTorch, TensorFlow, ComfyUI, n8n, and Langflow.\n\nContact Support:\n Name: Qubrid AI Support",
+      "type": "text/plain"
+    }
+  }
+}

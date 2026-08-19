@@ -1,0 +1,402 @@
+{
+  "item": [
+    {
+      "id": "cb062137-97c2-46bd-830d-4da77d83f726",
+      "name": "Chat Completions",
+      "description": {
+        "content": "Generate chat-based completions using open-source large language models hosted on NVIDIA GPU infrastructure. Compatible with the OpenAI chat completions request and response format.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f75381ec-197d-48e0-a8e8-b4a9c57ccd0f",
+          "name": "Create a chat completion",
+          "request": {
+            "name": "Create a chat completion",
+            "description": {
+              "content": "Generates a model response for the given chat conversation. This endpoint is compatible with the OpenAI chat completions format, accepting an array of messages and returning a generated assistant reply. Supports text generation, code generation, and vision-language models available on the Qubrid AI platform.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "chat",
+                "completions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"model\": \"<string>\",\n  \"messages\": [\n    {\n      \"role\": \"<string>\",\n      \"content\": \"<string>\"\n    }\n  ],\n  \"temperature\": 1,\n  \"top_p\": 1,\n  \"n\": 1,\n  \"max_tokens\": \"<integer>\",\n  \"stream\": false,\n  \"stop\": \"<string>\",\n  \"presence_penalty\": 0,\n  \"frequency_penalty\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "65bfded7-d908-43fe-ba45-fcbd24daa5c2",
+              "name": "Successfully generated a chat completion response.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "chat",
+                    "completions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"model\": \"deepseek-ai/DeepSeek-R1-Distill-Llama-70B\",\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": \"string\"\n    }\n  ],\n  \"temperature\": 1,\n  \"top_p\": 1,\n  \"n\": 1,\n  \"max_tokens\": \"<integer>\",\n  \"stream\": false,\n  \"stop\": \"<string>\",\n  \"presence_penalty\": 0,\n  \"frequency_penalty\": 0\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"object\": \"chat.completion\",\n  \"created\": 6871,\n  \"model\": \"string\",\n  \"choices\": [\n    {\n      \"index\": 8775,\n      \"message\": {\n        \"role\": \"system\",\n        \"content\": \"string\"\n      },\n      \"finish_reason\": \"content_filter\"\n    },\n    {\n      \"index\": 2671,\n      \"message\": {\n        \"role\": \"assistant\",\n        \"content\": \"string\"\n      },\n      \"finish_reason\": \"length\"\n    }\n  ],\n  \"usage\": {\n    \"prompt_tokens\": 515,\n    \"completion_tokens\": 897,\n    \"total_tokens\": 5141\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e7fc8081-d6d0-41ab-939c-b473014f2259",
+              "name": "The request was malformed or contained invalid parameters.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "chat",
+                    "completions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"model\": \"deepseek-ai/DeepSeek-R1-Distill-Llama-70B\",\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": \"string\"\n    }\n  ],\n  \"temperature\": 1,\n  \"top_p\": 1,\n  \"n\": 1,\n  \"max_tokens\": \"<integer>\",\n  \"stream\": false,\n  \"stop\": \"<string>\",\n  \"presence_penalty\": 0,\n  \"frequency_penalty\": 0\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"message\": \"string\",\n    \"type\": \"string\",\n    \"code\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f5eefe71-be0f-4b1d-811b-a90c5a395b79",
+              "name": "Authentication failed due to a missing or invalid bearer token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "chat",
+                    "completions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"model\": \"deepseek-ai/DeepSeek-R1-Distill-Llama-70B\",\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": \"string\"\n    }\n  ],\n  \"temperature\": 1,\n  \"top_p\": 1,\n  \"n\": 1,\n  \"max_tokens\": \"<integer>\",\n  \"stream\": false,\n  \"stop\": \"<string>\",\n  \"presence_penalty\": 0,\n  \"frequency_penalty\": 0\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"message\": \"string\",\n    \"type\": \"string\",\n    \"code\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5f2c3dac-041b-4f9f-98d8-2776f84c8cff",
+              "name": "The specified model was not found or is not available.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "chat",
+                    "completions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"model\": \"deepseek-ai/DeepSeek-R1-Distill-Llama-70B\",\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": \"string\"\n    }\n  ],\n  \"temperature\": 1,\n  \"top_p\": 1,\n  \"n\": 1,\n  \"max_tokens\": \"<integer>\",\n  \"stream\": false,\n  \"stop\": \"<string>\",\n  \"presence_penalty\": 0,\n  \"frequency_penalty\": 0\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"message\": \"string\",\n    \"type\": \"string\",\n    \"code\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "631a52d2-238d-464b-8999-5a19cdfa78b9",
+              "name": "Rate limit exceeded. Too many requests were sent in a given time period.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "chat",
+                    "completions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"model\": \"deepseek-ai/DeepSeek-R1-Distill-Llama-70B\",\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": \"string\"\n    }\n  ],\n  \"temperature\": 1,\n  \"top_p\": 1,\n  \"n\": 1,\n  \"max_tokens\": \"<integer>\",\n  \"stream\": false,\n  \"stop\": \"<string>\",\n  \"presence_penalty\": 0,\n  \"frequency_penalty\": 0\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"message\": \"string\",\n    \"type\": \"string\",\n    \"code\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d37c164f-1105-4c58-ad8b-d3dcd50b8a41",
+              "name": "An internal server error occurred during inference.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "chat",
+                    "completions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"model\": \"deepseek-ai/DeepSeek-R1-Distill-Llama-70B\",\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": \"string\"\n    }\n  ],\n  \"temperature\": 1,\n  \"top_p\": 1,\n  \"n\": 1,\n  \"max_tokens\": \"<integer>\",\n  \"stream\": false,\n  \"stop\": \"<string>\",\n  \"presence_penalty\": 0,\n  \"frequency_penalty\": 0\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"message\": \"string\",\n    \"type\": \"string\",\n    \"code\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://platform.qubrid.com/api/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "5edba8b6-1c5b-43e1-821d-b25ed75faa7b",
+    "name": "Qubrid AI Compute Chat Completions API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Qubrid AI Compute API provides programmatic access to GPU cloud infrastructure including NVIDIA H100, H200, and B200 accelerators. Developers can provision and manage GPU instances for AI and machine learning workloads through API calls. The service supports on-demand compute for training, fine-tuning, and batch inference jobs, with usage-based billing and enterprise features such as team collaboration and usage tracking. Instances can be accessed via SSH, Jupyter notebooks, or Visual Studio Code, and support quick-deploy templates for popular frameworks including PyTorch, TensorFlow, ComfyUI, n8n, and Langflow.\n\nContact Support:\n Name: Qubrid AI Support",
+      "type": "text/plain"
+    }
+  }
+}

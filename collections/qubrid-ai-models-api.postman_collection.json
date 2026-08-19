@@ -1,0 +1,362 @@
+{
+  "item": [
+    {
+      "id": "d7f21b11-16e4-4d4c-b148-1629cc241178",
+      "name": "Models",
+      "description": {
+        "content": "List and retrieve details about the open-source AI models available for inference on the Qubrid AI platform, including text generation, code generation, vision-language, and image generation models.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "30bc7985-183c-47ff-9fde-8937e307f0c4",
+          "name": "List available models",
+          "request": {
+            "name": "List available models",
+            "description": {
+              "content": "Returns a list of all models currently available for inference on the Qubrid AI platform, including text generation, code generation, vision-language, and image generation models running on NVIDIA GPU infrastructure.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "models"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6f5858a7-f199-4459-a1a9-015e09565338",
+              "name": "Successfully retrieved the list of available models.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "models"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"object\": \"list\",\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"object\": \"model\",\n      \"created\": 9744,\n      \"owned_by\": \"string\"\n    },\n    {\n      \"id\": \"string\",\n      \"object\": \"model\",\n      \"created\": 748,\n      \"owned_by\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6612b109-bebf-4cfd-8bf9-8d38eab49964",
+              "name": "Authentication failed due to a missing or invalid bearer token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "models"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"message\": \"string\",\n    \"type\": \"string\",\n    \"code\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b8940ae9-81a7-491e-b85b-938e8b1395f7",
+          "name": "Retrieve a model",
+          "request": {
+            "name": "Retrieve a model",
+            "description": {
+              "content": "Returns details about a specific model available on the Qubrid AI platform, including its identifier, ownership, and creation timestamp.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "models",
+                ":model_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "model_id",
+                  "description": "(Required) The unique identifier of the model to retrieve, such as deepseek-ai/DeepSeek-R1-Distill-Llama-70B or Qwen/Qwen3.5-27B."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5d1a630d-a47b-4f6a-8400-1cfe461e0f4c",
+              "name": "Successfully retrieved the model details.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "models",
+                    ":model_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "model_id",
+                      "description": "(Required) The unique identifier of the model to retrieve, such as deepseek-ai/DeepSeek-R1-Distill-Llama-70B or Qwen/Qwen3.5-27B."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"object\": \"model\",\n  \"created\": 6761,\n  \"owned_by\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0fa9d3c1-9ab5-4671-8c88-42503e70094a",
+              "name": "Authentication failed due to a missing or invalid bearer token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "models",
+                    ":model_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "model_id",
+                      "description": "(Required) The unique identifier of the model to retrieve, such as deepseek-ai/DeepSeek-R1-Distill-Llama-70B or Qwen/Qwen3.5-27B."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"message\": \"string\",\n    \"type\": \"string\",\n    \"code\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "09cf499a-398a-47dd-8c74-22b05a272f2e",
+              "name": "The specified model was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "models",
+                    ":model_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "model_id",
+                      "description": "(Required) The unique identifier of the model to retrieve, such as deepseek-ai/DeepSeek-R1-Distill-Llama-70B or Qwen/Qwen3.5-27B."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"message\": \"string\",\n    \"type\": \"string\",\n    \"code\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://platform.qubrid.com/api/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "45d76075-0c7d-490e-9cf4-29b19b72476f",
+    "name": "Qubrid AI Compute Chat Completions Models API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Qubrid AI Compute API provides programmatic access to GPU cloud infrastructure including NVIDIA H100, H200, and B200 accelerators. Developers can provision and manage GPU instances for AI and machine learning workloads through API calls. The service supports on-demand compute for training, fine-tuning, and batch inference jobs, with usage-based billing and enterprise features such as team collaboration and usage tracking. Instances can be accessed via SSH, Jupyter notebooks, or Visual Studio Code, and support quick-deploy templates for popular frameworks including PyTorch, TensorFlow, ComfyUI, n8n, and Langflow.\n\nContact Support:\n Name: Qubrid AI Support",
+      "type": "text/plain"
+    }
+  }
+}

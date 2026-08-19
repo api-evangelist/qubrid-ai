@@ -1,0 +1,39 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qubrid AI Compute Chat Completions RAG Queries API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "RAG Queries",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Query with RAG",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://platform.qubrid.com/api/v1/rag/query",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Performs a retrieval-augmented generation query against a specified knowledge base. The API retrieves the most relevant document chunks based on semantic similarity to the query, then uses them as context for a large language model to generate an accurate, grounded response. The response includes both the generated answer and the source document references used."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

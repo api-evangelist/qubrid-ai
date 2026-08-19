@@ -1,0 +1,298 @@
+{
+  "item": [
+    {
+      "id": "86132023-21f9-4e85-b887-563d2acba5fc",
+      "name": "RAG Queries",
+      "description": {
+        "content": "Query a knowledge base using natural language with retrieval-augmented generation. The API retrieves relevant document chunks from the knowledge base and uses them as context for generating accurate, grounded responses through a large language model.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "61d4daa1-b94d-4940-8183-f54f8aeff707",
+          "name": "Query with RAG",
+          "request": {
+            "name": "Query with RAG",
+            "description": {
+              "content": "Performs a retrieval-augmented generation query against a specified knowledge base. The API retrieves the most relevant document chunks based on semantic similarity to the query, then uses them as context for a large language model to generate an accurate, grounded response. The response includes both the generated answer and the source document references used.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "rag",
+                "query"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"knowledge_base_id\": \"<string>\",\n  \"query\": \"<string>\",\n  \"model\": \"<string>\",\n  \"top_k\": 5,\n  \"temperature\": 0.7,\n  \"max_tokens\": \"<integer>\",\n  \"include_sources\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f6721a60-7fd9-4950-b6a3-862923788873",
+              "name": "Successfully generated a RAG response grounded in the knowledge base documents.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rag",
+                    "query"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"knowledge_base_id\": \"<string>\",\n  \"query\": \"<string>\",\n  \"model\": \"<string>\",\n  \"top_k\": 5,\n  \"temperature\": 0.7,\n  \"max_tokens\": \"<integer>\",\n  \"include_sources\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"answer\": \"string\",\n  \"model\": \"string\",\n  \"sources\": [\n    {\n      \"document_id\": \"string\",\n      \"document_name\": \"string\",\n      \"chunk_text\": \"string\",\n      \"relevance_score\": 0.5126643640394324\n    },\n    {\n      \"document_id\": \"string\",\n      \"document_name\": \"string\",\n      \"chunk_text\": \"string\",\n      \"relevance_score\": 0.5772968032519941\n    }\n  ],\n  \"usage\": {\n    \"prompt_tokens\": 789,\n    \"completion_tokens\": 6422,\n    \"total_tokens\": 5138\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a310d5ae-3aed-4d82-b114-2d5c66a846e2",
+              "name": "The request was malformed or contained invalid parameters.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rag",
+                    "query"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"knowledge_base_id\": \"<string>\",\n  \"query\": \"<string>\",\n  \"model\": \"<string>\",\n  \"top_k\": 5,\n  \"temperature\": 0.7,\n  \"max_tokens\": \"<integer>\",\n  \"include_sources\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"message\": \"string\",\n    \"type\": \"string\",\n    \"code\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d86ce9fd-2a87-4a35-8fea-2e9b76abc3fa",
+              "name": "Authentication failed due to a missing or invalid bearer token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rag",
+                    "query"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"knowledge_base_id\": \"<string>\",\n  \"query\": \"<string>\",\n  \"model\": \"<string>\",\n  \"top_k\": 5,\n  \"temperature\": 0.7,\n  \"max_tokens\": \"<integer>\",\n  \"include_sources\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"message\": \"string\",\n    \"type\": \"string\",\n    \"code\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9e9b4df1-103a-45cc-93d8-9999464ee188",
+              "name": "The specified knowledge base was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rag",
+                    "query"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"knowledge_base_id\": \"<string>\",\n  \"query\": \"<string>\",\n  \"model\": \"<string>\",\n  \"top_k\": 5,\n  \"temperature\": 0.7,\n  \"max_tokens\": \"<integer>\",\n  \"include_sources\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"message\": \"string\",\n    \"type\": \"string\",\n    \"code\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://platform.qubrid.com/api/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "367751dd-bda1-4727-9ab7-bf8bfed8a745",
+    "name": "Qubrid AI Compute Chat Completions RAG Queries API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Qubrid AI Compute API provides programmatic access to GPU cloud infrastructure including NVIDIA H100, H200, and B200 accelerators. Developers can provision and manage GPU instances for AI and machine learning workloads through API calls. The service supports on-demand compute for training, fine-tuning, and batch inference jobs, with usage-based billing and enterprise features such as team collaboration and usage tracking. Instances can be accessed via SSH, Jupyter notebooks, or Visual Studio Code, and support quick-deploy templates for popular frameworks including PyTorch, TensorFlow, ComfyUI, n8n, and Langflow.\n\nContact Support:\n Name: Qubrid AI Support",
+      "type": "text/plain"
+    }
+  }
+}

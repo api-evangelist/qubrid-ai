@@ -1,0 +1,146 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qubrid AI Compute Chat Completions Instances API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Instances",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List compute instances",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform.qubrid.com/api/v1/instances",
+            "params": [
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter instances by their current status."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return per page."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to skip for pagination."
+              }
+            ]
+          },
+          "docs": "Returns a list of all GPU compute instances associated with the authenticated user's account, including their current status, GPU type, and connection details."
+        },
+        {
+          "info": {
+            "name": "Create a compute instance",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://platform.qubrid.com/api/v1/instances",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Provisions a new GPU compute instance with the specified GPU type, region, template, and configuration. The instance will be created and started, with SSH access details returned once the instance is running."
+        },
+        {
+          "info": {
+            "name": "Retrieve a compute instance",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform.qubrid.com/api/v1/instances/:instance_id",
+            "params": [
+              {
+                "name": "instance_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the compute instance."
+              }
+            ]
+          },
+          "docs": "Returns details about a specific GPU compute instance including its current status, GPU configuration, connection details, and usage metrics."
+        },
+        {
+          "info": {
+            "name": "Terminate a compute instance",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://platform.qubrid.com/api/v1/instances/:instance_id",
+            "params": [
+              {
+                "name": "instance_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the compute instance."
+              }
+            ]
+          },
+          "docs": "Permanently terminates a GPU compute instance and releases all associated resources. This action cannot be undone. Any data stored on the instance's ephemeral storage will be lost."
+        },
+        {
+          "info": {
+            "name": "Start a compute instance",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://platform.qubrid.com/api/v1/instances/:instance_id/start",
+            "params": [
+              {
+                "name": "instance_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the compute instance."
+              }
+            ]
+          },
+          "docs": "Starts a previously stopped GPU compute instance. The instance will resume with its previous configuration and any persistent storage will be reattached."
+        },
+        {
+          "info": {
+            "name": "Stop a compute instance",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://platform.qubrid.com/api/v1/instances/:instance_id/stop",
+            "params": [
+              {
+                "name": "instance_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the compute instance."
+              }
+            ]
+          },
+          "docs": "Stops a running GPU compute instance. The instance retains its configuration and persistent storage but releases GPU resources. Billing for GPU compute stops while the instance is stopped."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

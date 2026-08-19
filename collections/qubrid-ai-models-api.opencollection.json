@@ -1,0 +1,54 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qubrid AI Compute Chat Completions Models API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Models",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List available models",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform.qubrid.com/api/v1/models"
+          },
+          "docs": "Returns a list of all models currently available for inference on the Qubrid AI platform, including text generation, code generation, vision-language, and image generation models running on NVIDIA GPU infrastructure."
+        },
+        {
+          "info": {
+            "name": "Retrieve a model",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform.qubrid.com/api/v1/models/:model_id",
+            "params": [
+              {
+                "name": "model_id",
+                "value": "deepseek-ai/DeepSeek-R1-Distill-Llama-70B",
+                "type": "path",
+                "description": "The unique identifier of the model to retrieve, such as deepseek-ai/DeepSeek-R1-Distill-Llama-70B or Qwen/Qwen3.5-27B."
+              }
+            ]
+          },
+          "docs": "Returns details about a specific model available on the Qubrid AI platform, including its identifier, ownership, and creation timestamp."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

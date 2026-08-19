@@ -1,0 +1,54 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qubrid AI Compute Chat Completions Fine-Tuned Models API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Fine-Tuned Models",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List fine-tuned models",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform.qubrid.com/api/v1/fine-tuning/models"
+          },
+          "docs": "Returns a list of fine-tuned models produced by completed fine-tuning jobs. These models can be used for inference on the Qubrid AI platform."
+        },
+        {
+          "info": {
+            "name": "Delete a fine-tuned model",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://platform.qubrid.com/api/v1/fine-tuning/models/:model_id",
+            "params": [
+              {
+                "name": "model_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the fine-tuned model."
+              }
+            ]
+          },
+          "docs": "Deletes a fine-tuned model artifact. The model will no longer be available for inference."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

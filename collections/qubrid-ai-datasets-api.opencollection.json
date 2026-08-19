@@ -1,0 +1,88 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qubrid AI Compute Chat Completions Datasets API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Datasets",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List training datasets",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform.qubrid.com/api/v1/fine-tuning/datasets"
+          },
+          "docs": "Returns a list of training datasets uploaded by the authenticated user. Datasets are in CSV format and can be used for fine-tuning jobs."
+        },
+        {
+          "info": {
+            "name": "Upload a training dataset",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://platform.qubrid.com/api/v1/fine-tuning/datasets",
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Uploads a new CSV training dataset for use in fine-tuning jobs. The dataset must be in CSV format; other file extensions are not supported and will return an error. The CSV should contain columns appropriate for the intended task type."
+        },
+        {
+          "info": {
+            "name": "Retrieve a dataset",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform.qubrid.com/api/v1/fine-tuning/datasets/:dataset_id",
+            "params": [
+              {
+                "name": "dataset_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the training dataset."
+              }
+            ]
+          },
+          "docs": "Returns details about a specific training dataset including its name, size, row count, and upload timestamp."
+        },
+        {
+          "info": {
+            "name": "Delete a dataset",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://platform.qubrid.com/api/v1/fine-tuning/datasets/:dataset_id",
+            "params": [
+              {
+                "name": "dataset_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the training dataset."
+              }
+            ]
+          },
+          "docs": "Deletes a training dataset. Datasets that are currently in use by a running fine-tuning job cannot be deleted."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

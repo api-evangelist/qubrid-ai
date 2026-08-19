@@ -1,0 +1,865 @@
+{
+  "item": [
+    {
+      "id": "1ea81af5-46b2-4f29-a115-be9deb730e71",
+      "name": "Fine-Tuning Jobs",
+      "description": {
+        "content": "Create, monitor, and manage fine-tuning jobs that customize pre-deployed text generation and code generation models using uploaded training datasets on GPU infrastructure.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "9b059e9a-cf81-4fac-9e9e-9db690fdbc1d",
+          "name": "List fine-tuning jobs",
+          "request": {
+            "name": "List fine-tuning jobs",
+            "description": {
+              "content": "Returns a list of all fine-tuning jobs associated with the authenticated user's account, including their status, base model, hyperparameters, and training progress.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "fine-tuning",
+                "jobs"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "20",
+                  "description": "Maximum number of results to return per page."
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "0",
+                  "description": "Number of results to skip for pagination."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "602d1735-0831-45cf-bae7-803621186594",
+              "name": "Successfully retrieved the list of fine-tuning jobs.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fine-tuning",
+                    "jobs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"string\",\n      \"status\": \"running\",\n      \"base_model\": \"string\",\n      \"dataset_id\": \"string\",\n      \"task_type\": \"not_qa\",\n      \"hyperparameters\": {\n        \"epochs\": 9672,\n        \"max_steps\": 5086,\n        \"learning_rate\": 9101.615121464556,\n        \"validation_split\": 0.21245042801971958\n      },\n      \"fine_tuned_model\": \"string\",\n      \"training_metrics\": {\n        \"training_loss\": 9415.211470455466,\n        \"validation_loss\": 9766.269483812137,\n        \"steps_completed\": 9712,\n        \"epochs_completed\": 2050\n      },\n      \"created_at\": \"1968-06-10T23:44:51.603Z\",\n      \"completed_at\": \"2012-07-12T11:43:22.811Z\"\n    },\n    {\n      \"id\": \"string\",\n      \"status\": \"failed\",\n      \"base_model\": \"string\",\n      \"dataset_id\": \"string\",\n      \"task_type\": \"not_qa\",\n      \"hyperparameters\": {\n        \"epochs\": 5015,\n        \"max_steps\": 1646,\n        \"learning_rate\": 203.49105661699437,\n        \"validation_split\": 0.33008418770649195\n      },\n      \"fine_tuned_model\": \"string\",\n      \"training_metrics\": {\n        \"training_loss\": 4835.463745112291,\n        \"validation_loss\": 543.1783966935078,\n        \"steps_completed\": 5365,\n        \"epochs_completed\": 1449\n      },\n      \"created_at\": \"2017-08-20T11:49:06.872Z\",\n      \"completed_at\": \"1975-10-24T18:40:33.528Z\"\n    }\n  ],\n  \"total\": 4171\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d670d6c3-1ad0-4a17-902b-3725a2c0f724",
+              "name": "Authentication failed due to a missing or invalid bearer token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fine-tuning",
+                    "jobs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"message\": \"string\",\n    \"type\": \"string\",\n    \"code\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b5ec8205-9f23-4def-8665-a1dd10497a01",
+          "name": "Create a fine-tuning job",
+          "request": {
+            "name": "Create a fine-tuning job",
+            "description": {
+              "content": "Creates and starts a new fine-tuning job that customizes a base model using the specified training dataset and hyperparameters. The job runs on GPU infrastructure and produces a fine-tuned model artifact upon completion. Supported task types include Question Answering (QA) and non-QA text generation.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "fine-tuning",
+                "jobs"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"base_model\": \"<string>\",\n  \"dataset_id\": \"<string>\",\n  \"task_type\": \"<string>\",\n  \"hyperparameters\": {\n    \"epochs\": \"<integer>\",\n    \"max_steps\": \"<integer>\",\n    \"learning_rate\": \"<number>\",\n    \"validation_split\": \"<number>\"\n  },\n  \"suffix\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b3940eb3-495c-4521-bd40-26d47b077a80",
+              "name": "Successfully created the fine-tuning job.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fine-tuning",
+                    "jobs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"base_model\": \"<string>\",\n  \"dataset_id\": \"<string>\",\n  \"task_type\": \"<string>\",\n  \"hyperparameters\": {\n    \"epochs\": 1660,\n    \"max_steps\": 1611,\n    \"learning_rate\": 978.4715511119751,\n    \"validation_split\": 0.7365730133492839\n  },\n  \"suffix\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"status\": \"queued\",\n  \"base_model\": \"string\",\n  \"dataset_id\": \"string\",\n  \"task_type\": \"not_qa\",\n  \"hyperparameters\": {\n    \"epochs\": 1196,\n    \"max_steps\": 1681,\n    \"learning_rate\": 6393.032152034266,\n    \"validation_split\": 0.5328613848663756\n  },\n  \"fine_tuned_model\": \"string\",\n  \"training_metrics\": {\n    \"training_loss\": 9544.949012348035,\n    \"validation_loss\": 2821.6812442418714,\n    \"steps_completed\": 4992,\n    \"epochs_completed\": 9485\n  },\n  \"created_at\": \"1947-06-07T05:15:16.654Z\",\n  \"completed_at\": \"1964-06-16T02:24:51.963Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3d533d9a-90d1-4475-910a-3401b2f57d50",
+              "name": "The request was malformed, the dataset format was invalid, or an unsupported base model was specified.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fine-tuning",
+                    "jobs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"base_model\": \"<string>\",\n  \"dataset_id\": \"<string>\",\n  \"task_type\": \"<string>\",\n  \"hyperparameters\": {\n    \"epochs\": 1660,\n    \"max_steps\": 1611,\n    \"learning_rate\": 978.4715511119751,\n    \"validation_split\": 0.7365730133492839\n  },\n  \"suffix\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"message\": \"string\",\n    \"type\": \"string\",\n    \"code\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5e81eda9-f691-4f4d-a0c3-922486c71163",
+              "name": "Authentication failed due to a missing or invalid bearer token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fine-tuning",
+                    "jobs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"base_model\": \"<string>\",\n  \"dataset_id\": \"<string>\",\n  \"task_type\": \"<string>\",\n  \"hyperparameters\": {\n    \"epochs\": 1660,\n    \"max_steps\": 1611,\n    \"learning_rate\": 978.4715511119751,\n    \"validation_split\": 0.7365730133492839\n  },\n  \"suffix\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"message\": \"string\",\n    \"type\": \"string\",\n    \"code\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c3cf39ee-32fb-418c-a39b-54d832e47b62",
+              "name": "Insufficient credits or billing issue preventing job creation.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fine-tuning",
+                    "jobs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"base_model\": \"<string>\",\n  \"dataset_id\": \"<string>\",\n  \"task_type\": \"<string>\",\n  \"hyperparameters\": {\n    \"epochs\": 1660,\n    \"max_steps\": 1611,\n    \"learning_rate\": 978.4715511119751,\n    \"validation_split\": 0.7365730133492839\n  },\n  \"suffix\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Payment Required",
+              "code": 402,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"message\": \"string\",\n    \"type\": \"string\",\n    \"code\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e956db91-b9bf-4a9a-a19c-b29e9d4382d6",
+          "name": "Retrieve a fine-tuning job",
+          "request": {
+            "name": "Retrieve a fine-tuning job",
+            "description": {
+              "content": "Returns details about a specific fine-tuning job including its current status, base model, hyperparameters, training metrics, and the resulting fine-tuned model identifier upon completion.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "fine-tuning",
+                "jobs",
+                ":job_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "job_id",
+                  "description": "(Required) The unique identifier of the fine-tuning job."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3dee9657-6871-4114-bd51-e643084e4886",
+              "name": "Successfully retrieved the fine-tuning job details.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fine-tuning",
+                    "jobs",
+                    ":job_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "job_id",
+                      "description": "(Required) The unique identifier of the fine-tuning job."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"status\": \"queued\",\n  \"base_model\": \"string\",\n  \"dataset_id\": \"string\",\n  \"task_type\": \"not_qa\",\n  \"hyperparameters\": {\n    \"epochs\": 1196,\n    \"max_steps\": 1681,\n    \"learning_rate\": 6393.032152034266,\n    \"validation_split\": 0.5328613848663756\n  },\n  \"fine_tuned_model\": \"string\",\n  \"training_metrics\": {\n    \"training_loss\": 9544.949012348035,\n    \"validation_loss\": 2821.6812442418714,\n    \"steps_completed\": 4992,\n    \"epochs_completed\": 9485\n  },\n  \"created_at\": \"1947-06-07T05:15:16.654Z\",\n  \"completed_at\": \"1964-06-16T02:24:51.963Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ff121c70-b428-4531-856c-d680a6127333",
+              "name": "Authentication failed due to a missing or invalid bearer token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fine-tuning",
+                    "jobs",
+                    ":job_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "job_id",
+                      "description": "(Required) The unique identifier of the fine-tuning job."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"message\": \"string\",\n    \"type\": \"string\",\n    \"code\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "94fc67e5-187b-49e5-bb76-7a1302ac2692",
+              "name": "The specified fine-tuning job was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fine-tuning",
+                    "jobs",
+                    ":job_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "job_id",
+                      "description": "(Required) The unique identifier of the fine-tuning job."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"message\": \"string\",\n    \"type\": \"string\",\n    \"code\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "23cb3066-5fbb-4dcd-ab63-c9c219f13e12",
+          "name": "Cancel a fine-tuning job",
+          "request": {
+            "name": "Cancel a fine-tuning job",
+            "description": {
+              "content": "Cancels a running fine-tuning job. The job will be stopped and any partial training progress will be discarded. Credits for unused compute time may be refunded.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "fine-tuning",
+                "jobs",
+                ":job_id",
+                "cancel"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "job_id",
+                  "description": "(Required) The unique identifier of the fine-tuning job."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e25a1ac0-ed07-4bce-b288-d4126690eab5",
+              "name": "Successfully cancelled the fine-tuning job.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fine-tuning",
+                    "jobs",
+                    ":job_id",
+                    "cancel"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "job_id",
+                      "description": "(Required) The unique identifier of the fine-tuning job."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"status\": \"queued\",\n  \"base_model\": \"string\",\n  \"dataset_id\": \"string\",\n  \"task_type\": \"not_qa\",\n  \"hyperparameters\": {\n    \"epochs\": 1196,\n    \"max_steps\": 1681,\n    \"learning_rate\": 6393.032152034266,\n    \"validation_split\": 0.5328613848663756\n  },\n  \"fine_tuned_model\": \"string\",\n  \"training_metrics\": {\n    \"training_loss\": 9544.949012348035,\n    \"validation_loss\": 2821.6812442418714,\n    \"steps_completed\": 4992,\n    \"epochs_completed\": 9485\n  },\n  \"created_at\": \"1947-06-07T05:15:16.654Z\",\n  \"completed_at\": \"1964-06-16T02:24:51.963Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e4c273c4-ceb2-45ce-8a93-856ba094dfee",
+              "name": "Authentication failed due to a missing or invalid bearer token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fine-tuning",
+                    "jobs",
+                    ":job_id",
+                    "cancel"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "job_id",
+                      "description": "(Required) The unique identifier of the fine-tuning job."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"message\": \"string\",\n    \"type\": \"string\",\n    \"code\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bb2bfa10-dc35-4329-b3e4-1ffed7eaecd5",
+              "name": "The specified fine-tuning job was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "fine-tuning",
+                    "jobs",
+                    ":job_id",
+                    "cancel"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "job_id",
+                      "description": "(Required) The unique identifier of the fine-tuning job."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"message\": \"string\",\n    \"type\": \"string\",\n    \"code\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://platform.qubrid.com/api/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "afa87717-bcc6-4fcc-a2ab-ee62f653ca1a",
+    "name": "Qubrid AI Compute Chat Completions Fine-Tuning Jobs API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Qubrid AI Compute API provides programmatic access to GPU cloud infrastructure including NVIDIA H100, H200, and B200 accelerators. Developers can provision and manage GPU instances for AI and machine learning workloads through API calls. The service supports on-demand compute for training, fine-tuning, and batch inference jobs, with usage-based billing and enterprise features such as team collaboration and usage tracking. Instances can be accessed via SSH, Jupyter notebooks, or Visual Studio Code, and support quick-deploy templates for popular frameworks including PyTorch, TensorFlow, ComfyUI, n8n, and Langflow.\n\nContact Support:\n Name: Qubrid AI Support",
+      "type": "text/plain"
+    }
+  }
+}

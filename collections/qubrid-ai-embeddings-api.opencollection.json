@@ -1,0 +1,39 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qubrid AI Compute Chat Completions Embeddings API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Embeddings",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create embeddings",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://platform.qubrid.com/api/v1/embeddings",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Generates vector embeddings for the provided input text using a specified embedding model on the Qubrid AI platform. Embeddings can be used for semantic search, clustering, recommendations, and retrieval-augmented generation workflows."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

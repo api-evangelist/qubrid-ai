@@ -1,0 +1,69 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qubrid AI Compute Chat Completions SSH Keys API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "SSH Keys",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List SSH keys",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform.qubrid.com/api/v1/ssh-keys"
+          },
+          "docs": "Returns a list of SSH public keys registered with the authenticated user's account for accessing GPU compute instances."
+        },
+        {
+          "info": {
+            "name": "Add an SSH key",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://platform.qubrid.com/api/v1/ssh-keys",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Registers a new SSH public key with the authenticated user's account. The key can then be assigned to GPU compute instances for secure access."
+        },
+        {
+          "info": {
+            "name": "Remove an SSH key",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://platform.qubrid.com/api/v1/ssh-keys/:key_id",
+            "params": [
+              {
+                "name": "key_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the SSH key."
+              }
+            ]
+          },
+          "docs": "Removes an SSH public key from the authenticated user's account. The key will no longer be available for assignment to new instances."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

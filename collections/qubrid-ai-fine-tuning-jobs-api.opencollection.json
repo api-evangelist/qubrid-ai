@@ -1,0 +1,102 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qubrid AI Compute Chat Completions Fine-Tuning Jobs API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Fine-Tuning Jobs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List fine-tuning jobs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform.qubrid.com/api/v1/fine-tuning/jobs",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return per page."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to skip for pagination."
+              }
+            ]
+          },
+          "docs": "Returns a list of all fine-tuning jobs associated with the authenticated user's account, including their status, base model, hyperparameters, and training progress."
+        },
+        {
+          "info": {
+            "name": "Create a fine-tuning job",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://platform.qubrid.com/api/v1/fine-tuning/jobs",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates and starts a new fine-tuning job that customizes a base model using the specified training dataset and hyperparameters. The job runs on GPU infrastructure and produces a fine-tuned model artifact upon completion. Supported task types include Question Answering (QA) and non-QA text generation."
+        },
+        {
+          "info": {
+            "name": "Retrieve a fine-tuning job",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://platform.qubrid.com/api/v1/fine-tuning/jobs/:job_id",
+            "params": [
+              {
+                "name": "job_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the fine-tuning job."
+              }
+            ]
+          },
+          "docs": "Returns details about a specific fine-tuning job including its current status, base model, hyperparameters, training metrics, and the resulting fine-tuned model identifier upon completion."
+        },
+        {
+          "info": {
+            "name": "Cancel a fine-tuning job",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://platform.qubrid.com/api/v1/fine-tuning/jobs/:job_id/cancel",
+            "params": [
+              {
+                "name": "job_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the fine-tuning job."
+              }
+            ]
+          },
+          "docs": "Cancels a running fine-tuning job. The job will be stopped and any partial training progress will be discarded. Credits for unused compute time may be refunded."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
