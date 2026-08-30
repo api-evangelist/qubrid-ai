@@ -1,0 +1,64 @@
+slug: qubrid-ai
+provider: Qubrid AI
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Electrical Components & Equipment
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 5
+edges:
+- tag: Fine-Tuning Jobs
+  spec_file: qubrid-ai-fine-tuning-jobs-api-openapi.yml
+  capability_id: BC-610.60
+  capability_id_l1: BC-610
+  capability_name: Artificial Intelligence Management
+  confidence: 0.8
+  evidence: POST /fine-tuning/jobs createFineTuningJob 'Create a fine-tuning job'; schemas TrainingMetrics,
+    Hyperparameters
+  reason: Creating, monitoring and cancelling model training jobs with hyperparameters and training metrics
+    is squarely AI/ML model lifecycle (MLOps) work.
+- tag: Instances
+  spec_file: qubrid-ai-instances-api-openapi.yml
+  capability_id: BC-600.50
+  capability_id_l1: BC-600
+  capability_name: IT Infrastructure Management
+  confidence: 0.8
+  evidence: POST /instances createInstance 'Create a compute instance'; 'Terminate a compute instance';
+    'Start a compute instance'
+  reason: Full lifecycle control of cloud GPU compute instances is compute/cloud infrastructure management,
+    not an industry-specific capability.
+- tag: Fine-Tuned Models
+  spec_file: qubrid-ai-fine-tuned-models-api-openapi.yml
+  capability_id: BC-610.60
+  capability_id_l1: BC-610
+  capability_name: Artificial Intelligence Management
+  confidence: 0.75
+  evidence: GET /fine-tuning/models listFineTunedModels 'List fine-tuned models'; schema FineTunedModel
+  reason: Operations manage the inventory of fine-tuned ML models (list, delete), i.e. AI/ML model lifecycle
+    management. No business capability outside AI management fits.
+- tag: Chat Completions
+  spec_file: qubrid-ai-chat-completions-api-openapi.yml
+  capability_id: BC-610.60
+  capability_id_l1: BC-610
+  capability_name: Artificial Intelligence Management
+  confidence: 0.7
+  evidence: POST /chat/completions  createChatCompletion  Create a chat completion
+  reason: OpenAI-compatible LLM inference endpoint (ChatCompletionRequest/Response schemas). Delivery
+    of AI model inference maps to Artificial Intelligence Management; it is infrastructure-adjacent so
+    confidence is moderate.
+- tag: Datasets
+  spec_file: qubrid-ai-datasets-api-openapi.yml
+  capability_id: BC-610.60
+  capability_id_l1: BC-610
+  capability_name: Artificial Intelligence Management
+  confidence: 0.7
+  evidence: GET /fine-tuning/datasets  listDatasets  List training datasets; POST /fine-tuning/datasets  uploadDataset  Upload
+    a training dataset
+  reason: Management of training datasets used for model fine-tuning — part of the AI/ML model lifecycle
+    (MLOps). Not generic data management since the datasets are explicitly fine-tuning artefacts.

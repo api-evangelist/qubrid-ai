@@ -424,6 +424,9 @@ apis:
     url: >-
       https://raw.githubusercontent.com/api-evangelist/qubrid-ai/refs/heads/main/json-schema/qubrid-ai-rag-schema.json
 common:
+  - type: CapabilityMap
+    url: capabilities/qubrid-ai-capability-edges.yml
+    name: Qubrid AI Business Capability Map
   - type: AgenticAccess
     url: agentic-access/qubrid-ai-agentic-access.yml
   - type: DomainSecurity
