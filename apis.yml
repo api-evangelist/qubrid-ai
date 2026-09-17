@@ -170,34 +170,6 @@ apis:
   - type: JSONSchema
     url: >-
       https://raw.githubusercontent.com/api-evangelist/qubrid-ai/refs/heads/main/json-schema/qubrid-ai-rag-schema.json
-- aid: qubrid-ai:qubrid-ai-fine-tuned-models-api
-  name: Qubrid AI Fine-Tuned Models API
-  description: >-
-    List and manage fine-tuned model artifacts produced by completed fine-tuning jobs. Fine-tuned models
-    can be deployed for inference on the Qubrid AI platform.
-  humanURL: https://docs.platform.qubrid.com
-  baseURL: https://platform.qubrid.com/api/v1
-  tags:
-  - Fine-Tuned Models
-  properties:
-  - type: OpenAPI
-    url: openapi/qubrid-ai-fine-tuned-models-api-openapi.yml
-  - type: Documentation
-    url: https://docs.platform.qubrid.com
-  - type: JSONSchema
-    url: >-
-      https://raw.githubusercontent.com/api-evangelist/qubrid-ai/refs/heads/main/json-schema/qubrid-ai-inference-schema.json
-  - type: JSONSchema
-    url: >-
-      https://raw.githubusercontent.com/api-evangelist/qubrid-ai/refs/heads/main/json-schema/qubrid-ai-compute-schema.json
-  - type: Documentation
-    url: https://docs.platform.qubrid.com/Fine%20Tuning
-  - type: JSONSchema
-    url: >-
-      https://raw.githubusercontent.com/api-evangelist/qubrid-ai/refs/heads/main/json-schema/qubrid-ai-fine-tuning-schema.json
-  - type: JSONSchema
-    url: >-
-      https://raw.githubusercontent.com/api-evangelist/qubrid-ai/refs/heads/main/json-schema/qubrid-ai-rag-schema.json
 - aid: qubrid-ai:qubrid-ai-fine-tuning-jobs-api
   name: Qubrid AI Fine-Tuning Jobs API
   description: >-
@@ -408,6 +380,34 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/qubrid-ai-templates-api-openapi.yml
+  - type: Documentation
+    url: https://docs.platform.qubrid.com
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/qubrid-ai/refs/heads/main/json-schema/qubrid-ai-inference-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/qubrid-ai/refs/heads/main/json-schema/qubrid-ai-compute-schema.json
+  - type: Documentation
+    url: https://docs.platform.qubrid.com/Fine%20Tuning
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/qubrid-ai/refs/heads/main/json-schema/qubrid-ai-fine-tuning-schema.json
+  - type: JSONSchema
+    url: >-
+      https://raw.githubusercontent.com/api-evangelist/qubrid-ai/refs/heads/main/json-schema/qubrid-ai-rag-schema.json
+- aid: qubrid-ai:qubrid-ai-finetuned-models-api
+  name: Qubrid AI Finetuned Models API
+  description: >-
+    List and manage fine-tuned model artifacts produced by completed fine-tuning jobs. Fine-tuned models
+    can be deployed for inference on the Qubrid AI platform.
+  humanURL: https://docs.platform.qubrid.com
+  baseURL: https://platform.qubrid.com/api/v1
+  tags:
+  - Finetuned Models
+  properties:
+  - type: OpenAPI
+    url: openapi/qubrid-ai-finetuned-models-api-openapi.yml
   - type: Documentation
     url: https://docs.platform.qubrid.com
   - type: JSONSchema
