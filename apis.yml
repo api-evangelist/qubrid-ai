@@ -39,7 +39,7 @@ tags:
   - Cloud Computing
   - GPU
   - Inference
-  - Large Language Models
+  - LLM
   - Machine-Learning
   - NVIDIA
   - Serverless
@@ -404,6 +404,8 @@ apis:
   humanURL: https://docs.platform.qubrid.com
   baseURL: https://platform.qubrid.com/api/v1
   tags:
+  - Fine-Tuned Models
+  tags_raw:
   - Finetuned Models
   properties:
   - type: OpenAPI
