@@ -10,6 +10,11 @@ provenance:
   grounding: every price_text was found verbatim in the fetched page text
 audience: developer-api
 pricing_basis: usage-other
+delivery:
+  delivery: managed+licensed
+  method: page
+  read: '2026-09-20'
+  evidence: Bare Metal Servers Dedicated NVIDIA HGX infrastructure for large-scale training and inference.
 published: true
 note: Token-based model pricing and GPU VM hourly tables failed to load on the page ("Unable to load model
   pricing"), so only bare metal annual prices are shown. Page mentions "Start with $1.00 free API credit
