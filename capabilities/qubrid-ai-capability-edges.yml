@@ -34,7 +34,8 @@ edges:
   reason: Full lifecycle control of cloud GPU compute instances is compute/cloud infrastructure management,
     not an industry-specific capability.
 - tag: Fine-Tuned Models
-  spec_file: qubrid-ai-fine-tuned-models-api-openapi.yml
+  spec_file: qubrid-ai-finetuned-models-api-openapi.yml
+  reanchored_from: qubrid-ai-fine-tuned-models-api-openapi.yml
   capability_id: BC-610.60
   capability_id_l1: BC-610
   capability_name: Artificial Intelligence Management
