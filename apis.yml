@@ -427,6 +427,10 @@ apis:
     url: >-
       https://raw.githubusercontent.com/api-evangelist/qubrid-ai/refs/heads/main/json-schema/qubrid-ai-rag-schema.json
 common:
+  - type: Pricing
+    url: https://qubrid.com/pricing
+  - type: Plans
+    url: plans/qubrid-ai-plans-pricing.yml
   - type: CapabilityMap
     url: capabilities/qubrid-ai-capability-edges.yml
     name: Qubrid AI Business Capability Map
