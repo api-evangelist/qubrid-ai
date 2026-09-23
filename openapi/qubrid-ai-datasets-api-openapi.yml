@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Qubrid AI Compute Chat Completions Datasets API
-  description: The Qubrid AI Compute API provides programmatic access to GPU cloud infrastructure including NVIDIA H100, H200, and B200 accelerators. Developers can provision and manage GPU instances for AI and machine learning workloads through API calls. The service supports on-demand compute for training, fine-tuning, and batch inference jobs, with usage-based billing and enterprise features such as team collaboration and usage tracking. Instances can be accessed via SSH, Jupyter notebooks, or Visual Studio Code, and support quick-deploy templates for popular frameworks including PyTorch, TensorFlow, ComfyUI, n8n, and Langflow.
+  title: Qubrid AI Fine-Tuning Datasets API
+  description: The Qubrid AI Fine-Tuning API enables developers and enterprises to customize open-source AI models using their own data.
   version: 1.0.0
   contact:
     name: Qubrid AI Support
@@ -9,7 +9,7 @@ info:
   termsOfService: https://www.qubrid.com/terms-of-service
 servers:
 - url: https://platform.qubrid.com/api/v1
-  description: Qubrid AI Compute Production Server
+  description: Qubrid AI Fine-Tuning Production Server
 security:
 - bearerAuth: []
 tags:
@@ -126,19 +126,6 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    UploadDatasetRequest:
-      type: object
-      required:
-      - file
-      properties:
-        file:
-          type: string
-          format: binary
-          description: The CSV training dataset file. Only CSV format is accepted; other file extensions will return an error.
-        name:
-          type: string
-          description: An optional display name for the dataset.
-          maxLength: 256
     ErrorResponse:
       type: object
       properties:
@@ -178,6 +165,19 @@ components:
           type: string
           format: date-time
           description: The timestamp when the dataset was uploaded.
+    UploadDatasetRequest:
+      type: object
+      required:
+      - file
+      properties:
+        file:
+          type: string
+          format: binary
+          description: The CSV training dataset file. Only CSV format is accepted; other file extensions will return an error.
+        name:
+          type: string
+          description: An optional display name for the dataset.
+          maxLength: 256
     DatasetList:
       type: object
       properties:
@@ -201,5 +201,5 @@ components:
       bearerFormat: QUBRID_API_KEY
       description: Qubrid AI API key passed as a bearer token in the Authorization header. Obtain your API key from the Qubrid AI platform dashboard at https://platform.qubrid.com.
 externalDocs:
-  description: Qubrid AI Documentation
-  url: https://docs.platform.qubrid.com
+  description: Qubrid AI Fine-Tuning Documentation
+  url: https://docs.platform.qubrid.com/Fine%20Tuning

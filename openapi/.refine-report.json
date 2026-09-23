@@ -1,38 +1,53 @@
 {
   "provider": "qubrid-ai",
   "sources": [
-    "qubrid-ai-chat-completions-api-openapi.yml",
-    "qubrid-ai-datasets-api-openapi.yml",
-    "qubrid-ai-documents-api-openapi.yml",
-    "qubrid-ai-embeddings-api-openapi.yml",
-    "qubrid-ai-fine-tuned-models-api-openapi.yml",
-    "qubrid-ai-fine-tuning-jobs-api-openapi.yml",
-    "qubrid-ai-gpu-catalog-api-openapi.yml",
-    "qubrid-ai-instances-api-openapi.yml",
-    "qubrid-ai-knowledge-bases-api-openapi.yml",
-    "qubrid-ai-models-api-openapi.yml",
-    "qubrid-ai-rag-queries-api-openapi.yml",
-    "qubrid-ai-ssh-keys-api-openapi.yml",
-    "qubrid-ai-templates-api-openapi.yml"
+    "_original/qubrid-ai-compute-openapi.yml",
+    "_original/qubrid-ai-fine-tuning-openapi.yml",
+    "_original/qubrid-ai-inference-openapi.yml",
+    "_original/qubrid-ai-rag-openapi.yml"
   ],
   "outputs": [
-    "qubrid-ai-chat-completions-api-openapi.yml",
-    "qubrid-ai-datasets-api-openapi.yml",
-    "qubrid-ai-documents-api-openapi.yml",
-    "qubrid-ai-embeddings-api-openapi.yml",
-    "qubrid-ai-fine-tuned-models-api-openapi.yml",
-    "qubrid-ai-fine-tuning-jobs-api-openapi.yml",
     "qubrid-ai-gpu-catalog-api-openapi.yml",
     "qubrid-ai-instances-api-openapi.yml",
-    "qubrid-ai-knowledge-bases-api-openapi.yml",
-    "qubrid-ai-models-api-openapi.yml",
-    "qubrid-ai-rag-queries-api-openapi.yml",
     "qubrid-ai-ssh-keys-api-openapi.yml",
-    "qubrid-ai-templates-api-openapi.yml"
+    "qubrid-ai-templates-api-openapi.yml",
+    "qubrid-ai-datasets-api-openapi.yml",
+    "qubrid-ai-fine-tuned-models-api-openapi.yml",
+    "qubrid-ai-fine-tuning-jobs-api-openapi.yml",
+    "qubrid-ai-chat-completions-api-openapi.yml",
+    "qubrid-ai-embeddings-api-openapi.yml",
+    "qubrid-ai-models-api-openapi.yml",
+    "qubrid-ai-documents-api-openapi.yml",
+    "qubrid-ai-knowledge-bases-api-openapi.yml",
+    "qubrid-ai-rag-queries-api-openapi.yml"
   ],
-  "archived": [],
+  "archived": [
+    "deleted 1 superseded output(s) from the previous generation"
+  ],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (4 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "qubrid-ai-compute-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "qubrid-ai-fine-tuning-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "qubrid-ai-inference-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "qubrid-ai-rag-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "superseded outputs removed: qubrid-ai-finetuned-models-api-openapi.yml",
+    "apis.yml register: written (+1 apis, 13 total)"
+  ],
+  "skipped": [
+    "qubrid-ai-chat-completions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "qubrid-ai-datasets-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "qubrid-ai-documents-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "qubrid-ai-embeddings-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "qubrid-ai-fine-tuning-jobs-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "qubrid-ai-finetuned-models-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "qubrid-ai-gpu-catalog-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "qubrid-ai-instances-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "qubrid-ai-knowledge-bases-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "qubrid-ai-models-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "qubrid-ai-rag-queries-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "qubrid-ai-ssh-keys-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "qubrid-ai-templates-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

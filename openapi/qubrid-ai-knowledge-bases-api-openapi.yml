@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Qubrid AI Compute Chat Completions Knowledge Bases API
-  description: The Qubrid AI Compute API provides programmatic access to GPU cloud infrastructure including NVIDIA H100, H200, and B200 accelerators. Developers can provision and manage GPU instances for AI and machine learning workloads through API calls. The service supports on-demand compute for training, fine-tuning, and batch inference jobs, with usage-based billing and enterprise features such as team collaboration and usage tracking. Instances can be accessed via SSH, Jupyter notebooks, or Visual Studio Code, and support quick-deploy templates for popular frameworks including PyTorch, TensorFlow, ComfyUI, n8n, and Langflow.
+  title: Qubrid AI RAG Knowledge Bases API
+  description: The Qubrid AI RAG API provides retrieval-augmented generation capabilities that allow developers to upload departmental or enterprise data and query it using large language models.
   version: 1.0.0
   contact:
     name: Qubrid AI Support
@@ -9,7 +9,7 @@ info:
   termsOfService: https://www.qubrid.com/terms-of-service
 servers:
 - url: https://platform.qubrid.com/api/v1
-  description: Qubrid AI Compute Production Server
+  description: Qubrid AI RAG Production Server
 security:
 - bearerAuth: []
 tags:
@@ -120,21 +120,6 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            message:
-              type: string
-              description: A human-readable error message describing what went wrong.
-            type:
-              type: string
-              description: The type of error that occurred.
-            code:
-              type: string
-              description: A machine-readable error code.
     KnowledgeBase:
       type: object
       properties:
@@ -171,6 +156,21 @@ components:
           type: string
           format: date-time
           description: The timestamp when the knowledge base was last updated.
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              description: A human-readable error message describing what went wrong.
+            type:
+              type: string
+              description: The type of error that occurred.
+            code:
+              type: string
+              description: A machine-readable error code.
     CreateKnowledgeBaseRequest:
       type: object
       required:
