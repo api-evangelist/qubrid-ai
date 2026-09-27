@@ -40,7 +40,7 @@ tags:
   - GPU
   - Inference
   - LLM
-  - Machine-Learning
+  - Machine Learning
   - NVIDIA
   - Serverless
 tags_raw:
@@ -52,6 +52,7 @@ tags_raw:
   - Machine Learning
   - NVIDIA
   - Serverless
+  - Machine-Learning
 url: https://raw.githubusercontent.com/api-evangelist/qubrid-ai/refs/heads/main/apis.yml
 created: '2026-03-24'
 modified: '2026-05-19'
@@ -404,8 +405,6 @@ apis:
   humanURL: https://docs.platform.qubrid.com
   baseURL: https://platform.qubrid.com/api/v1
   tags:
-  - Fine-Tuned Models
-  tags_raw:
   - Finetuned Models
   properties:
   - type: OpenAPI

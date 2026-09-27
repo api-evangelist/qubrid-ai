@@ -68,33 +68,6 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    ChatCompletionChoice:
-      type: object
-      properties:
-        index:
-          type: integer
-          description: The index of the choice in the list of choices.
-        message:
-          $ref: '#/components/schemas/ChatMessage'
-        finish_reason:
-          type: string
-          enum:
-          - stop
-          - length
-          - content_filter
-          description: The reason the model stopped generating tokens. stop means the model hit a natural stop point or a provided stop sequence, length means the maximum number of tokens was reached, and content_filter means content was omitted due to a filter.
-    Usage:
-      type: object
-      properties:
-        prompt_tokens:
-          type: integer
-          description: The number of tokens in the prompt.
-        completion_tokens:
-          type: integer
-          description: The number of tokens in the generated completion.
-        total_tokens:
-          type: integer
-          description: The total number of tokens used in the request (prompt plus completion).
     ChatCompletionRequest:
       type: object
       required:
@@ -156,6 +129,26 @@ components:
           minimum: -2
           maximum: 2
           default: 0
+    ChatMessage:
+      type: object
+      required:
+      - role
+      - content
+      properties:
+        role:
+          type: string
+          enum:
+          - system
+          - user
+          - assistant
+          description: The role of the message author. Use system for setting the assistant's behavior, user for the human's input, and assistant for previously generated responses.
+        content:
+          oneOf:
+          - type: string
+          - type: array
+            items:
+              $ref: '#/components/schemas/ContentPart'
+          description: The content of the message. Can be a string for text-only messages, or an array of content parts for multimodal messages that include images.
     ErrorResponse:
       type: object
       properties:
@@ -171,28 +164,6 @@ components:
             code:
               type: string
               description: A machine-readable error code.
-    ContentPart:
-      type: object
-      required:
-      - type
-      properties:
-        type:
-          type: string
-          enum:
-          - text
-          - image_url
-          description: The type of content part. Use text for text content and image_url for image content in vision-language model requests.
-        text:
-          type: string
-          description: The text content, used when the type is text.
-        image_url:
-          type: object
-          description: The image URL object, used when the type is image_url.
-          properties:
-            url:
-              type: string
-              format: uri
-              description: The URL of the image to include in the message.
     ChatCompletionResponse:
       type: object
       properties:
@@ -217,26 +188,55 @@ components:
             $ref: '#/components/schemas/ChatCompletionChoice'
         usage:
           $ref: '#/components/schemas/Usage'
-    ChatMessage:
+    ChatCompletionChoice:
       type: object
-      required:
-      - role
-      - content
       properties:
-        role:
+        index:
+          type: integer
+          description: The index of the choice in the list of choices.
+        message:
+          $ref: '#/components/schemas/ChatMessage'
+        finish_reason:
           type: string
           enum:
-          - system
-          - user
-          - assistant
-          description: The role of the message author. Use system for setting the assistant's behavior, user for the human's input, and assistant for previously generated responses.
-        content:
-          oneOf:
-          - type: string
-          - type: array
-            items:
-              $ref: '#/components/schemas/ContentPart'
-          description: The content of the message. Can be a string for text-only messages, or an array of content parts for multimodal messages that include images.
+          - stop
+          - length
+          - content_filter
+          description: The reason the model stopped generating tokens. stop means the model hit a natural stop point or a provided stop sequence, length means the maximum number of tokens was reached, and content_filter means content was omitted due to a filter.
+    ContentPart:
+      type: object
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          enum:
+          - text
+          - image_url
+          description: The type of content part. Use text for text content and image_url for image content in vision-language model requests.
+        text:
+          type: string
+          description: The text content, used when the type is text.
+        image_url:
+          type: object
+          description: The image URL object, used when the type is image_url.
+          properties:
+            url:
+              type: string
+              format: uri
+              description: The URL of the image to include in the message.
+    Usage:
+      type: object
+      properties:
+        prompt_tokens:
+          type: integer
+          description: The number of tokens in the prompt.
+        completion_tokens:
+          type: integer
+          description: The number of tokens in the generated completion.
+        total_tokens:
+          type: integer
+          description: The total number of tokens used in the request (prompt plus completion).
   securitySchemes:
     bearerAuth:
       type: http

@@ -186,17 +186,44 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    InstanceList:
+    CreateInstanceRequest:
       type: object
+      required:
+      - gpu_type
       properties:
-        data:
-          type: array
-          description: A list of compute instance objects.
-          items:
-            $ref: '#/components/schemas/Instance'
-        total:
+        name:
+          type: string
+          description: A user-assigned name for the compute instance.
+          maxLength: 128
+        gpu_type:
+          type: string
+          description: The type of GPU to provision, such as H100, H200, or B200.
+        gpu_count:
           type: integer
-          description: The total number of instances matching the query.
+          description: The number of GPUs to assign to the instance.
+          minimum: 1
+          default: 1
+        region:
+          type: string
+          description: The preferred data center region for the instance.
+        template_id:
+          type: string
+          description: The identifier of a pre-configured template to deploy on the instance, such as PyTorch or TensorFlow.
+        ssh_key_ids:
+          type: array
+          items:
+            type: string
+          description: A list of SSH key identifiers to install on the instance for secure access.
+        rental_plan:
+          type: string
+          enum:
+          - on_demand
+          - weekly
+          - monthly
+          - quarterly
+          - annual
+          description: The rental plan for the instance, affecting pricing and commitment period.
+          default: on_demand
     Instance:
       type: object
       properties:
@@ -244,6 +271,17 @@ components:
         cost_per_hour:
           type: number
           description: The hourly cost of running this instance in USD.
+    InstanceList:
+      type: object
+      properties:
+        data:
+          type: array
+          description: A list of compute instance objects.
+          items:
+            $ref: '#/components/schemas/Instance'
+        total:
+          type: integer
+          description: The total number of instances matching the query.
     ErrorResponse:
       type: object
       properties:
@@ -259,55 +297,7 @@ components:
             code:
               type: string
               description: A machine-readable error code.
-    CreateInstanceRequest:
-      type: object
-      required:
-      - gpu_type
-      properties:
-        name:
-          type: string
-          description: A user-assigned name for the compute instance.
-          maxLength: 128
-        gpu_type:
-          type: string
-          description: The type of GPU to provision, such as H100, H200, or B200.
-        gpu_count:
-          type: integer
-          description: The number of GPUs to assign to the instance.
-          minimum: 1
-          default: 1
-        region:
-          type: string
-          description: The preferred data center region for the instance.
-        template_id:
-          type: string
-          description: The identifier of a pre-configured template to deploy on the instance, such as PyTorch or TensorFlow.
-        ssh_key_ids:
-          type: array
-          items:
-            type: string
-          description: A list of SSH key identifiers to install on the instance for secure access.
-        rental_plan:
-          type: string
-          enum:
-          - on_demand
-          - weekly
-          - monthly
-          - quarterly
-          - annual
-          description: The rental plan for the instance, affecting pricing and commitment period.
-          default: on_demand
   parameters:
-    PageLimit:
-      name: limit
-      in: query
-      required: false
-      description: Maximum number of results to return per page.
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 20
     PageOffset:
       name: offset
       in: query
@@ -337,6 +327,16 @@ components:
       description: The unique identifier of the compute instance.
       schema:
         type: string
+    PageLimit:
+      name: limit
+      in: query
+      required: false
+      description: Maximum number of results to return per page.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
   securitySchemes:
     bearerAuth:
       type: http

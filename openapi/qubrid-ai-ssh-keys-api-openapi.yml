@@ -108,14 +108,6 @@ components:
             code:
               type: string
               description: A machine-readable error code.
-    SshKeyList:
-      type: object
-      properties:
-        data:
-          type: array
-          description: A list of SSH key objects.
-          items:
-            $ref: '#/components/schemas/SshKey'
     SshKey:
       type: object
       properties:
@@ -148,6 +140,14 @@ components:
         public_key:
           type: string
           description: The SSH public key string in OpenSSH format.
+    SshKeyList:
+      type: object
+      properties:
+        data:
+          type: array
+          description: A list of SSH key objects.
+          items:
+            $ref: '#/components/schemas/SshKey'
   parameters:
     SshKeyId:
       name: key_id

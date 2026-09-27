@@ -56,6 +56,21 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              description: A human-readable error message describing what went wrong.
+            type:
+              type: string
+              description: The type of error that occurred.
+            code:
+              type: string
+              description: A machine-readable error code.
     EmbeddingObject:
       type: object
       properties:
@@ -72,6 +87,29 @@ components:
         index:
           type: integer
           description: The index of the embedding in the list of embeddings.
+    EmbeddingRequest:
+      type: object
+      required:
+      - model
+      - input
+      properties:
+        model:
+          type: string
+          description: The identifier of the embedding model to use for generating vector representations of the input text.
+        input:
+          oneOf:
+          - type: string
+          - type: array
+            items:
+              type: string
+          description: The input text to embed. Can be a single string or an array of strings for batch embedding.
+        encoding_format:
+          type: string
+          enum:
+          - float
+          - base64
+          description: The format to return the embeddings in. Defaults to float.
+          default: float
     EmbeddingResponse:
       type: object
       properties:
@@ -97,44 +135,6 @@ components:
             total_tokens:
               type: integer
               description: The total number of tokens processed.
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            message:
-              type: string
-              description: A human-readable error message describing what went wrong.
-            type:
-              type: string
-              description: The type of error that occurred.
-            code:
-              type: string
-              description: A machine-readable error code.
-    EmbeddingRequest:
-      type: object
-      required:
-      - model
-      - input
-      properties:
-        model:
-          type: string
-          description: The identifier of the embedding model to use for generating vector representations of the input text.
-        input:
-          oneOf:
-          - type: string
-          - type: array
-            items:
-              type: string
-          description: The input text to embed. Can be a single string or an array of strings for batch embedding.
-        encoding_format:
-          type: string
-          enum:
-          - float
-          - base64
-          description: The format to return the embeddings in. Defaults to float.
-          default: float
   securitySchemes:
     bearerAuth:
       type: http

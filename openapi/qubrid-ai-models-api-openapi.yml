@@ -65,16 +65,20 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
-  parameters:
-    ModelId:
-      name: model_id
-      in: path
-      required: true
-      description: The unique identifier of the model to retrieve, such as deepseek-ai/DeepSeek-R1-Distill-Llama-70B or Qwen/Qwen3.5-27B.
-      schema:
-        type: string
-      example: deepseek-ai/DeepSeek-R1-Distill-Llama-70B
   schemas:
+    ModelList:
+      type: object
+      properties:
+        object:
+          type: string
+          enum:
+          - list
+          description: The object type, always list.
+        data:
+          type: array
+          description: A list of model objects available on the Qubrid AI platform.
+          items:
+            $ref: '#/components/schemas/Model'
     ErrorResponse:
       type: object
       properties:
@@ -90,19 +94,6 @@ components:
             code:
               type: string
               description: A machine-readable error code.
-    ModelList:
-      type: object
-      properties:
-        object:
-          type: string
-          enum:
-          - list
-          description: The object type, always list.
-        data:
-          type: array
-          description: A list of model objects available on the Qubrid AI platform.
-          items:
-            $ref: '#/components/schemas/Model'
     Model:
       type: object
       properties:
@@ -120,6 +111,15 @@ components:
         owned_by:
           type: string
           description: The organization that owns or published the model.
+  parameters:
+    ModelId:
+      name: model_id
+      in: path
+      required: true
+      description: The unique identifier of the model to retrieve, such as deepseek-ai/DeepSeek-R1-Distill-Llama-70B or Qwen/Qwen3.5-27B.
+      schema:
+        type: string
+      example: deepseek-ai/DeepSeek-R1-Distill-Llama-70B
   securitySchemes:
     bearerAuth:
       type: http

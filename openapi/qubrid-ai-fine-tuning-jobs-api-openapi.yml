@@ -134,6 +134,42 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
+    Hyperparameters:
+      type: object
+      properties:
+        epochs:
+          type: integer
+          description: The number of full passes the model makes over the training dataset. More epochs let the model learn more but too many can cause overfitting.
+          minimum: 1
+        max_steps:
+          type: integer
+          description: The maximum number of training iterations, where each step equals one batch of data processed.
+          minimum: 1
+        learning_rate:
+          type: number
+          description: The learning rate for the optimizer, controlling how much the model weights are adjusted during each training step.
+          minimum: 0
+          exclusiveMinimum: true
+        validation_split:
+          type: number
+          description: The percentage of the dataset reserved for validation, expressed as a decimal between 0 and 1.
+          minimum: 0
+          maximum: 1
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              description: A human-readable error message describing what went wrong.
+            type:
+              type: string
+              description: The type of error that occurred.
+            code:
+              type: string
+              description: A machine-readable error code.
     CreateFineTuningJobRequest:
       type: object
       required:
@@ -216,42 +252,6 @@ components:
           type: string
           format: date-time
           description: The timestamp when the fine-tuning job completed, if applicable.
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            message:
-              type: string
-              description: A human-readable error message describing what went wrong.
-            type:
-              type: string
-              description: The type of error that occurred.
-            code:
-              type: string
-              description: A machine-readable error code.
-    Hyperparameters:
-      type: object
-      properties:
-        epochs:
-          type: integer
-          description: The number of full passes the model makes over the training dataset. More epochs let the model learn more but too many can cause overfitting.
-          minimum: 1
-        max_steps:
-          type: integer
-          description: The maximum number of training iterations, where each step equals one batch of data processed.
-          minimum: 1
-        learning_rate:
-          type: number
-          description: The learning rate for the optimizer, controlling how much the model weights are adjusted during each training step.
-          minimum: 0
-          exclusiveMinimum: true
-        validation_split:
-          type: number
-          description: The percentage of the dataset reserved for validation, expressed as a decimal between 0 and 1.
-          minimum: 0
-          maximum: 1
     FineTuningJobList:
       type: object
       properties:
@@ -264,16 +264,6 @@ components:
           type: integer
           description: The total number of fine-tuning jobs.
   parameters:
-    PageLimit:
-      name: limit
-      in: query
-      required: false
-      description: Maximum number of results to return per page.
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 20
     PageOffset:
       name: offset
       in: query
@@ -290,6 +280,16 @@ components:
       description: The unique identifier of the fine-tuning job.
       schema:
         type: string
+    PageLimit:
+      name: limit
+      in: query
+      required: false
+      description: Maximum number of results to return per page.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
   securitySchemes:
     bearerAuth:
       type: http

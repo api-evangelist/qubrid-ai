@@ -82,6 +82,21 @@ components:
             total_tokens:
               type: integer
               description: The total number of tokens used.
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              description: A human-readable error message describing what went wrong.
+            type:
+              type: string
+              description: The type of error that occurred.
+            code:
+              type: string
+              description: A machine-readable error code.
     SourceReference:
       type: object
       properties:
@@ -99,21 +114,6 @@ components:
           description: The semantic similarity score between the query and this chunk, expressed as a value between 0 and 1.
           minimum: 0
           maximum: 1
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            message:
-              type: string
-              description: A human-readable error message describing what went wrong.
-            type:
-              type: string
-              description: The type of error that occurred.
-            code:
-              type: string
-              description: A machine-readable error code.
     RagQueryRequest:
       type: object
       required:

@@ -110,6 +110,38 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
+    UploadDocumentRequest:
+      type: object
+      required:
+      - file
+      properties:
+        file:
+          type: string
+          format: binary
+          description: The document file to upload. Supported formats include PDF, TXT, CSV, DOCX, and other common document types.
+    DocumentList:
+      type: object
+      properties:
+        data:
+          type: array
+          description: A list of document objects.
+          items:
+            $ref: '#/components/schemas/Document'
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              description: A human-readable error message describing what went wrong.
+            type:
+              type: string
+              description: The type of error that occurred.
+            code:
+              type: string
+              description: A machine-readable error code.
     Document:
       type: object
       properties:
@@ -139,51 +171,19 @@ components:
           type: string
           format: date-time
           description: The timestamp when the document was uploaded.
-    DocumentList:
-      type: object
-      properties:
-        data:
-          type: array
-          description: A list of document objects.
-          items:
-            $ref: '#/components/schemas/Document'
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            message:
-              type: string
-              description: A human-readable error message describing what went wrong.
-            type:
-              type: string
-              description: The type of error that occurred.
-            code:
-              type: string
-              description: A machine-readable error code.
-    UploadDocumentRequest:
-      type: object
-      required:
-      - file
-      properties:
-        file:
-          type: string
-          format: binary
-          description: The document file to upload. Supported formats include PDF, TXT, CSV, DOCX, and other common document types.
   parameters:
-    DocumentId:
-      name: document_id
-      in: path
-      required: true
-      description: The unique identifier of the document.
-      schema:
-        type: string
     KnowledgeBaseId:
       name: knowledge_base_id
       in: path
       required: true
       description: The unique identifier of the knowledge base.
+      schema:
+        type: string
+    DocumentId:
+      name: document_id
+      in: path
+      required: true
+      description: The unique identifier of the document.
       schema:
         type: string
   securitySchemes:
