@@ -93,21 +93,19 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    ErrorResponse:
+    CreateSshKeyRequest:
       type: object
+      required:
+      - name
+      - public_key
       properties:
-        error:
-          type: object
-          properties:
-            message:
-              type: string
-              description: A human-readable error message describing what went wrong.
-            type:
-              type: string
-              description: The type of error that occurred.
-            code:
-              type: string
-              description: A machine-readable error code.
+        name:
+          type: string
+          description: A user-assigned name for the SSH key.
+          maxLength: 128
+        public_key:
+          type: string
+          description: The SSH public key string in OpenSSH format.
     SshKey:
       type: object
       properties:
@@ -127,19 +125,6 @@ components:
           type: string
           format: date-time
           description: The timestamp when the SSH key was registered.
-    CreateSshKeyRequest:
-      type: object
-      required:
-      - name
-      - public_key
-      properties:
-        name:
-          type: string
-          description: A user-assigned name for the SSH key.
-          maxLength: 128
-        public_key:
-          type: string
-          description: The SSH public key string in OpenSSH format.
     SshKeyList:
       type: object
       properties:
@@ -148,6 +133,21 @@ components:
           description: A list of SSH key objects.
           items:
             $ref: '#/components/schemas/SshKey'
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              description: A human-readable error message describing what went wrong.
+            type:
+              type: string
+              description: The type of error that occurred.
+            code:
+              type: string
+              description: A machine-readable error code.
   parameters:
     SshKeyId:
       name: key_id

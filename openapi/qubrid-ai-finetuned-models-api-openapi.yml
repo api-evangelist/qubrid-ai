@@ -62,21 +62,6 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            message:
-              type: string
-              description: A human-readable error message describing what went wrong.
-            type:
-              type: string
-              description: The type of error that occurred.
-            code:
-              type: string
-              description: A machine-readable error code.
     FineTunedModel:
       type: object
       properties:
@@ -100,6 +85,21 @@ components:
           type: string
           format: date-time
           description: The timestamp when the fine-tuned model was created.
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              description: A human-readable error message describing what went wrong.
+            type:
+              type: string
+              description: The type of error that occurred.
+            code:
+              type: string
+              description: A machine-readable error code.
     FineTunedModelList:
       type: object
       properties:

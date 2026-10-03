@@ -125,15 +125,28 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
-  parameters:
-    DatasetId:
-      name: dataset_id
-      in: path
-      required: true
-      description: The unique identifier of the training dataset.
-      schema:
-        type: string
   schemas:
+    UploadDatasetRequest:
+      type: object
+      required:
+      - file
+      properties:
+        file:
+          type: string
+          format: binary
+          description: The CSV training dataset file. Only CSV format is accepted; other file extensions will return an error.
+        name:
+          type: string
+          description: An optional display name for the dataset.
+          maxLength: 256
+    DatasetList:
+      type: object
+      properties:
+        data:
+          type: array
+          description: A list of dataset objects.
+          items:
+            $ref: '#/components/schemas/Dataset'
     ErrorResponse:
       type: object
       properties:
@@ -149,27 +162,6 @@ components:
             code:
               type: string
               description: A machine-readable error code.
-    DatasetList:
-      type: object
-      properties:
-        data:
-          type: array
-          description: A list of dataset objects.
-          items:
-            $ref: '#/components/schemas/Dataset'
-    UploadDatasetRequest:
-      type: object
-      required:
-      - file
-      properties:
-        file:
-          type: string
-          format: binary
-          description: The CSV training dataset file. Only CSV format is accepted; other file extensions will return an error.
-        name:
-          type: string
-          description: An optional display name for the dataset.
-          maxLength: 256
     Dataset:
       type: object
       properties:
@@ -194,6 +186,14 @@ components:
           type: string
           format: date-time
           description: The timestamp when the dataset was uploaded.
+  parameters:
+    DatasetId:
+      name: dataset_id
+      in: path
+      required: true
+      description: The unique identifier of the training dataset.
+      schema:
+        type: string
   securitySchemes:
     bearerAuth:
       type: http

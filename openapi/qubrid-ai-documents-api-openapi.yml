@@ -110,6 +110,35 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
+    Document:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the document.
+        name:
+          type: string
+          description: The original filename of the uploaded document.
+        size_bytes:
+          type: integer
+          description: The size of the document file in bytes.
+        format:
+          type: string
+          description: The file format of the document, such as pdf, txt, csv, or docx.
+        chunk_count:
+          type: integer
+          description: The number of chunks the document was split into after processing.
+        status:
+          type: string
+          enum:
+          - processing
+          - ready
+          - error
+          description: The processing status of the document. Processing means the document is being chunked and embedded, ready means it is available for retrieval, and error means processing failed.
+        created_at:
+          type: string
+          format: date-time
+          description: The timestamp when the document was uploaded.
     UploadDocumentRequest:
       type: object
       required:
@@ -142,35 +171,6 @@ components:
             code:
               type: string
               description: A machine-readable error code.
-    Document:
-      type: object
-      properties:
-        id:
-          type: string
-          description: The unique identifier of the document.
-        name:
-          type: string
-          description: The original filename of the uploaded document.
-        size_bytes:
-          type: integer
-          description: The size of the document file in bytes.
-        format:
-          type: string
-          description: The file format of the document, such as pdf, txt, csv, or docx.
-        chunk_count:
-          type: integer
-          description: The number of chunks the document was split into after processing.
-        status:
-          type: string
-          enum:
-          - processing
-          - ready
-          - error
-          description: The processing status of the document. Processing means the document is being chunked and embedded, ready means it is available for retrieval, and error means processing failed.
-        created_at:
-          type: string
-          format: date-time
-          description: The timestamp when the document was uploaded.
   parameters:
     KnowledgeBaseId:
       name: knowledge_base_id

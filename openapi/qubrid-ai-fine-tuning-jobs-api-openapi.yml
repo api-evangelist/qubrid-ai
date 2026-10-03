@@ -155,61 +155,6 @@ components:
           description: The percentage of the dataset reserved for validation, expressed as a decimal between 0 and 1.
           minimum: 0
           maximum: 1
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            message:
-              type: string
-              description: A human-readable error message describing what went wrong.
-            type:
-              type: string
-              description: The type of error that occurred.
-            code:
-              type: string
-              description: A machine-readable error code.
-    CreateFineTuningJobRequest:
-      type: object
-      required:
-      - base_model
-      - dataset_id
-      - task_type
-      properties:
-        base_model:
-          type: string
-          description: The identifier of the base model to fine-tune. Must be a pre-deployed text generation or code generation model on the Qubrid AI platform.
-        dataset_id:
-          type: string
-          description: The identifier of the previously uploaded CSV training dataset.
-        task_type:
-          type: string
-          enum:
-          - qa
-          - not_qa
-          description: The task type for fine-tuning. Choose qa for question answering tasks or not_qa for general text generation, summarization, classification, and other tasks.
-        hyperparameters:
-          $ref: '#/components/schemas/Hyperparameters'
-        suffix:
-          type: string
-          description: An optional suffix to append to the fine-tuned model name for identification purposes.
-          maxLength: 64
-    TrainingMetrics:
-      type: object
-      properties:
-        training_loss:
-          type: number
-          description: The final training loss value after the last training step.
-        validation_loss:
-          type: number
-          description: The final validation loss value, if a validation split was configured.
-        steps_completed:
-          type: integer
-          description: The number of training steps completed.
-        epochs_completed:
-          type: integer
-          description: The number of training epochs completed.
     FineTuningJob:
       type: object
       properties:
@@ -252,6 +197,31 @@ components:
           type: string
           format: date-time
           description: The timestamp when the fine-tuning job completed, if applicable.
+    CreateFineTuningJobRequest:
+      type: object
+      required:
+      - base_model
+      - dataset_id
+      - task_type
+      properties:
+        base_model:
+          type: string
+          description: The identifier of the base model to fine-tune. Must be a pre-deployed text generation or code generation model on the Qubrid AI platform.
+        dataset_id:
+          type: string
+          description: The identifier of the previously uploaded CSV training dataset.
+        task_type:
+          type: string
+          enum:
+          - qa
+          - not_qa
+          description: The task type for fine-tuning. Choose qa for question answering tasks or not_qa for general text generation, summarization, classification, and other tasks.
+        hyperparameters:
+          $ref: '#/components/schemas/Hyperparameters'
+        suffix:
+          type: string
+          description: An optional suffix to append to the fine-tuned model name for identification purposes.
+          maxLength: 64
     FineTuningJobList:
       type: object
       properties:
@@ -263,16 +233,37 @@ components:
         total:
           type: integer
           description: The total number of fine-tuning jobs.
+    TrainingMetrics:
+      type: object
+      properties:
+        training_loss:
+          type: number
+          description: The final training loss value after the last training step.
+        validation_loss:
+          type: number
+          description: The final validation loss value, if a validation split was configured.
+        steps_completed:
+          type: integer
+          description: The number of training steps completed.
+        epochs_completed:
+          type: integer
+          description: The number of training epochs completed.
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              description: A human-readable error message describing what went wrong.
+            type:
+              type: string
+              description: The type of error that occurred.
+            code:
+              type: string
+              description: A machine-readable error code.
   parameters:
-    PageOffset:
-      name: offset
-      in: query
-      required: false
-      description: Number of results to skip for pagination.
-      schema:
-        type: integer
-        minimum: 0
-        default: 0
     JobId:
       name: job_id
       in: path
@@ -290,6 +281,15 @@ components:
         minimum: 1
         maximum: 100
         default: 20
+    PageOffset:
+      name: offset
+      in: query
+      required: false
+      description: Number of results to skip for pagination.
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
   securitySchemes:
     bearerAuth:
       type: http

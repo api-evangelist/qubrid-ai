@@ -119,66 +119,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
-  parameters:
-    KnowledgeBaseId:
-      name: knowledge_base_id
-      in: path
-      required: true
-      description: The unique identifier of the knowledge base.
-      schema:
-        type: string
   schemas:
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            message:
-              type: string
-              description: A human-readable error message describing what went wrong.
-            type:
-              type: string
-              description: The type of error that occurred.
-            code:
-              type: string
-              description: A machine-readable error code.
-    CreateKnowledgeBaseRequest:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-          description: A display name for the knowledge base.
-          maxLength: 256
-        description:
-          type: string
-          description: An optional description of the knowledge base and the type of data it will contain.
-          maxLength: 1024
-        embedding_model:
-          type: string
-          description: The embedding model to use for generating vector representations of document chunks. If not specified, a default embedding model will be used.
-        chunk_size:
-          type: integer
-          description: The target size of each document chunk in tokens. Smaller chunks provide more granular retrieval while larger chunks provide more context.
-          minimum: 64
-          maximum: 4096
-          default: 512
-        chunk_overlap:
-          type: integer
-          description: The number of tokens of overlap between consecutive document chunks to preserve context at chunk boundaries.
-          minimum: 0
-          maximum: 1024
-          default: 64
-    KnowledgeBaseList:
-      type: object
-      properties:
-        data:
-          type: array
-          description: A list of knowledge base objects.
-          items:
-            $ref: '#/components/schemas/KnowledgeBase'
     KnowledgeBase:
       type: object
       properties:
@@ -215,6 +156,65 @@ components:
           type: string
           format: date-time
           description: The timestamp when the knowledge base was last updated.
+    CreateKnowledgeBaseRequest:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: A display name for the knowledge base.
+          maxLength: 256
+        description:
+          type: string
+          description: An optional description of the knowledge base and the type of data it will contain.
+          maxLength: 1024
+        embedding_model:
+          type: string
+          description: The embedding model to use for generating vector representations of document chunks. If not specified, a default embedding model will be used.
+        chunk_size:
+          type: integer
+          description: The target size of each document chunk in tokens. Smaller chunks provide more granular retrieval while larger chunks provide more context.
+          minimum: 64
+          maximum: 4096
+          default: 512
+        chunk_overlap:
+          type: integer
+          description: The number of tokens of overlap between consecutive document chunks to preserve context at chunk boundaries.
+          minimum: 0
+          maximum: 1024
+          default: 64
+    KnowledgeBaseList:
+      type: object
+      properties:
+        data:
+          type: array
+          description: A list of knowledge base objects.
+          items:
+            $ref: '#/components/schemas/KnowledgeBase'
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              description: A human-readable error message describing what went wrong.
+            type:
+              type: string
+              description: The type of error that occurred.
+            code:
+              type: string
+              description: A machine-readable error code.
+  parameters:
+    KnowledgeBaseId:
+      name: knowledge_base_id
+      in: path
+      required: true
+      description: The unique identifier of the knowledge base.
+      schema:
+        type: string
   securitySchemes:
     bearerAuth:
       type: http
