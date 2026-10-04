@@ -68,57 +68,6 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    Usage:
-      type: object
-      properties:
-        prompt_tokens:
-          type: integer
-          description: The number of tokens in the prompt.
-        completion_tokens:
-          type: integer
-          description: The number of tokens in the generated completion.
-        total_tokens:
-          type: integer
-          description: The total number of tokens used in the request (prompt plus completion).
-    ChatCompletionChoice:
-      type: object
-      properties:
-        index:
-          type: integer
-          description: The index of the choice in the list of choices.
-        message:
-          $ref: '#/components/schemas/ChatMessage'
-        finish_reason:
-          type: string
-          enum:
-          - stop
-          - length
-          - content_filter
-          description: The reason the model stopped generating tokens. stop means the model hit a natural stop point or a provided stop sequence, length means the maximum number of tokens was reached, and content_filter means content was omitted due to a filter.
-    ChatCompletionResponse:
-      type: object
-      properties:
-        id:
-          type: string
-          description: A unique identifier for the chat completion.
-        object:
-          type: string
-          enum:
-          - chat.completion
-          description: The object type, always chat.completion.
-        created:
-          type: integer
-          description: The Unix timestamp in seconds of when the chat completion was created.
-        model:
-          type: string
-          description: The model used for the chat completion.
-        choices:
-          type: array
-          description: A list of chat completion choices. Can be more than one if n is greater than 1.
-          items:
-            $ref: '#/components/schemas/ChatCompletionChoice'
-        usage:
-          $ref: '#/components/schemas/Usage'
     ChatCompletionRequest:
       type: object
       required:
@@ -180,6 +129,38 @@ components:
           minimum: -2
           maximum: 2
           default: 0
+    ChatMessage:
+      type: object
+      required:
+      - role
+      - content
+      properties:
+        role:
+          type: string
+          enum:
+          - system
+          - user
+          - assistant
+          description: The role of the message author. Use system for setting the assistant's behavior, user for the human's input, and assistant for previously generated responses.
+        content:
+          oneOf:
+          - type: string
+          - type: array
+            items:
+              $ref: '#/components/schemas/ContentPart'
+          description: The content of the message. Can be a string for text-only messages, or an array of content parts for multimodal messages that include images.
+    Usage:
+      type: object
+      properties:
+        prompt_tokens:
+          type: integer
+          description: The number of tokens in the prompt.
+        completion_tokens:
+          type: integer
+          description: The number of tokens in the generated completion.
+        total_tokens:
+          type: integer
+          description: The total number of tokens used in the request (prompt plus completion).
     ErrorResponse:
       type: object
       properties:
@@ -217,26 +198,45 @@ components:
               type: string
               format: uri
               description: The URL of the image to include in the message.
-    ChatMessage:
+    ChatCompletionChoice:
       type: object
-      required:
-      - role
-      - content
       properties:
-        role:
+        index:
+          type: integer
+          description: The index of the choice in the list of choices.
+        message:
+          $ref: '#/components/schemas/ChatMessage'
+        finish_reason:
           type: string
           enum:
-          - system
-          - user
-          - assistant
-          description: The role of the message author. Use system for setting the assistant's behavior, user for the human's input, and assistant for previously generated responses.
-        content:
-          oneOf:
-          - type: string
-          - type: array
-            items:
-              $ref: '#/components/schemas/ContentPart'
-          description: The content of the message. Can be a string for text-only messages, or an array of content parts for multimodal messages that include images.
+          - stop
+          - length
+          - content_filter
+          description: The reason the model stopped generating tokens. stop means the model hit a natural stop point or a provided stop sequence, length means the maximum number of tokens was reached, and content_filter means content was omitted due to a filter.
+    ChatCompletionResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          description: A unique identifier for the chat completion.
+        object:
+          type: string
+          enum:
+          - chat.completion
+          description: The object type, always chat.completion.
+        created:
+          type: integer
+          description: The Unix timestamp in seconds of when the chat completion was created.
+        model:
+          type: string
+          description: The model used for the chat completion.
+        choices:
+          type: array
+          description: A list of chat completion choices. Can be more than one if n is greater than 1.
+          items:
+            $ref: '#/components/schemas/ChatCompletionChoice'
+        usage:
+          $ref: '#/components/schemas/Usage'
   securitySchemes:
     bearerAuth:
       type: http

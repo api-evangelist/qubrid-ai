@@ -139,29 +139,6 @@ components:
           type: string
           description: An optional display name for the dataset.
           maxLength: 256
-    DatasetList:
-      type: object
-      properties:
-        data:
-          type: array
-          description: A list of dataset objects.
-          items:
-            $ref: '#/components/schemas/Dataset'
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            message:
-              type: string
-              description: A human-readable error message describing what went wrong.
-            type:
-              type: string
-              description: The type of error that occurred.
-            code:
-              type: string
-              description: A machine-readable error code.
     Dataset:
       type: object
       properties:
@@ -186,6 +163,29 @@ components:
           type: string
           format: date-time
           description: The timestamp when the dataset was uploaded.
+    DatasetList:
+      type: object
+      properties:
+        data:
+          type: array
+          description: A list of dataset objects.
+          items:
+            $ref: '#/components/schemas/Dataset'
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              description: A human-readable error message describing what went wrong.
+            type:
+              type: string
+              description: The type of error that occurred.
+            code:
+              type: string
+              description: A machine-readable error code.
   parameters:
     DatasetId:
       name: dataset_id
