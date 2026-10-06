@@ -55,7 +55,7 @@ tags_raw:
   - Machine-Learning
 url: https://raw.githubusercontent.com/api-evangelist/qubrid-ai/refs/heads/main/apis.yml
 created: '2026-03-24'
-modified: '2026-05-19'
+modified: '2026-10-06'
 specificationVersion: '0.23'
 apis:
 - aid: qubrid-ai:qubrid-ai-chat-completions-api
@@ -426,6 +426,8 @@ apis:
     url: >-
       https://raw.githubusercontent.com/api-evangelist/qubrid-ai/refs/heads/main/json-schema/qubrid-ai-rag-schema.json
 common:
+  - url: https://qubrid.com/blog/
+    type: Blog
   - type: Pricing
     url: https://qubrid.com/pricing
   - type: Plans
