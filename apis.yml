@@ -426,6 +426,10 @@ apis:
     url: >-
       https://raw.githubusercontent.com/api-evangelist/qubrid-ai/refs/heads/main/json-schema/qubrid-ai-rag-schema.json
 common:
+  - type: RateLimits
+    url: rate-limits/qubrid-ai-rate-limits.yml
+  - type: FinOps
+    url: finops/qubrid-ai-finops.yml
   - url: https://qubrid.com/blog/
     type: Blog
   - type: Pricing
