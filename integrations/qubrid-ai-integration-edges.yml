@@ -1,0 +1,23 @@
+edges:
+- partner_name: OpenAI
+  partner: openai
+  partner_match: domain
+  type: contract
+  channel: provider-built
+  relationship: compatible
+  direction: provider-built
+  evidence: https://github.com/api-evangelist/qubrid-ai/blob/main/openapi/qubrid-ai-chat-completions-api-openapi.yml#L4
+  contract_reference:
+    repo: qubrid-ai
+    spec_file: qubrid-ai-chat-completions-api-openapi.yml
+    property: description
+    value: OpenAI-compatible
+    note: 'qubrid-ai declares OpenAI compatibility: ''description: The Qubrid AI Inference API provides a single,
+      OpenAI-compatible endpoint for orchestrating 40+ open-source models running on NVIDIA GPU infrastruc'''
+    detected_by: sweep-model-routing.py
+    detected: '2026-10-13'
+  detected_by: sweep-model-routing.py
+  first_seen: '2026-10-13'
+generated: '2026-10-13'
+method: searched
+checked: []
