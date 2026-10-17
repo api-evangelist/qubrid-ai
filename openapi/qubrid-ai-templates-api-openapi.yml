@@ -38,14 +38,6 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    TemplateList:
-      type: object
-      properties:
-        data:
-          type: array
-          description: A list of template objects.
-          items:
-            $ref: '#/components/schemas/Template'
     ErrorResponse:
       type: object
       properties:
@@ -81,6 +73,14 @@ components:
           items:
             type: string
           description: A list of GPU types compatible with this template.
+    TemplateList:
+      type: object
+      properties:
+        data:
+          type: array
+          description: A list of template objects.
+          items:
+            $ref: '#/components/schemas/Template'
   securitySchemes:
     bearerAuth:
       type: http

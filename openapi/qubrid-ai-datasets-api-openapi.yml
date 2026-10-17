@@ -126,19 +126,14 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    UploadDatasetRequest:
+    DatasetList:
       type: object
-      required:
-      - file
       properties:
-        file:
-          type: string
-          format: binary
-          description: The CSV training dataset file. Only CSV format is accepted; other file extensions will return an error.
-        name:
-          type: string
-          description: An optional display name for the dataset.
-          maxLength: 256
+        data:
+          type: array
+          description: A list of dataset objects.
+          items:
+            $ref: '#/components/schemas/Dataset'
     Dataset:
       type: object
       properties:
@@ -163,14 +158,19 @@ components:
           type: string
           format: date-time
           description: The timestamp when the dataset was uploaded.
-    DatasetList:
+    UploadDatasetRequest:
       type: object
+      required:
+      - file
       properties:
-        data:
-          type: array
-          description: A list of dataset objects.
-          items:
-            $ref: '#/components/schemas/Dataset'
+        file:
+          type: string
+          format: binary
+          description: The CSV training dataset file. Only CSV format is accepted; other file extensions will return an error.
+        name:
+          type: string
+          description: An optional display name for the dataset.
+          maxLength: 256
     ErrorResponse:
       type: object
       properties:

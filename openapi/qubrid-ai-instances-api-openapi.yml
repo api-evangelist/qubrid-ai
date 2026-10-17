@@ -193,15 +193,6 @@ components:
       description: The unique identifier of the compute instance.
       schema:
         type: string
-    PageOffset:
-      name: offset
-      in: query
-      required: false
-      description: Number of results to skip for pagination.
-      schema:
-        type: integer
-        minimum: 0
-        default: 0
     PageLimit:
       name: limit
       in: query
@@ -212,6 +203,15 @@ components:
         minimum: 1
         maximum: 100
         default: 20
+    PageOffset:
+      name: offset
+      in: query
+      required: false
+      description: Number of results to skip for pagination.
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
     StatusFilter:
       name: status
       in: query
@@ -226,6 +226,44 @@ components:
         - terminating
         - error
   schemas:
+    CreateInstanceRequest:
+      type: object
+      required:
+      - gpu_type
+      properties:
+        name:
+          type: string
+          description: A user-assigned name for the compute instance.
+          maxLength: 128
+        gpu_type:
+          type: string
+          description: The type of GPU to provision, such as H100, H200, or B200.
+        gpu_count:
+          type: integer
+          description: The number of GPUs to assign to the instance.
+          minimum: 1
+          default: 1
+        region:
+          type: string
+          description: The preferred data center region for the instance.
+        template_id:
+          type: string
+          description: The identifier of a pre-configured template to deploy on the instance, such as PyTorch or TensorFlow.
+        ssh_key_ids:
+          type: array
+          items:
+            type: string
+          description: A list of SSH key identifiers to install on the instance for secure access.
+        rental_plan:
+          type: string
+          enum:
+          - on_demand
+          - weekly
+          - monthly
+          - quarterly
+          - annual
+          description: The rental plan for the instance, affecting pricing and commitment period.
+          default: on_demand
     Instance:
       type: object
       properties:
@@ -273,44 +311,17 @@ components:
         cost_per_hour:
           type: number
           description: The hourly cost of running this instance in USD.
-    CreateInstanceRequest:
+    InstanceList:
       type: object
-      required:
-      - gpu_type
       properties:
-        name:
-          type: string
-          description: A user-assigned name for the compute instance.
-          maxLength: 128
-        gpu_type:
-          type: string
-          description: The type of GPU to provision, such as H100, H200, or B200.
-        gpu_count:
-          type: integer
-          description: The number of GPUs to assign to the instance.
-          minimum: 1
-          default: 1
-        region:
-          type: string
-          description: The preferred data center region for the instance.
-        template_id:
-          type: string
-          description: The identifier of a pre-configured template to deploy on the instance, such as PyTorch or TensorFlow.
-        ssh_key_ids:
+        data:
           type: array
+          description: A list of compute instance objects.
           items:
-            type: string
-          description: A list of SSH key identifiers to install on the instance for secure access.
-        rental_plan:
-          type: string
-          enum:
-          - on_demand
-          - weekly
-          - monthly
-          - quarterly
-          - annual
-          description: The rental plan for the instance, affecting pricing and commitment period.
-          default: on_demand
+            $ref: '#/components/schemas/Instance'
+        total:
+          type: integer
+          description: The total number of instances matching the query.
     ErrorResponse:
       type: object
       properties:
@@ -326,17 +337,6 @@ components:
             code:
               type: string
               description: A machine-readable error code.
-    InstanceList:
-      type: object
-      properties:
-        data:
-          type: array
-          description: A list of compute instance objects.
-          items:
-            $ref: '#/components/schemas/Instance'
-        total:
-          type: integer
-          description: The total number of instances matching the query.
   securitySchemes:
     bearerAuth:
       type: http

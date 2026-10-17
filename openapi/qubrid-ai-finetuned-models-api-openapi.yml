@@ -62,14 +62,6 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    FineTunedModelList:
-      type: object
-      properties:
-        data:
-          type: array
-          description: A list of fine-tuned model objects.
-          items:
-            $ref: '#/components/schemas/FineTunedModel'
     ErrorResponse:
       type: object
       properties:
@@ -85,6 +77,14 @@ components:
             code:
               type: string
               description: A machine-readable error code.
+    FineTunedModelList:
+      type: object
+      properties:
+        data:
+          type: array
+          description: A list of fine-tuned model objects.
+          items:
+            $ref: '#/components/schemas/FineTunedModel'
     FineTunedModel:
       type: object
       properties:

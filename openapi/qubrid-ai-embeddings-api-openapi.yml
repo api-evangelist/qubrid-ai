@@ -56,6 +56,21 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              description: A human-readable error message describing what went wrong.
+            type:
+              type: string
+              description: The type of error that occurred.
+            code:
+              type: string
+              description: A machine-readable error code.
     EmbeddingRequest:
       type: object
       required:
@@ -79,37 +94,6 @@ components:
           - base64
           description: The format to return the embeddings in. Defaults to float.
           default: float
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            message:
-              type: string
-              description: A human-readable error message describing what went wrong.
-            type:
-              type: string
-              description: The type of error that occurred.
-            code:
-              type: string
-              description: A machine-readable error code.
-    EmbeddingObject:
-      type: object
-      properties:
-        object:
-          type: string
-          enum:
-          - embedding
-          description: The object type, always embedding.
-        embedding:
-          type: array
-          items:
-            type: number
-          description: The embedding vector, which is a list of floating point numbers.
-        index:
-          type: integer
-          description: The index of the embedding in the list of embeddings.
     EmbeddingResponse:
       type: object
       properties:
@@ -135,6 +119,22 @@ components:
             total_tokens:
               type: integer
               description: The total number of tokens processed.
+    EmbeddingObject:
+      type: object
+      properties:
+        object:
+          type: string
+          enum:
+          - embedding
+          description: The object type, always embedding.
+        embedding:
+          type: array
+          items:
+            type: number
+          description: The embedding vector, which is a list of floating point numbers.
+        index:
+          type: integer
+          description: The index of the embedding in the list of embeddings.
   securitySchemes:
     bearerAuth:
       type: http

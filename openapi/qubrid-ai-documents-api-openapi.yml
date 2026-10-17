@@ -139,21 +139,6 @@ components:
           type: string
           format: date-time
           description: The timestamp when the document was uploaded.
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            message:
-              type: string
-              description: A human-readable error message describing what went wrong.
-            type:
-              type: string
-              description: The type of error that occurred.
-            code:
-              type: string
-              description: A machine-readable error code.
     UploadDocumentRequest:
       type: object
       required:
@@ -171,6 +156,21 @@ components:
           description: A list of document objects.
           items:
             $ref: '#/components/schemas/Document'
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              description: A human-readable error message describing what went wrong.
+            type:
+              type: string
+              description: The type of error that occurred.
+            code:
+              type: string
+              description: A machine-readable error code.
   parameters:
     KnowledgeBaseId:
       name: knowledge_base_id

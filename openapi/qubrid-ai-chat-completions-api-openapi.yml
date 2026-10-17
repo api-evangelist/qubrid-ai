@@ -129,6 +129,45 @@ components:
           minimum: -2
           maximum: 2
           default: 0
+    ChatCompletionResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          description: A unique identifier for the chat completion.
+        object:
+          type: string
+          enum:
+          - chat.completion
+          description: The object type, always chat.completion.
+        created:
+          type: integer
+          description: The Unix timestamp in seconds of when the chat completion was created.
+        model:
+          type: string
+          description: The model used for the chat completion.
+        choices:
+          type: array
+          description: A list of chat completion choices. Can be more than one if n is greater than 1.
+          items:
+            $ref: '#/components/schemas/ChatCompletionChoice'
+        usage:
+          $ref: '#/components/schemas/Usage'
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              description: A human-readable error message describing what went wrong.
+            type:
+              type: string
+              description: The type of error that occurred.
+            code:
+              type: string
+              description: A machine-readable error code.
     ChatMessage:
       type: object
       required:
@@ -161,21 +200,6 @@ components:
         total_tokens:
           type: integer
           description: The total number of tokens used in the request (prompt plus completion).
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            message:
-              type: string
-              description: A human-readable error message describing what went wrong.
-            type:
-              type: string
-              description: The type of error that occurred.
-            code:
-              type: string
-              description: A machine-readable error code.
     ContentPart:
       type: object
       required:
@@ -213,30 +237,6 @@ components:
           - length
           - content_filter
           description: The reason the model stopped generating tokens. stop means the model hit a natural stop point or a provided stop sequence, length means the maximum number of tokens was reached, and content_filter means content was omitted due to a filter.
-    ChatCompletionResponse:
-      type: object
-      properties:
-        id:
-          type: string
-          description: A unique identifier for the chat completion.
-        object:
-          type: string
-          enum:
-          - chat.completion
-          description: The object type, always chat.completion.
-        created:
-          type: integer
-          description: The Unix timestamp in seconds of when the chat completion was created.
-        model:
-          type: string
-          description: The model used for the chat completion.
-        choices:
-          type: array
-          description: A list of chat completion choices. Can be more than one if n is greater than 1.
-          items:
-            $ref: '#/components/schemas/ChatCompletionChoice'
-        usage:
-          $ref: '#/components/schemas/Usage'
   securitySchemes:
     bearerAuth:
       type: http
